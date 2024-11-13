@@ -14,8 +14,9 @@ export default async function Index() {
   return (
     <>
       <Hero />
-      <pre>{JSON.stringify(companies, null, 3)}</pre>
-      <pre>{JSON.stringify(company_timelines, null, 3)}</pre>
+
+      {/* <pre>{JSON.stringify(companies, null, 3)}</pre>
+      <pre>{JSON.stringify(company_timelines, null, 3)}</pre> */}
     </>
   );
 }
