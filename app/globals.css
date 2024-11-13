@@ -11,3 +11,7 @@
   @apply hover:text-primary font-semibold border-2 border-zinc-800 
     hover:border-primary rounded-md duration-300 text-zinc-400 px-4 py-3;
 }
+
+.dot-background {
+  @apply w-full flex-col gap-20 dark:bg-lime-900/20 bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative justify-center;
+}

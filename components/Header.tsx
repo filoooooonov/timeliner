@@ -40,10 +40,10 @@ const Header = () => {
           >
             About
           </Link>
-          <Link href="/" className="button-secondary text-sm">
+          <Link href="/" className="button-secondary text-sm !px-3 !py-2 ">
             Log in
           </Link>
-          <Link href="/" className="button-primary px-3 py-3 !text-sm">
+          <Link href="/" className="button-primary px-2 py-2 !text-sm">
             Create timeline
           </Link>
         </div>

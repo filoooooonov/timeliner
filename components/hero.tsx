@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen text-gray-100">
-      <section className="text-center mb-16">
+    <div className="min-h-screen text-gray-100 mt-32">
+      <section className="text-center mb-16 ">
         <h1 className="text-4xl md:text-6xl font-bold mb-6">
           Let them know <span className="text-primary">how it started</span>
         </h1>

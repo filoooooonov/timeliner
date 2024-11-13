@@ -36,10 +36,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main className="min-h-screen flex flex-col items-center">
-            <div className="flex-1 w-full flex flex-col gap-20 items-center h-[50rem] dark:bg-background bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative justify-center">
+            <div className="flex-1 w-full flex flex-col gap-20 items-center dot-background">
               <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
 
-              <div className="flex z-20 flex-col gap-20 w-[80%] p-5">
+              <div className="flex z-20 flex-col gap-20 w-[75%] px-5 pb-5">
                 <Header />
                 {children}
                 <Footer />
