@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ContainerScroll } from "./ui/container-scroll-animation";
 import Image from "next/image";
-import timelinerDemo from "@/public/google_logo.webp";
+import timelinerDemo from "@/public/placeholderDemo.webp";
 
 export default function Home() {
   return (

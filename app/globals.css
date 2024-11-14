@@ -19,3 +19,7 @@
 p {
   @apply text-text_secondary;
 }
+
+.avatar-image {
+  @apply w-12 rounded-full cursor-pointer;
+}

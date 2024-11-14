@@ -1,8 +1,5 @@
 import HeaderHome from "@/components/HeaderHome";
 import Hero from "@/components/hero";
-import ConnectSupabaseSteps from "@/components/tutorial/connect-supabase-steps";
-import SignUpUserSteps from "@/components/tutorial/sign-up-user-steps";
-import { createClient } from "@/utils/supabase/server";
 
 export default async function Index() {
   return (
