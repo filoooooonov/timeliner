@@ -1,23 +1,24 @@
+import HeaderHome from "@/components/HeaderHome";
 import Hero from "@/components/hero";
 import ConnectSupabaseSteps from "@/components/tutorial/connect-supabase-steps";
 import SignUpUserSteps from "@/components/tutorial/sign-up-user-steps";
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function Index() {
-  const supabase = await createClient();
-  const { data: companies } = await supabase.from("companies2").select();
-  const { data: company_timelines } = await supabase
-    .from("timeline_entries2")
-    .select();
-
   return (
     <>
-      <Hero />
+      <main className="min-h-screen flex flex-col items-center">
+        <div className="flex-1 w-full flex flex-col gap-20 items-center dot-background">
+          <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+
+          <div className="flex z-20 flex-col gap-20 w-[75%] px-5 pb-5">
+            <HeaderHome />
+            <Hero />
+          </div>
+        </div>
+      </main>
 
       <div className="z-10 bg-background h-[50vh]"></div>
-      {/* <pre>{JSON.stringify(companies, null, 3)}</pre>
-      <pre>{JSON.stringify(company_timelines, null, 3)}</pre> */}
     </>
   );
 }

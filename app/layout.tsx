@@ -7,7 +7,6 @@ import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -35,17 +34,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen flex flex-col items-center">
-            <div className="flex-1 w-full flex flex-col gap-20 items-center dot-background">
-              <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
-
-              <div className="flex z-20 flex-col gap-20 w-[75%] px-5 pb-5">
-                <Header />
-                {children}
-                <Footer />
-              </div>
-            </div>
-          </main>
+          {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
