@@ -6,6 +6,9 @@ import defaultImg from "@/public/google_logo.webp";
 import avatarPlaceholderImg from "@/public/avatar_placeholder.png";
 import { Timeline } from "@/components/ui/timeline";
 
+import Brin from "@/public/sergey_brin.webp";
+import Page from "@/public/larry_page.webp";
+
 export default async function page() {
   const data = [
     {
@@ -78,49 +81,50 @@ export default async function page() {
         className="h-[30vh] object-cover"
       />
       <main className="w-[65%] mx-auto bg-background mt-10">
-        <div className="grid grid-cols-2">
-          <h1 className="text-5xl font-semibold">Company Name</h1>
-          <div className="ml-auto flex items-center button-secondary">
-            {/* ESTABLISHED_DATE */}
-            <p>Est. September 1998</p>
-          </div>
-          <div>
-            {/* DESCRIPTIOn */}
-            <p className="mt-6">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Repudiandae animi voluptatibus ducimus? Obcaecati cupiditate
-              laborum placeat quod ipsa, dignissimos porro eius aliquam nostrum
-              sequi est saepe nesciunt, explicabo sunt quam.
-            </p>
+        <div className="grid grid-cols-5">
+          <div className="col-span-3">
+            <h1 className="text-5xl font-semibold">Google</h1>
+            <div>
+              {/* DESCRIPTIOn */}
+              <p className="mt-6">
+                Google is an American-based multinational corporation and
+                technology company focusing on online advertising, search engine
+                technology, cloud computing, computer software, quantum
+                computing, e-commerce, consumer electronics, and artificial
+                intelligence.
+              </p>
 
-            {/* FOUNDERS */}
-            <div className="flex flex-row gap-2 mt-8">
-              <Image
-                src={avatarPlaceholderImg}
-                alt="founder image"
-                className="avatar-image"
-              />
-              <Image
-                src={avatarPlaceholderImg}
-                alt="founder image"
-                className="avatar-image"
-              />
-              <Image
-                src={avatarPlaceholderImg}
-                alt="founder image"
-                className="avatar-image"
-              />
+              {/* FOUNDERS */}
+              <div className="flex flex-row gap-2 mt-8">
+                <Image
+                  src={Brin}
+                  alt="founder image"
+                  className="avatar-image"
+                />
+                <Image
+                  src={Page}
+                  alt="founder image"
+                  className="avatar-image "
+                />
+              </div>
             </div>
           </div>
-          <div className="ml-auto bg-zinc-900 rounded-md p-4 h-max min-w-[200px] mt-8">
-            {/* SOCIALS */}
-            <h2 className="text-2xl font-semibold mb-2 text-zinc-300">
-              Socials
-            </h2>
-            <ul>
-              <li className="text-zinc-400">Facebook</li>
-              <li className="text-zinc-400">Instagram</li>
-            </ul>
+
+          <div className="ml-auto w-full flex flex-col col-span-2">
+            <div className="ml-auto flex items-center button-secondary">
+              {/* ESTABLISHED_DATE */}
+              <p>Est. September 1998</p>
+            </div>
+            <div className="ml-auto bg-zinc-900 rounded-md p-4 h-max min-w-[200px] mt-8">
+              {/* SOCIALS */}
+              <h2 className="text-2xl font-semibold mb-2 text-zinc-300">
+                Socials
+              </h2>
+              <ul>
+                <li className="text-zinc-400">Facebook</li>
+                <li className="text-zinc-400">Instagram</li>
+              </ul>
+            </div>
           </div>
         </div>
 
