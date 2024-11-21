@@ -17,14 +17,18 @@ const supabase = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
 );
 
-async function fetchCompanyData() {
-  const { data, error } = await supabase.from("companies2").select("*");
+async function fetchCompanyData(slug: string) {
+  const { data, error } = await supabase
+    .from("companies")
+    .select("*")
+    .eq("slug", slug)
+    .single();
 
-  if (error) {
-    throw error;
-  }
+  // if (error) {
+  //   throw error;
+  // }
 
-  return data[0];
+  return data;
 }
 
 async function addData(event: React.FormEvent) {
@@ -44,6 +48,8 @@ async function addData(event: React.FormEvent) {
     if (error) {
       console.error("Error adding data:", error);
       return null;
+    } else {
+      console.log("Added data");
     }
 
     return data;
@@ -53,8 +59,23 @@ async function addData(event: React.FormEvent) {
   }
 }
 
-export default async function page() {
-  const companyData = await fetchCompanyData();
+export default async function page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const slug = (await params).slug;
+  const companyData = await fetchCompanyData(slug);
+
+  if (!companyData) {
+    return (
+      <div className="w-full bg-background h-screen flex items-center justify-center">
+        <h1 className="text-3xl text-white">
+          Oops! We could not find what you are looking for. Please, try again.
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-background">
@@ -69,7 +90,7 @@ export default async function page() {
             <h1 className="text-5xl font-semibold">{companyData.name}</h1>
             <button
               onClick={(e) => addData(e)}
-              className="button-secondary ml-8"
+              className="button-secondary mt-4"
             >
               Add data to database
             </button>

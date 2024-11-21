@@ -4,7 +4,7 @@
 
 .button-primary {
   @apply bg-primary font-semibold rounded-md hover:bg-white duration-300
-   text-gray-900;
+   text-gray-900 cursor-pointer;
 }
 
 .button-secondary {
@@ -22,4 +22,17 @@ p {
 
 .avatar-image {
   @apply w-16 rounded-full cursor-pointer object-cover;
+}
+
+input,
+textarea {
+  @apply py-4 bg-zinc-900 px-4 rounded-md placeholder-stone-400 outline-none focus:outline-none focus:outline-primary/90 duration-100;
+}
+
+h1 {
+  @apply text-4xl md:text-6xl font-bold;
+}
+
+h2 {
+  @apply text-2xl md:text-4xl font-semibold mb-8;
 }

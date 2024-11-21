@@ -48,7 +48,7 @@ const HeaderHome = () => {
             <FaUserCircle />
             <span>Log in</span>
           </Link>
-          <Link href="/timeline" className="button-primary px-2 py-2">
+          <Link href="/create-timeline" className="button-primary px-2 py-2">
             Create timeline
           </Link>
         </div>

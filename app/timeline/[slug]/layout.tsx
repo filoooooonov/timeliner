@@ -11,7 +11,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <main className="bg-white">{children}</main>
+      <main className="bg-background">{children}</main>
     </>
   );
 }
