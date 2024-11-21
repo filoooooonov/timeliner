@@ -24,15 +24,19 @@ p {
   @apply w-16 rounded-full cursor-pointer object-cover;
 }
 
-input,
-textarea {
-  @apply py-4 bg-zinc-900 px-4 rounded-md placeholder-stone-400 outline-none focus:outline-none focus:outline-primary/90 duration-100;
-}
-
 h1 {
   @apply text-4xl md:text-6xl font-bold;
 }
 
 h2 {
   @apply text-2xl md:text-4xl font-semibold mb-8;
+}
+
+input,
+textarea {
+  @apply w-full py-2 bg-neutral-800 px-4 rounded-md placeholder-stone-400 outline-none focus:outline-none focus:outline-primary/80 duration-100;
+}
+
+textarea {
+  @apply h-24;
 }
