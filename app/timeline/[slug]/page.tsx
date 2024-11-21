@@ -12,9 +12,12 @@ import Brin from "@/public/sergey_brin.webp";
 import Page from "@/public/larry_page.webp";
 import { Database } from "@/database.types";
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
 const supabase = createClient<Database>(
-  process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
+  supabaseUrl as string,
+  supabaseKey as string
 );
 
 async function fetchCompanyData(slug: string) {
