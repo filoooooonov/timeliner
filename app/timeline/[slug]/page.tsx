@@ -6,6 +6,10 @@ import { Timeline } from "@/components/ui/timeline";
 import BrinImg from "@/public/sergey_brin.webp";
 import PageImg from "@/public/larry_page.webp";
 
+const production = "https://timeliner-demo.vercel.app";
+const development = "http://localhost:3000";
+const URL = process.env.NODE_ENV === "development" ? development : production;
+
 // Define the interface for the company data
 interface CompanyData {
   _id: string;
@@ -17,9 +21,7 @@ interface CompanyData {
 }
 
 const fetchCompany = async (slug: string): Promise<CompanyData | null> => {
-  const response = await fetch(
-    `http://localhost:3000/api/get-company?_slug=${slug}`
-  );
+  const response = await fetch(`${URL}/api/get-company?_slug=${slug}`);
   const data = await response.json(); // Will parse JSON if response is valid
 
   if (response.ok) {
