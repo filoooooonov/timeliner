@@ -1,74 +1,43 @@
-"use client";
-
 import HeaderHome from "@/components/HeaderHome";
-import { createClient, QueryData } from "@supabase/supabase-js";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import defaultImg from "@/public/google_logo.webp";
-import avatarPlaceholderImg from "@/public/avatar_placeholder.png";
 import { Timeline } from "@/components/ui/timeline";
+import BrinImg from "@/public/sergey_brin.webp";
+import PageImg from "@/public/larry_page.webp";
 
-import Brin from "@/public/sergey_brin.webp";
-import Page from "@/public/larry_page.webp";
-import { Database } from "@/database.types";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-const supabase = createClient<Database>(
-  supabaseUrl as string,
-  supabaseKey as string
-);
-
-async function fetchCompanyData(slug: string) {
-  const { data, error } = await supabase
-    .from("companies")
-    .select("*")
-    .eq("slug", slug)
-    .single();
-
-  // if (error) {
-  //   throw error;
-  // }
-
-  return data;
+// Define the interface for the company data
+interface CompanyData {
+  _id: string;
+  month_founded: string;
+  year_founded: string;
+  slug: string;
+  description: string;
+  name: string;
 }
 
-async function addData(event: React.FormEvent) {
-  event.preventDefault();
+const fetchCompany = async (slug: string): Promise<CompanyData | null> => {
+  const response = await fetch(
+    `http://localhost:3000/api/get-company?_slug=${slug}`
+  );
+  const data = await response.json(); // Will parse JSON if response is valid
 
-  try {
-    const { data, error } = await supabase
-      .from("companies2")
-      .insert([
-        {
-          name: "New company",
-          description: "New description",
-        },
-      ])
-      .select();
-
-    if (error) {
-      console.error("Error adding data:", error);
-      return null;
-    } else {
-      console.log("Added data");
-    }
-
+  if (response.ok) {
+    console.log(data);
     return data;
-  } catch (err) {
-    console.error("Unexpected error:", err);
+  } else {
+    console.error("API Error:", data.error);
     return null;
   }
-}
+};
 
-export default async function page({
+export default async function Page({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const slug = (await params).slug;
-  const companyData = await fetchCompanyData(slug);
+  const companyData = await fetchCompany(slug);
 
   if (!companyData) {
     return (
@@ -91,10 +60,7 @@ export default async function page({
         <div className="grid grid-cols-5">
           <div className="col-span-3">
             <h1 className="text-5xl font-semibold">{companyData.name}</h1>
-            <button
-              onClick={(e) => addData(e)}
-              className="button-secondary mt-4"
-            >
+            <button className="button-secondary mt-4">
               Add data to database
             </button>
             <div>
@@ -104,12 +70,12 @@ export default async function page({
               {/* FOUNDERS */}
               <div className="flex flex-row gap-2 mt-8">
                 <Image
-                  src={Brin}
+                  src={BrinImg}
                   alt="founder image"
                   className="avatar-image"
                 />
                 <Image
-                  src={Page}
+                  src={PageImg}
                   alt="founder image"
                   className="avatar-image "
                 />
@@ -120,7 +86,9 @@ export default async function page({
           <div className="ml-auto w-full flex flex-col col-span-2">
             <div className="ml-auto flex items-center button-secondary">
               {/* ESTABLISHED_DATE */}
-              <p>Est. {companyData.established_date}</p>
+              <p>
+                Est. {companyData.month_founded} {companyData.year_founded}
+              </p>
             </div>
             <div className="ml-auto bg-zinc-900 rounded-md p-4 h-max min-w-[200px] mt-8">
               {/* SOCIALS */}

@@ -262,32 +262,34 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
             className
           )}
         >
-          {value.map((item, index) => (
-            <Badge
-              tabIndex={activeIndex !== -1 ? 0 : activeIndex}
-              key={item}
-              aria-disabled={disableButton}
-              data-active={activeIndex === index}
-              className={cn(
-                "relative px-2 mb-2 py-2 bg-neutral-900 rounded-md flex items-center gap-2 data-[active='true']:ring-2 data-[active='true']:ring-muted-foreground truncate aria-disabled:opacity-50 aria-disabled:cursor-not-allowed"
-              )}
-              variant={"secondary"}
-            >
-              <span className="text-xs">{item}</span>
-              <button
-                type="button"
-                aria-label={`Remove ${item} option`}
-                aria-roledescription="button to remove option"
-                disabled={disableButton}
-                onMouseDown={mousePreventDefault}
-                onClick={() => RemoveValue(item)}
-                className="disabled:cursor-not-allowed"
+          {value &&
+            value.length > 0 &&
+            value.map((item, index) => (
+              <Badge
+                tabIndex={activeIndex !== -1 ? 0 : activeIndex}
+                key={item}
+                aria-disabled={disableButton}
+                data-active={activeIndex === index}
+                className={cn(
+                  "relative px-2 mb-2 py-2 bg-neutral-900 rounded-md flex items-center gap-2 data-[active='true']:ring-2 data-[active='true']:ring-muted-foreground truncate aria-disabled:opacity-50 aria-disabled:cursor-not-allowed"
+                )}
+                variant={"secondary"}
               >
-                <span className="sr-only">Remove {item} option</span>
-                <RemoveIcon className="h-4 w-4 hover:stroke-destructive" />
-              </button>
-            </Badge>
-          ))}
+                <span className="text-xs">{item}</span>
+                <button
+                  type="button"
+                  aria-label={`Remove ${item} option`}
+                  aria-roledescription="button to remove option"
+                  disabled={disableButton}
+                  onMouseDown={mousePreventDefault}
+                  onClick={() => RemoveValue(item)}
+                  className="disabled:cursor-not-allowed"
+                >
+                  <span className="sr-only">Remove {item} option</span>
+                  <RemoveIcon className="h-4 w-4 hover:stroke-destructive" />
+                </button>
+              </Badge>
+            ))}
           <Input
             tabIndex={0}
             aria-label="input tag"

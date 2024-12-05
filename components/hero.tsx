@@ -4,6 +4,8 @@ import Image from "next/image";
 import timelinerDemo from "@/public/placeholderDemo.webp";
 
 export default function Home() {
+  const placeholders = ["start-ups", "companies", "projects"];
+
   return (
     <div className="min-h-screen text-gray-100 mt-32">
       <section className="mb-16 mt-40">
@@ -42,21 +44,21 @@ export default function Home() {
       </section>
 
       {/* <section className="bg-gray-900 p-8 rounded-lg">
-          <h2 className="text-2xl font-bold mb-4 text-center">Stay Updated</h2>
-          <form className="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="bg-gray-800 text-gray-100 border-gray-600"
-            />
-            <button
-              type="submit"
-              className="bg-primary text-gray-900 hover:bg-lime-500"
-            >
-              Subscribe
-            </button>
-          </form>
-        </section> */}
+        <h2 className="text-2xl font-bold mb-4 text-center">Stay Updated</h2>
+        <form className="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            className="bg-gray-800 text-gray-100 border-gray-600"
+          />
+          <button
+            type="submit"
+            className="bg-primary text-gray-900 hover:bg-lime-500"
+          >
+            Subscribe
+          </button>
+        </form>
+      </section> */}
     </div>
   );
 }
