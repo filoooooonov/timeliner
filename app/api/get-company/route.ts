@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 // Initialize the MongoClient instance
 const uri = process.env.MONGODB_URI as string; // Ensure this is defined in your .env.local file
 const client = new MongoClient(uri);
-console.log("URI:", uri);
 
 export async function GET(req: NextRequest) {
   try {
