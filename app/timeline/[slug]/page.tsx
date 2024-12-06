@@ -52,18 +52,21 @@ export default async function Page({
 
   return (
     <div className="bg-background">
-      <Image
+      {/* <Image
         src={defaultImg}
         alt="company logo"
         className="h-[30vh] object-cover"
-      />
+      /> */}
+      <div className="bg-neutral-800 w-full h-[16vw] flex items-center">
+        <h2 className="text-neutral-700 text-8xl mx-auto">
+          {companyData.name}
+        </h2>
+      </div>
       <main className="w-[65%] mx-auto bg-background mt-10">
         <div className="grid grid-cols-5">
           <div className="col-span-3">
             <h1 className="text-5xl font-semibold">{companyData.name}</h1>
-            <button className="button-secondary mt-4">
-              Add data to database
-            </button>
+
             <div>
               {/* DESCRIPTION */}
               <p className="mt-6">{companyData.description}</p>

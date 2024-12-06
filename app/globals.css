@@ -17,7 +17,7 @@
 }
 
 p {
-  @apply text-text_secondary;
+  @apply text-neutral-300;
 }
 
 .avatar-image {
