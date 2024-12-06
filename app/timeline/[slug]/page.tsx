@@ -10,8 +10,7 @@ const development = "http://localhost:3000";
 const URL = process.env.NODE_ENV === "development" ? development : production;
 
 // Define the interface for the company data
-interface CompanyData {
-  _id: string;
+export interface CompanyData {
   month_founded: string;
   year_founded: string;
   slug: string;
@@ -44,7 +43,7 @@ export default async function Page({
     return (
       <div className="w-full bg-background h-screen flex items-center justify-center">
         <h1 className="text-3xl text-white">
-          Oops! We could not find what you are looking for. Please, try again.
+          We could not find what you are looking for. Please, try again.
         </h1>
       </div>
     );
@@ -58,7 +57,7 @@ export default async function Page({
         className="h-[30vh] object-cover"
       /> */}
       <div className="bg-neutral-800 w-full h-[16vw] flex items-center">
-        <h2 className="text-neutral-700 text-8xl mx-auto">
+        <h2 className="text-neutral-700 text-8xl mx-auto select-none">
           {companyData.name}
         </h2>
       </div>

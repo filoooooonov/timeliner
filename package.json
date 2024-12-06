@@ -9,6 +9,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-checkbox": "^1.1.1",
+    "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-popover": "^1.1.2",
@@ -20,6 +21,7 @@
     "autoprefixer": "10.4.17",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.11.15",
     "geist": "^1.2.1",

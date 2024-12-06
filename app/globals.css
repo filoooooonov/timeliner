@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 .button-primary {
   @apply bg-primary font-semibold rounded-md hover:bg-white duration-300
    text-gray-900 cursor-pointer;

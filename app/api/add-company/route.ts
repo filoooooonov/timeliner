@@ -5,16 +5,15 @@ import { NextRequest, NextResponse } from "next/server";
 const uri = process.env.MONGODB_URI as string; // Ensure this is defined in .env.local file
 const client = new MongoClient(uri);
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     console.log("Incoming request:", req.url);
-    const searchParams = new URLSearchParams(req.url.split("?")[1]);
-    const slug = searchParams.get("_slug");
+    const body = await req.json();
 
-    if (!slug) {
-      console.error("Missing _slug parameter");
+    if (!body.slug || !body.name) {
+      console.error("Missing required fields");
       return NextResponse.json(
-        { error: "Missing _slug parameter" },
+        { error: "Missing required fields" },
         { status: 400 }
       );
     }
@@ -24,16 +23,11 @@ export async function GET(req: NextRequest) {
     const db = client.db("timeliner");
     const collection = db.collection("companies");
 
-    console.log(`Searching for company with _slug: ${slug}`);
-    const company = await collection.findOne({ slug: slug });
+    console.log(`Inserting company with slug: ${body.slug}`);
+    const result = await collection.insertOne(body);
 
-    if (!company) {
-      console.error("Company not found");
-      return NextResponse.json({ error: "Company not found" }, { status: 404 });
-    }
-
-    console.log("Company found:", company);
-    return NextResponse.json(company);
+    console.log("Company inserted:", result);
+    return NextResponse.json({ message: "Company added successfully" });
   } catch (error) {
     console.error("Internal server error:", error);
     return NextResponse.json(

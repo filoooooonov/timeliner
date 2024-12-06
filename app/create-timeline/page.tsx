@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { cn } from "@/lib/utils";
@@ -34,134 +34,192 @@ import {
   FileUploaderContent,
   FileUploaderItem,
 } from "@/components/ui/file-upload";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { CompanyData } from "../timeline/[slug]/page";
+import { Check, ChevronsUpDown } from "lucide-react";
+
+const production = "https://timeliner-demo.vercel.app";
+const development = "http://localhost:3000";
+const URL = process.env.NODE_ENV === "development" ? development : production;
+
+const months = [
+  {
+    label: "January",
+    value: "jan",
+  },
+  {
+    label: "February",
+    value: "feb",
+  },
+  {
+    label: "March",
+    value: "mar",
+  },
+  {
+    label: "April",
+    value: "apr",
+  },
+  {
+    label: "May",
+    value: "may",
+  },
+  {
+    label: "June",
+    value: "jun",
+  },
+  {
+    label: "July",
+    value: "jul",
+  },
+  {
+    label: "August",
+    value: "aug",
+  },
+  {
+    label: "September",
+    value: "sep",
+  },
+  {
+    label: "October",
+    value: "oct",
+  },
+  {
+    label: "November",
+    value: "nov",
+  },
+  {
+    label: "December",
+    value: "dec",
+  },
+] as const;
+const currentYear = new Date().getFullYear();
+const years = Array.from({ length: currentYear - 1900 + 1 }, (_, i) => 1900 + i)
+  .map((year) => ({
+    value: year.toString(),
+    label: year.toString(),
+  }))
+  .reverse();
 
 const formSchema = z.object({
   company_name: z.string(),
   company_description: z.string(),
-  establishment_date: z.coerce.date(),
   company_tags: z.array(z.string()).nonempty("Please at least one item"),
   company_image: z.string(),
+  month_founded: z.string(),
+  year_founded: z.string(),
 });
+
+const dropZoneConfig = {
+  maxFiles: 1,
+  maxSize: 1024 * 1024 * 4,
+  multiple: false,
+};
+
+const generateSlug = (name: string) => {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+};
+
+const addCompanyDataToDB = async (formData: CompanyData) => {
+  const response = await fetch(`${URL}/api/add-company`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+
+  if (response.ok) {
+    console.log("Company added successfully");
+  } else {
+    console.error("API Error:", response.statusText);
+  }
+};
 
 export default function MyForm() {
   const [files, setFiles] = useState<File[] | null>(null);
-
-  const dropZoneConfig = {
-    maxFiles: 1,
-    maxSize: 1024 * 1024 * 4,
-    multiple: false,
-  };
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<CompanyData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      company_tags: [],
-      establishment_date: new Date(),
+      name: "",
+      description: "",
+      month_founded: "",
+      year_founded: "",
+      slug: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = form.handleSubmit((data: CompanyData) => {
+    console.log("ONSUBMIT");
     try {
-      console.log(values);
+      console.log(data);
       toast(
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       );
+      const slug = generateSlug(data.name);
+      addCompanyDataToDB({ ...data, slug });
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
     }
-  }
+  });
 
   return (
-    <div>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 max-w-3xl mx-auto py-10"
-        >
-          <FormField
-            control={form.control}
-            name="company_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Company name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Acme Inc." type="" {...field} />
-                </FormControl>
-                <FormDescription>
-                  This is your public company name.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <FormProvider {...form}>
+      <form onSubmit={onSubmit} className="space-y-8 max-w-3xl mx-auto py-10">
+        {/* Company name */}
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Company name</FormLabel>
+              <FormControl>
+                <Input placeholder="Acme Inc." type="" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public company name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <FormField
-            control={form.control}
-            name="company_description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Type here..."
-                    className="resize-none"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Tell the world about your company.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* Company description */}
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Type here..."
+                  className="resize-none"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Tell the world about your company.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <FormField
-            control={form.control}
-            name="establishment_date"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Date of establishment</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal border-neutral-800",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent
-                    className="bg-neutral-900 w-auto p-0"
-                    align="start"
-                  >
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormDescription>The date when it all started.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
+        {/* Company tags */}
+        {/* <FormField
             control={form.control}
             name="company_tags"
             render={({ field }) => (
@@ -180,41 +238,164 @@ export default function MyForm() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
-          {/* <FormField
-          control={form.control}
-          name="company_location"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Location</FormLabel>
-              <FormControl>
-                <LocationSelector
-                  onCountryChange={(country) => {
-                    setCountryName(country?.name || "");
-                    form.setValue(field.name, [
-                      country?.name || "",
-                      stateName || "",
-                    ]);
-                  }}
-                  onStateChange={(state) => {
-                    setStateName(state?.name || "");
-                    form.setValue(field.name, [
-                      countryName || "",
-                      state?.name || "",
-                    ]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>
-                If applicable, add where the company was started
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
+        {/* Month and year founded */}
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-row gap-4">
+            <FormField
+              control={form.control}
+              name="month_founded"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <div className="flex flex-row gap-4">
+                    <Popover>
+                      <div className="flex flex-col gap-2">
+                        <FormLabel>Month</FormLabel>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className={cn(
+                                "w-[200px] justify-between bg-neutral-900 border border-neutral-700 text-white",
+                                !field.value && "text-muted-foreground "
+                              )}
+                            >
+                              {field.value
+                                ? months.find(
+                                    (month) => month.value === field.value
+                                  )?.label
+                                : "Select month"}
+                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                      </div>
+                      <PopoverContent className="w-[200px] p-0 bg-neutral-900">
+                        <Command>
+                          <CommandInput
+                            className="outline-none focus:outline-none"
+                            placeholder="Search month..."
+                          />
+                          <CommandList>
+                            <CommandGroup>
+                              {months.map((month) => (
+                                <CommandItem
+                                  value={month.label}
+                                  key={month.value}
+                                  onSelect={() => {
+                                    form.setValue("month_founded", month.value);
+                                  }}
+                                  className={cn(
+                                    "group cursor-pointer transition duration-100",
+                                    month.value === field.value
+                                      ? "bg-neutral-800"
+                                      : "hover:bg-neutral-800"
+                                  )}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4 transition duration-100",
+                                      month.value === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  {month.label}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
 
-          <FormField
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="year_founded"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  {/* Year founded */}
+                  <Popover>
+                    <div className="flex flex-col gap-2">
+                      <FormLabel>Year</FormLabel>
+
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              "w-[200px] justify-between bg-neutral-900 border border-neutral-700 text-white",
+                              !field.value && "text-muted-foreground "
+                            )}
+                          >
+                            {field.value
+                              ? years.find((year) => year.value === field.value)
+                                  ?.label
+                              : "Select year"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                    </div>
+                    <PopoverContent className="w-[200px] p-0 bg-neutral-900">
+                      <Command>
+                        <CommandInput
+                          className="outline-none focus:outline-none"
+                          placeholder="Search year..."
+                        />
+                        <CommandList>
+                          <CommandGroup>
+                            {years.map((year) => (
+                              <CommandItem
+                                value={year.label}
+                                key={year.value}
+                                onSelect={() => {
+                                  form.setValue("year_founded", year.value);
+                                }}
+                                className={cn(
+                                  "group cursor-pointer transition duration-100",
+                                  year.value === field.value
+                                    ? "bg-neutral-800"
+                                    : "hover:bg-neutral-800"
+                                )}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4 transition duration-100",
+                                    year.value === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {year.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <FormDescription>
+            The month and year your company was founded.
+          </FormDescription>
+        </div>
+
+        {/* Company's logo */}
+        {/* <FormField
             control={form.control}
             name="company_image"
             render={({ field }) => (
@@ -258,12 +439,12 @@ export default function MyForm() {
                 <FormMessage />
               </FormItem>
             )}
-          />
-          <Button type="submit" className="button-primary">
-            Submit
-          </Button>
-        </form>
-      </Form>
-    </div>
+          /> */}
+
+        <Button type="submit" className="button-primary">
+          Create timeline
+        </Button>
+      </form>
+    </FormProvider>
   );
 }
