@@ -1,4 +1,3 @@
-import HeaderHome from "@/components/HeaderHome";
 import Image from "next/image";
 import React from "react";
 import defaultImg from "@/public/google_logo.webp";

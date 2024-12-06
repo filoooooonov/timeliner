@@ -1,3 +1,4 @@
+import HeaderMinimal from "@/components/HeaderMinimal";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,7 +12,10 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <main className="bg-background">{children}</main>
+      <main className="bg-background">
+        <HeaderMinimal />
+        {children}
+      </main>
     </>
   );
 }
