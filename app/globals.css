@@ -48,3 +48,7 @@ textarea {
 textarea {
   @apply h-24;
 }
+
+.error-msg {
+  @apply text-red-500 text-sm flex items-center gap-2;
+}

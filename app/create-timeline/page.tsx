@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -44,6 +44,8 @@ import {
 } from "@/components/ui/command";
 import { CompanyData } from "../timeline/[slug]/page";
 import { Check, ChevronsUpDown } from "lucide-react";
+import { redirect } from "next/navigation";
+import { MdError } from "react-icons/md";
 
 const production = "https://timeliner-demo.vercel.app";
 const development = "http://localhost:3000";
@@ -138,11 +140,18 @@ const addCompanyDataToDB = async (formData: CompanyData) => {
     body: JSON.stringify(formData),
   });
 
-  if (response.ok) {
-    console.log("Company added successfully");
-  } else {
-    console.error("API Error:", response.statusText);
-  }
+  return response;
+
+  // if (response.status === 409) {
+  //   console.error("Company with this slug already exists");
+  //   return toast.error("Company with this slug already exists");
+  // }
+
+  // if (response.ok) {
+  //   console.log("Company added successfully");
+  // } else {
+  //   console.error("API Error:", response.statusText);
+  // }
 };
 
 export default function MyForm() {
@@ -158,12 +167,26 @@ export default function MyForm() {
     },
   });
 
+  const [nameError, setNameError] = useState<string | null>(null);
   const handleFormSubmit = async (data: CompanyData) => {
+    setNameError(null);
     console.log("handleFormSubmit called with data:", data);
     try {
       const slug = generateSlug(data.name);
-      await addCompanyDataToDB({ ...data, slug });
-      toast.success("Company added successfully");
+      const response = await addCompanyDataToDB({ ...data, slug });
+
+      // If company with the same name already exists
+      if (response.status === 409) {
+        const errorData = await response.json();
+        setNameError(errorData.message);
+        console.error(errorData.message);
+        return toast.error(errorData.message);
+      }
+
+      if (response.ok) {
+        toast.success("Company added successfully");
+        redirect(`/timeline/${data.slug}`);
+      }
     } catch (error) {
       console.error("Form submission error:", error);
       toast.error("Failed to submit form");
@@ -200,6 +223,11 @@ export default function MyForm() {
               </FormItem>
             )}
           />
+          {nameError && (
+            <div className="error-msg">
+              <MdError /> {nameError}
+            </div>
+          )}
 
           {/* Company description */}
           <FormField
@@ -450,6 +478,7 @@ export default function MyForm() {
             )}
           /> */}
 
+          <Toaster />
           <button type="submit" className="button-primary px-4 py-2">
             Create timeline
           </button>
