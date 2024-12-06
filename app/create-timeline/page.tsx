@@ -158,26 +158,27 @@ export default function MyForm() {
     },
   });
 
-  const onSubmit = form.handleSubmit((data: CompanyData) => {
-    console.log("ONSUBMIT");
+  const handleFormSubmit = async (data: CompanyData) => {
+    console.log("handleFormSubmit called with data:", data);
     try {
-      console.log(data);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      );
       const slug = generateSlug(data.name);
-      addCompanyDataToDB({ ...data, slug });
+      await addCompanyDataToDB({ ...data, slug });
+      toast.success("Company added successfully");
     } catch (error) {
-      console.error("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
+      console.error("Form submission error:", error);
+      toast.error("Failed to submit form");
     }
-  });
+  };
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={onSubmit} className="space-y-8 max-w-3xl mx-auto py-10">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleFormSubmit(form.getValues());
+        }}
+        className="space-y-8 max-w-3xl mx-auto py-10"
+      >
         {/* Company name */}
         <FormField
           control={form.control}
@@ -441,9 +442,9 @@ export default function MyForm() {
             )}
           /> */}
 
-        <Button type="submit" className="button-primary">
+        <button type="submit" className="button-primary px-4 py-2">
           Create timeline
-        </Button>
+        </button>
       </form>
     </FormProvider>
   );
