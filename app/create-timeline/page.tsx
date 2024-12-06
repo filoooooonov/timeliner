@@ -171,56 +171,60 @@ export default function MyForm() {
   };
 
   return (
-    <FormProvider {...form}>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleFormSubmit(form.getValues());
-        }}
-        className="space-y-8 max-w-3xl mx-auto py-10"
-      >
-        {/* Company name */}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Company name</FormLabel>
-              <FormControl>
-                <Input placeholder="Acme Inc." type="" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public company name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <main className="max-w-3xl mx-auto px-4 pt-32">
+      <FormProvider {...form}>
+        <h1 className="text-4xl">
+          Let's create your <span className="text-primary">Timeline.</span>
+        </h1>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleFormSubmit(form.getValues());
+          }}
+          className="space-y-8 mx-auto py-10"
+        >
+          {/* Company name */}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Company name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Acme Inc." type="" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public company name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* Company description */}
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Type here..."
-                  className="resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>
-                Tell the world about your company.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* Company description */}
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Type here..."
+                    className="resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Tell the world about your company.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* Company tags */}
-        {/* <FormField
+          {/* Company tags */}
+          {/* <FormField
             control={form.control}
             name="company_tags"
             render={({ field }) => (
@@ -241,18 +245,96 @@ export default function MyForm() {
             )}
           /> */}
 
-        {/* Month and year founded */}
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-row gap-4">
-            <FormField
-              control={form.control}
-              name="month_founded"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <div className="flex flex-row gap-4">
+          {/* Month and year founded */}
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-row gap-4">
+              <FormField
+                control={form.control}
+                name="month_founded"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <div className="flex flex-row gap-4">
+                      <Popover>
+                        <div className="flex flex-col gap-2">
+                          <FormLabel>Month</FormLabel>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  "w-[200px] justify-between bg-neutral-900 border border-neutral-700 text-white",
+                                  !field.value && "text-muted-foreground "
+                                )}
+                              >
+                                {field.value
+                                  ? months.find(
+                                      (month) => month.value === field.value
+                                    )?.label
+                                  : "Select month"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                        </div>
+                        <PopoverContent className="w-[200px] p-0 bg-neutral-900">
+                          <Command>
+                            <CommandInput
+                              className="outline-none focus:outline-none"
+                              placeholder="Search month..."
+                            />
+                            <CommandList>
+                              <CommandGroup>
+                                {months.map((month) => (
+                                  <CommandItem
+                                    value={month.label}
+                                    key={month.value}
+                                    onSelect={() => {
+                                      form.setValue(
+                                        "month_founded",
+                                        month.value
+                                      );
+                                    }}
+                                    className={cn(
+                                      "group cursor-pointer transition duration-100",
+                                      month.value === field.value
+                                        ? "bg-neutral-800"
+                                        : "hover:bg-neutral-800"
+                                    )}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4 transition duration-100",
+                                        month.value === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {month.label}
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="year_founded"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    {/* Year founded */}
                     <Popover>
                       <div className="flex flex-col gap-2">
-                        <FormLabel>Month</FormLabel>
+                        <FormLabel>Year</FormLabel>
+
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
@@ -264,10 +346,10 @@ export default function MyForm() {
                               )}
                             >
                               {field.value
-                                ? months.find(
-                                    (month) => month.value === field.value
+                                ? years.find(
+                                    (year) => year.value === field.value
                                   )?.label
-                                : "Select month"}
+                                : "Select year"}
                               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                           </FormControl>
@@ -277,20 +359,20 @@ export default function MyForm() {
                         <Command>
                           <CommandInput
                             className="outline-none focus:outline-none"
-                            placeholder="Search month..."
+                            placeholder="Search year..."
                           />
                           <CommandList>
                             <CommandGroup>
-                              {months.map((month) => (
+                              {years.map((year) => (
                                 <CommandItem
-                                  value={month.label}
-                                  key={month.value}
+                                  value={year.label}
+                                  key={year.value}
                                   onSelect={() => {
-                                    form.setValue("month_founded", month.value);
+                                    form.setValue("year_founded", year.value);
                                   }}
                                   className={cn(
                                     "group cursor-pointer transition duration-100",
-                                    month.value === field.value
+                                    year.value === field.value
                                       ? "bg-neutral-800"
                                       : "hover:bg-neutral-800"
                                   )}
@@ -298,12 +380,12 @@ export default function MyForm() {
                                   <Check
                                     className={cn(
                                       "mr-2 h-4 w-4 transition duration-100",
-                                      month.value === field.value
+                                      year.value === field.value
                                         ? "opacity-100"
                                         : "opacity-0"
                                     )}
                                   />
-                                  {month.label}
+                                  {year.label}
                                 </CommandItem>
                               ))}
                             </CommandGroup>
@@ -311,92 +393,18 @@ export default function MyForm() {
                         </Command>
                       </PopoverContent>
                     </Popover>
-                  </div>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="year_founded"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  {/* Year founded */}
-                  <Popover>
-                    <div className="flex flex-col gap-2">
-                      <FormLabel>Year</FormLabel>
-
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              "w-[200px] justify-between bg-neutral-900 border border-neutral-700 text-white",
-                              !field.value && "text-muted-foreground "
-                            )}
-                          >
-                            {field.value
-                              ? years.find((year) => year.value === field.value)
-                                  ?.label
-                              : "Select year"}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                    </div>
-                    <PopoverContent className="w-[200px] p-0 bg-neutral-900">
-                      <Command>
-                        <CommandInput
-                          className="outline-none focus:outline-none"
-                          placeholder="Search year..."
-                        />
-                        <CommandList>
-                          <CommandGroup>
-                            {years.map((year) => (
-                              <CommandItem
-                                value={year.label}
-                                key={year.value}
-                                onSelect={() => {
-                                  form.setValue("year_founded", year.value);
-                                }}
-                                className={cn(
-                                  "group cursor-pointer transition duration-100",
-                                  year.value === field.value
-                                    ? "bg-neutral-800"
-                                    : "hover:bg-neutral-800"
-                                )}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4 transition duration-100",
-                                    year.value === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )}
-                                />
-                                {year.label}
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormDescription>
+              The month and year your company was founded.
+            </FormDescription>
           </div>
-          <FormDescription>
-            The month and year your company was founded.
-          </FormDescription>
-        </div>
 
-        {/* Company's logo */}
-        {/* <FormField
+          {/* Company's logo */}
+          {/* <FormField
             control={form.control}
             name="company_image"
             render={({ field }) => (
@@ -442,10 +450,11 @@ export default function MyForm() {
             )}
           /> */}
 
-        <button type="submit" className="button-primary px-4 py-2">
-          Create timeline
-        </button>
-      </form>
-    </FormProvider>
+          <button type="submit" className="button-primary px-4 py-2">
+            Create timeline
+          </button>
+        </form>
+      </FormProvider>
+    </main>
   );
 }

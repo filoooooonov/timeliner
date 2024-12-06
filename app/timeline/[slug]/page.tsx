@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import defaultImg from "@/public/google_logo.webp";
 import { Timeline } from "@/components/ui/timeline";
 import BrinImg from "@/public/sergey_brin.webp";
 import PageImg from "@/public/larry_page.webp";
