@@ -138,7 +138,7 @@ const generateSlug = (name: string) => {
 };
 
 const addCompanyDataToDB = async (formData: CompanyData) => {
-  const response = await fetch(`${URL}/api/add-company`, {
+  const response = await fetch(`/api/add-company`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -6,20 +6,23 @@ import { NextRequest, NextResponse } from "next/server";
 const uri = process.env.MONGODB_URI as string; // Ensure this is defined in .env.local file
 const client = new MongoClient(uri);
 
-// Add OPTIONS handler for CORS
-export async function OPTIONS(request: NextRequest) {
-  return new NextResponse(null, {
-    status: 200,
-    headers: {
-      Allow: "POST, OPTIONS",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    },
-  });
-}
-
 export async function POST(req: NextRequest) {
   try {
+    // Validate request method
+    if (req.method !== "POST") {
+      return NextResponse.json(
+        { error: "Method not allowed ERR" },
+        {
+          status: 405,
+          headers: {
+            Allow: "POST",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        }
+      );
+    }
     console.log("Incoming request:", req.url);
     const body = await req.json();
 
@@ -44,10 +47,6 @@ export async function POST(req: NextRequest) {
       { message: "Company added successfully" },
       {
         status: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "POST, OPTIONS",
-        },
       }
     );
   } catch (error) {
