@@ -1,9 +1,9 @@
+import clientPromise from "@/lib/mongodb";
 import { MongoClient } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 // Initialize the MongoClient instance
 const uri = process.env.MONGODB_URI as string; // Ensure this is defined in .env.local file
-const client = new MongoClient(uri);
 
 export async function GET(req: NextRequest) {
   try {
@@ -19,6 +19,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
+    const client = await clientPromise;
     await client.connect();
     const db = client.db("timeliner");
     const collection = db.collection("companies");
@@ -39,7 +40,5 @@ export async function GET(req: NextRequest) {
       { message: "Internal server error" },
       { status: 500 }
     );
-  } finally {
-    await client.close();
   }
 }

@@ -174,7 +174,7 @@ export default function CreateCompanyForm() {
 
       if (response.ok) {
         setLoading(false);
-        router.push(`/timeline/${slug}`);
+        router.push(`/timeline/${slug}?new=true`);
       }
     } catch (error) {
       console.error("Form submission error:", error);
@@ -203,7 +203,7 @@ export default function CreateCompanyForm() {
   }, 500);
 
   return (
-    <main className="max-w-3xl mx-auto px-4 pt-32">
+    <main className="max-w-xl mx-auto px-4 pt-32">
       <FormProvider {...form}>
         <h1 className="text-4xl">
           Let's create your <span className="text-primary">Timeline.</span>
