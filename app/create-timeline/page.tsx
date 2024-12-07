@@ -17,14 +17,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { Calendar as CalendarIcon } from "lucide-react";
+import {
+  Calendar as CalendarIcon,
+  CheckCircle,
+  Loader2,
+  XCircle,
+} from "lucide-react";
 import { TagsInput } from "@/components/ui/tags-input";
 // import LocationSelector from "@/components/ui/location-input";
 import { CloudUpload, Paperclip } from "lucide-react";
@@ -36,7 +41,6 @@ import {
 } from "@/components/ui/file-upload";
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
@@ -46,8 +50,10 @@ import { CompanyData } from "../timeline/[slug]/page";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { redirect } from "next/navigation";
 import { MdError } from "react-icons/md";
+import { useDebouncedCallback } from "use-debounce";
+import { useRouter } from "next/navigation";
 
-const production = "https://timeliner-demo.vercel.app";
+const production = process.env.PROD_URL;
 const development = "http://localhost:3000";
 const URL = process.env.NODE_ENV === "development" ? development : production;
 
@@ -141,20 +147,11 @@ const addCompanyDataToDB = async (formData: CompanyData) => {
   });
 
   return response;
-
-  // if (response.status === 409) {
-  //   console.error("Company with this slug already exists");
-  //   return toast.error("Company with this slug already exists");
-  // }
-
-  // if (response.ok) {
-  //   console.log("Company added successfully");
-  // } else {
-  //   console.error("API Error:", response.statusText);
-  // }
 };
 
-export default function MyForm() {
+export default function CreateCompanyForm() {
+  const router = useRouter();
+
   const [files, setFiles] = useState<File[] | null>(null);
   const form = useForm<CompanyData>({
     resolver: zodResolver(formSchema),
@@ -167,31 +164,43 @@ export default function MyForm() {
     },
   });
 
-  const [nameError, setNameError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const handleFormSubmit = async (data: CompanyData) => {
-    setNameError(null);
+    setLoading(true);
     console.log("handleFormSubmit called with data:", data);
     try {
       const slug = generateSlug(data.name);
       const response = await addCompanyDataToDB({ ...data, slug });
 
-      // If company with the same name already exists
-      if (response.status === 409) {
-        const errorData = await response.json();
-        setNameError(errorData.message);
-        console.error(errorData.message);
-        return toast.error(errorData.message);
-      }
-
       if (response.ok) {
-        toast.success("Company added successfully");
-        redirect(`/timeline/${data.slug}`);
+        setLoading(false);
+        router.push(`/timeline/${slug}`);
       }
     } catch (error) {
       console.error("Form submission error:", error);
-      toast.error("Failed to submit form");
     }
   };
+
+  // Real-time validation of company name
+  const [isChecking, setIsChecking] = useState(false);
+  const [nameExists, setNameExists] = useState<boolean | null>(null);
+  const checkCompanyName = useDebouncedCallback(async (name: string) => {
+    if (!name) return;
+
+    setIsChecking(true);
+    try {
+      const slug = generateSlug(name);
+      const response = await fetch(
+        `/api/check-company-name?name=${encodeURIComponent(name)}&slug=${encodeURIComponent(slug)}`
+      );
+      const data = await response.json();
+      setNameExists(data.exists);
+    } catch (error) {
+      console.error("Error checking company name:", error);
+    } finally {
+      setIsChecking(false);
+    }
+  }, 500);
 
   return (
     <main className="max-w-3xl mx-auto px-4 pt-32">
@@ -214,20 +223,50 @@ export default function MyForm() {
               <FormItem>
                 <FormLabel>Company name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Acme Inc." type="" {...field} />
+                  <div className="relative">
+                    <Input
+                      placeholder="Type here..."
+                      type="text"
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        checkCompanyName(e.target.value);
+                      }}
+                      className={cn(
+                        nameExists && "border-2 border-red-500",
+                        isChecking && "border-2 border-yellow-500"
+                      )}
+                    />
+                  </div>
                 </FormControl>
                 <FormDescription>
-                  This is your public company name.
+                  {nameExists === null &&
+                    !isChecking &&
+                    "Enter your company name."}
+                  {isChecking && (
+                    <span className="flex items-center gap-2 text-yellow-500">
+                      <Loader2 className="h-4 w-4" />
+                      Checking your company name...
+                    </span>
+                  )}
+                  {nameExists === false && !isChecking && field.value && (
+                    <span className="flex items-center gap-2 text-green-500">
+                      <CheckCircle className="h-4 w-4" />
+                      Sounds like a great name!
+                    </span>
+                  )}
+
+                  {nameExists === true && !isChecking && (
+                    <span className="flex items-center gap-2 text-red-500">
+                      <XCircle className="h-4 w-4" />
+                      This company already exists in Timeliner!
+                    </span>
+                  )}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {nameError && (
-            <div className="error-msg">
-              <MdError /> {nameError}
-            </div>
-          )}
 
           {/* Company description */}
           <FormField
@@ -478,9 +517,15 @@ export default function MyForm() {
             )}
           /> */}
 
-          <Toaster />
           <button type="submit" className="button-primary px-4 py-2">
-            Create timeline
+            {loading ? (
+              <div className="flex items-center gap-2">
+                <Loader2 className="h-4 w-4" />
+                Creating the timeline...
+              </div>
+            ) : (
+              "Create timeline"
+            )}
           </button>
         </form>
       </FormProvider>

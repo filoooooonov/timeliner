@@ -4,7 +4,7 @@ import { Timeline } from "@/components/ui/timeline";
 import BrinImg from "@/public/sergey_brin.webp";
 import PageImg from "@/public/larry_page.webp";
 
-const production = "https://timeliner-demo.vercel.app";
+const production = process.env.PROD_URL;
 const development = "http://localhost:3000";
 const URL = process.env.NODE_ENV === "development" ? development : production;
 

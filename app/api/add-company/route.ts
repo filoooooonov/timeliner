@@ -24,20 +24,6 @@ export async function POST(req: NextRequest) {
     const db = client.db("timeliner");
     const collection = db.collection("companies");
 
-    // Check if company with the same name or slug already exists in the database
-    const existingCompanyName = await collection.findOne({ name: body.name });
-    const existingSlug = await collection.findOne({ slug: body.slug });
-    if (existingCompanyName || existingSlug) {
-      return NextResponse.json(
-        {
-          message: "Company with this name already exists!",
-        },
-        {
-          status: 409,
-        }
-      );
-    }
-
     console.log(`Inserting company with slug: ${body.slug}`);
     const result = await collection.insertOne(body);
 
