@@ -15,7 +15,7 @@ const LoadingPage: React.FC = () => {
           <div className="col-span-3">
             <Skeleton className="w-[250px] h-12" />
 
-            <div className="space-y-3 mt-8">
+            <div className="space-y-12 mt-8">
               {/* DESCRIPTION */}
               <Skeleton className="w-[400px] h-5" />
               <Skeleton className="w-[400px] h-5" />
@@ -23,7 +23,7 @@ const LoadingPage: React.FC = () => {
               <Skeleton className="w-[350px] h-5" />
 
               {/* FOUNDERS */}
-              <div className="flex flex-row gap-2 mt-16">
+              <div className="flex flex-row gap-2">
                 <Skeleton className="size-16 rounded-full" />
                 <Skeleton className="size-16 rounded-full" />
               </div>

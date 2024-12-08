@@ -60,9 +60,9 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import Link from "next/link";
+import Confetti from "react-confetti-boom";
 
 const months = [
   {
@@ -218,7 +218,17 @@ export default function CreateCompanyForm() {
   }, 500);
 
   return (
-    <main className="max-w-xl mx-auto px-4 pt-32">
+    <main className="relative max-w-xl mx-auto px-4 pt-32">
+      {dialogOpen && (
+        <div className="fixed top-0 left-0 w-full h-full z-[9999]">
+          <Confetti
+            mode="fall"
+            particleCount={30}
+            shapeSize={15}
+            colors={["#ff577f", "#ff884b", "#ffd384", "#fff9b0"]}
+          />
+        </div>
+      )}
       <FormProvider {...form}>
         <h1 className="text-4xl">
           Let's create your <span className="text-primary">Timeline.</span>
@@ -345,7 +355,7 @@ export default function CreateCompanyForm() {
                                 variant="outline"
                                 role="combobox"
                                 className={cn(
-                                  "w-[200px] justify-between bg-neutral-900 border border-neutral-700 text-white",
+                                  "w-[200px] justify-between bg-neutral-900 border border-neutral-700 !text-white",
                                   !field.value && "text-muted-foreground "
                                 )}
                               >
