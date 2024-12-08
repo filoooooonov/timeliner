@@ -388,7 +388,7 @@ export default function CreateCompanyForm() {
                                       );
                                     }}
                                     className={cn(
-                                      "group cursor-pointer transition duration-100",
+                                      "group cursor-pointer transition duration-100 hover:text-white",
                                       month.value === field.value
                                         ? "bg-neutral-800 text-white"
                                         : "hover:bg-neutral-800"
@@ -433,7 +433,7 @@ export default function CreateCompanyForm() {
                               variant="outline"
                               role="combobox"
                               className={cn(
-                                "w-[200px] justify-between bg-neutral-900 border border-neutral-700 text-white",
+                                "w-[200px] justify-between bg-neutral-900 border border-neutral-700 !text-white",
                                 !field.value && "text-muted-foreground"
                               )}
                             >
@@ -463,7 +463,7 @@ export default function CreateCompanyForm() {
                                     form.setValue("year_founded", year.value);
                                   }}
                                   className={cn(
-                                    "group cursor-pointer transition duration-100",
+                                    "group cursor-pointer transition duration-100 hover:text-white",
                                     year.value === field.value
                                       ? "bg-neutral-800 text-white"
                                       : "hover:bg-neutral-800"
