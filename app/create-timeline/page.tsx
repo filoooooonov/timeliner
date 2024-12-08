@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { toast, Toaster } from "sonner";
 import { useForm, FormProvider } from "react-hook-form";
@@ -25,8 +26,10 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import {
+  ArrowRight,
   Calendar as CalendarIcon,
   CheckCircle,
+  ChevronRight,
   Loader2,
   XCircle,
 } from "lucide-react";
@@ -49,13 +52,17 @@ import {
 import { CompanyData } from "../timeline/[slug]/page";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { redirect } from "next/navigation";
-import { MdError } from "react-icons/md";
 import { useDebouncedCallback } from "use-debounce";
 import { useRouter } from "next/navigation";
-
-const production = process.env.PROD_URL;
-const development = "http://localhost:3000";
-const URL = process.env.NODE_ENV === "development" ? development : production;
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import Link from "next/link";
 
 const months = [
   {
@@ -153,6 +160,7 @@ export default function CreateCompanyForm() {
   const router = useRouter();
 
   const [files, setFiles] = useState<File[] | null>(null);
+  const [slug, setSlug] = useState<string | null>(null);
   const form = useForm<CompanyData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -165,16 +173,20 @@ export default function CreateCompanyForm() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   const handleFormSubmit = async (data: CompanyData) => {
     setLoading(true);
     console.log("handleFormSubmit called with data:", data);
     try {
-      const slug = generateSlug(data.name);
+      if (!slug) {
+        throw new Error("Slug is not defined. Please check the company name.");
+      }
       const response = await addCompanyDataToDB({ ...data, slug });
 
       if (response.ok) {
         setLoading(false);
-        router.push(`/timeline/${slug}`);
+        setDialogOpen(true);
       }
     } catch (error) {
       console.error("Form submission error:", error);
@@ -189,9 +201,12 @@ export default function CreateCompanyForm() {
 
     setIsChecking(true);
     try {
-      const slug = generateSlug(name);
+      const generatedSlug = generateSlug(name);
+      if (!generatedSlug) return;
+      setSlug(generatedSlug);
+
       const response = await fetch(
-        `/api/check-company-name?name=${encodeURIComponent(name)}&slug=${encodeURIComponent(slug)}`
+        `/api/check-company-name?name=${encodeURIComponent(name)}&slug=${encodeURIComponent(generatedSlug)}`
       );
       const data = await response.json();
       setNameExists(data.exists);
@@ -529,6 +544,23 @@ export default function CreateCompanyForm() {
           </button>
         </form>
       </FormProvider>
+      <Dialog open={dialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <div className="text-6xl">🎉</div>
+            <DialogTitle>Congratulations!</DialogTitle>
+            <DialogDescription>
+              Your company's timeline has been created successfully!
+            </DialogDescription>
+          </DialogHeader>
+          <Link
+            className="button-primary px-4 py-2 w-max mx-auto mt-12 flex items-center gap-2"
+            href={`/timeline/${slug}`}
+          >
+            Visit company's page <ChevronRight />
+          </Link>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 }
