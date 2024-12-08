@@ -64,7 +64,9 @@ export default async function Page({
       <main className="w-[65%] mx-auto bg-background mt-10">
         <div className="grid grid-cols-5">
           <div className="col-span-3">
-            <h1 className="text-5xl font-semibold">{companyData.name}</h1>
+            <h1 className="text-5xl font-semibold text-white">
+              {companyData.name}
+            </h1>
 
             <div>
               {/* DESCRIPTION */}

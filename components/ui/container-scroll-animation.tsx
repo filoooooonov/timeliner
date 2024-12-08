@@ -87,7 +87,7 @@ export const Card = ({
       }}
       className="max-w-5xl -mt-12 mx-auto h-[30rem] md:h-[40rem] w-full border-2 border-[#222222] bg-[#222222] rounded-[24px] shadow-2xl"
     >
-      <div className=" h-full w-full  overflow-hidden rounded-2xl bg-gray-100 dark:bg-zinc-900 md:rounded-[24px] md:p-2 ">
+      <div className=" h-full w-full  overflow-hidden rounded-2xl bg-zinc-900 md:rounded-[24px] md:p-2 ">
         {children}
       </div>
     </motion.div>
