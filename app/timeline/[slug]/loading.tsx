@@ -23,7 +23,7 @@ const LoadingPage: React.FC = () => {
               <Skeleton className="w-[350px] h-5" />
 
               {/* FOUNDERS */}
-              <div className="flex flex-row gap-2 mt-8">
+              <div className="flex flex-row gap-2 mt-16">
                 <Skeleton className="size-16 rounded-full" />
                 <Skeleton className="size-16 rounded-full" />
               </div>

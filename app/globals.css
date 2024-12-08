@@ -42,7 +42,7 @@ h2 {
 
 input,
 textarea {
-  @apply w-full py-2 bg-neutral-800 px-4 rounded-md placeholder-stone-400 outline-none focus:outline-none border-2 border-neutral-700 duration-100;
+  @apply w-full py-2 bg-neutral-800 px-4 rounded-md placeholder-neutral-400 outline-none focus:outline-none border-2 border-neutral-700 focus:border-neutral-500 duration-200;
 }
 
 textarea {
