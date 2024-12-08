@@ -4,8 +4,6 @@ import Image from "next/image";
 import timelinerDemo from "@/public/placeholderDemo.webp";
 
 export default function Home() {
-  const placeholders = ["start-ups", "companies", "projects"];
-
   return (
     <div className="min-h-screen text-gray-100 mt-32">
       <section className="mb-16 mt-40">
@@ -14,7 +12,7 @@ export default function Home() {
             <ContainerScroll
               titleComponent={
                 <>
-                  <div className="text-center mb-16">
+                  <div className="text-center mb-32 mt-40 ">
                     <h1 className="text-4xl md:text-6xl font-bold mb-6">
                       Let them know{" "}
                       <span className="text-primary">how it started</span>
@@ -23,9 +21,18 @@ export default function Home() {
                       Commemorate and share your startup&apos;s story with
                       Timeliner.
                     </p>
-                    <button className="button-primary px-4 py-3">
-                      Create timeline
-                    </button>
+                    <div className="flex flex-col mt-32">
+                      <Link
+                        href="/create-timeline"
+                        className="button-primary px-4 py-3 w-max mx-auto"
+                      >
+                        Create timeline
+                      </Link>
+
+                      <span className="text-neutral-400 mt-2">
+                        Free forever.
+                      </span>
+                    </div>
                   </div>
                 </>
               }
