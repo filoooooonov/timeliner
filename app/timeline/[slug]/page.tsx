@@ -3,6 +3,7 @@ import React from "react";
 import { Timeline } from "@/components/ui/timeline";
 import BrinImg from "@/public/sergey_brin.webp";
 import PageImg from "@/public/larry_page.webp";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const production = process.env.PROD_URL;
 const development = "http://localhost:3000";
@@ -92,7 +93,7 @@ export default async function Page({
                 Est. {companyData.month_founded} {companyData.year_founded}
               </p>
             </div>
-            <div className="ml-auto bg-zinc-900 rounded-md p-4 h-max min-w-[200px] mt-8">
+            <div className="ml-auto bg-neutral-900 rounded-md p-4 h-max min-w-[200px] mt-8">
               {/* SOCIALS */}
               <h2 className="text-2xl font-semibold mb-2 text-zinc-300">
                 Socials
