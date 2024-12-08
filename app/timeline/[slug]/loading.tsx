@@ -17,10 +17,12 @@ const LoadingPage: React.FC = () => {
 
             <div className="space-y-12 mt-8">
               {/* DESCRIPTION */}
-              <Skeleton className="w-[400px] h-5" />
-              <Skeleton className="w-[400px] h-5" />
-              <Skeleton className="w-[380px] h-5" />
-              <Skeleton className="w-[350px] h-5" />
+              <div className="space-y-3">
+                <Skeleton className="w-[400px] h-5" />
+                <Skeleton className="w-[400px] h-5" />
+                <Skeleton className="w-[380px] h-5" />
+                <Skeleton className="w-[350px] h-5" />
+              </div>
 
               {/* FOUNDERS */}
               <div className="flex flex-row gap-2">

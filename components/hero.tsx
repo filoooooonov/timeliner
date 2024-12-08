@@ -5,14 +5,14 @@ import timelinerDemo from "@/public/placeholderDemo.webp";
 
 export default function Home() {
   return (
-    <div className="min-h-screen text-gray-100 mt-32">
-      <section className="mb-16 mt-40">
-        <div className="w-full rounded-lg p-4  relative">
-          <div className="absolute inset-0 flex items-center justify-center mt-60">
+    <div className="min-h-screen text-gray-100">
+      <section className="mb-16">
+        <div className="w-full rounded-lg relative">
+          <div className="flex items-center justify-center">
             <ContainerScroll
               titleComponent={
                 <>
-                  <div className="text-center mb-32 mt-40 ">
+                  <div className="text-center mb-24 md:mb-32">
                     <h1 className="text-4xl md:text-6xl font-bold mb-6">
                       Let them know{" "}
                       <span className="text-primary">how it started</span>
@@ -21,7 +21,7 @@ export default function Home() {
                       Commemorate and share your startup&apos;s story with
                       Timeliner.
                     </p>
-                    <div className="flex flex-col mt-32">
+                    <div className="flex flex-col mt-0 lg:mt-32">
                       <Link
                         href="/create-timeline"
                         className="button-primary px-4 py-3 w-max mx-auto"
