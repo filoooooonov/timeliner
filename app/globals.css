@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+::selection {
+  background: #cef36f40;
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
