@@ -56,12 +56,12 @@ export default async function Page({
         alt="company logo"
         className="h-[30vh] object-cover"
       /> */}
-      <div className="bg-neutral-800 w-full h-[16vw] flex items-center">
-        <h2 className="text-neutral-700 text-8xl mx-auto select-none">
+      <div className="bg-neutral-800 w-full h[30vh] md:h-[16vw] flex items-center">
+        <h2 className="text-neutral-700 text-5xl md:text-8xl mx-auto select-none">
           {companyData.name}
         </h2>
       </div>
-      <main className="w-[65%] mx-auto bg-background mt-10">
+      <main className="px-5 md:px-0 md:w-[65%] mx-auto bg-background mt-10">
         <div className="grid grid-cols-5">
           <div className="col-span-3">
             <h1 className="text-5xl font-semibold text-white">
@@ -95,8 +95,8 @@ export default async function Page({
                 Est. {companyData.month_founded} {companyData.year_founded}
               </p>
             </div>
-            <div className="ml-auto bg-neutral-900 rounded-md p-4 h-max min-w-[200px] mt-8">
-              {/* SOCIALS */}
+            {/* SOCIALS */}
+            <div className="hidden md:block ml-auto bg-neutral-900 rounded-md p-4 h-max min-w-[200px] mt-8">
               <h2 className="text-2xl font-semibold mb-2 text-zinc-300">
                 Socials
               </h2>
@@ -106,6 +106,15 @@ export default async function Page({
               </ul>
             </div>
           </div>
+        </div>
+
+        {/* Socials on mobile */}
+        <div className="block md:hidden ml-auto bg-neutral-900 rounded-md p-4 h-max min-w-[200px] mt-8">
+          <h2 className="text-2xl font-semibold mb-2 text-zinc-300">Socials</h2>
+          <ul>
+            <li className="text-zinc-400">Facebook</li>
+            <li className="text-zinc-400">Instagram</li>
+          </ul>
         </div>
 
         <div className=" mb-40">

@@ -339,7 +339,7 @@ export default function CreateCompanyForm() {
 
           {/* Month and year founded */}
           <div className="flex flex-col gap-3">
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <FormField
                 control={form.control}
                 name="month_founded"

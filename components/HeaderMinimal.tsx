@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 import { FaUserCircle } from "react-icons/fa";
+import { MenuIcon } from "lucide-react";
 
 const HeaderHome = () => {
   const placeholders = [
@@ -22,7 +23,7 @@ const HeaderHome = () => {
   return (
     <header className=" px-6 py-3">
       <nav className="relative flex items-center flex-row justify-between">
-        <div className="absolute left-1/2 transform -translate-x-1/2 ">
+        <div className="hidden 2xl:block 2xl:absolute lg:left-1/2 2xl:transform 2xl:-translate-x-1/2">
           <PlaceholdersAndVanishInput
             placeholders={placeholders}
             onChange={handleChange}
@@ -34,7 +35,7 @@ const HeaderHome = () => {
           Timeliner.
         </Link>
 
-        <div className="flex flex-row gap-6">
+        <div className="hidden md:flex flex-row gap-6">
           <Link
             href="/"
             className="hover:text-primary font-semibold duration-300 text-zinc-400 p-2 text-sm"
@@ -51,6 +52,9 @@ const HeaderHome = () => {
             href="/create-timeline"
             className="bg-zinc-700 rounded-full w-8 h-8 my-auto"
           ></Link>
+        </div>
+        <div className="flex md:hidden">
+          <MenuIcon />
         </div>
       </nav>
     </header>
