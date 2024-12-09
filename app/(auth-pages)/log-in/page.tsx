@@ -10,11 +10,11 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
   return (
     <main className="max-w-5xl">
       <form className="h-fit flex flex-col">
-        <h1 className="text-4xl font-medium mb-4">Sign in</h1>
+        <h1 className="text-4xl font-medium mb-4">Log in</h1>
         <p className="text-sm text-foreground">
           Don't have an account?{" "}
-          <Link className="text-primary font-medium underline" href="/sign-up">
-            Sign up
+          <Link className="text-primary font-medium underline" href="/register">
+            Register
           </Link>
         </p>
         <div className="flex flex-col gap-2 [&>input]:mb-6 mt-8">
