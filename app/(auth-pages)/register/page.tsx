@@ -38,17 +38,24 @@ export default function Signup() {
         setLoading(false);
         return;
       }
-      // const resUserExists = await fetch("/api/user-exists", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ email }),
-      // });
-      // const user = await resUserExists.json();
-      // console.log("USER:", user);
-      // if (user) {
-      //   setError("User already exists.");
-      //   return;
-      // }
+
+      const resUserExists = await fetch("/api/user-exists", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ emailToCheck: email }),
+      });
+
+      if (!resUserExists.ok) {
+        throw new Error("Failed to check if user exists");
+      }
+      const { userExists } = await resUserExists.json();
+      console.log("------------USER:", userExists);
+
+      if (userExists) {
+        setError("User already exists.");
+        setLoading(false);
+        return;
+      }
 
       const res = await fetch("/api/register", {
         method: "POST",
@@ -66,6 +73,7 @@ export default function Signup() {
       }
     } catch (err) {
       console.log("Error during registration: ", err);
+      setError("Something went wrong during registration. Please, contact us.");
       setLoading(false);
       return;
     }

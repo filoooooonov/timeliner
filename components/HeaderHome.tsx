@@ -36,18 +36,18 @@ const HeaderHome = () => {
         </Link>
 
         <div className="flex-row gap-4 hidden lg:flex">
-          <Link
+          {/* <Link
             href="/"
             className="hover:text-primary font-semibold duration-300 text-zinc-400 p-2 text-sm"
           >
             About
-          </Link>
+          </Link> */}
           <Link
-            href="/"
+            href="/register"
             className="button-secondary text-sm !px-3 !py-2 flex items-center gap-2"
           >
             <FaUserCircle />
-            <span>Log in</span>
+            <span>Register</span>
           </Link>
           <Link href="/create-timeline" className="button-primary px-2 py-2">
             Create timeline
