@@ -15,7 +15,7 @@
 }
 
 .button-primary {
-  @apply bg-primary font-semibold rounded-md hover:bg-white duration-300
+  @apply bg-primary  font-semibold rounded-md hover:bg-white duration-300
    text-gray-900 cursor-pointer;
 }
 

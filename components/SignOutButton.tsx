@@ -9,7 +9,7 @@ const SignOut = ({ text }: { text: string }) => {
       onClick={() => {
         signOut({ callbackUrl: "/" });
       }}
-      className="button-primary mt-20 px-4 py-3 "
+      className="button-secondary w-fit px-4"
     >
       {text}
     </button>

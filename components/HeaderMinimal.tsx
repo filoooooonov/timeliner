@@ -3,9 +3,16 @@
 import Link from "next/link";
 import React from "react";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
-import { MenuIcon } from "lucide-react";
+import {
+  LucideSettings,
+  MenuIcon,
+  Settings,
+  Settings2,
+  Settings2Icon,
+} from "lucide-react";
 import { useSession } from "next-auth/react";
 import { FaUserCircle } from "react-icons/fa";
+import { IoIosSettings } from "react-icons/io";
 
 const HeaderHome = () => {
   const { data: session } = useSession();
@@ -38,12 +45,6 @@ const HeaderHome = () => {
         </Link>
 
         <div className="hidden md:flex flex-row gap-6">
-          <Link
-            href="/"
-            className="hover:text-primary font-semibold duration-300 text-zinc-400 p-2 text-sm"
-          >
-            About
-          </Link>
           {!session ? (
             <>
               <Link
@@ -57,16 +58,19 @@ const HeaderHome = () => {
                 className="button-secondary text-sm !px-3 !py-2 flex items-center gap-2"
               >
                 <FaUserCircle />
-                <span>"Register"</span>
+                <span>Register</span>
               </Link>
             </>
           ) : (
             <>
               <Link
                 href="/dashboard"
-                className="button-secondary text-sm !px-3 !py-2 flex items-center gap-2"
+                className=" text-neutral-400 hover:text-neutral-500 duration-200 font-semibold flex items-center gap-2"
               >
-                <span>Dashboard</span>
+                <span className="flex items-center gap-2">
+                  <IoIosSettings />
+                  Settings
+                </span>
               </Link>
               <Link
                 href="/create-timeline"
