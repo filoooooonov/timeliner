@@ -1,19 +1,18 @@
 "use client";
 
-import { signUpAction } from "@/app/actions";
-import { FormMessage, Message } from "@/components/form-message";
 import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { SmtpMessage } from "../smtp-message";
 import { useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast, Toaster } from "sonner";
+import { useRouter } from "next/navigation";
 
-export default function Signup() {
+export default function Register() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,10 +45,9 @@ export default function Signup() {
       });
 
       if (!resUserExists.ok) {
-        throw new Error("Failed to check if user exists");
+        setError("Failed to check if user exists. Please, contact us.");
       }
       const { userExists } = await resUserExists.json();
-      console.log("------------USER:", userExists);
 
       if (userExists) {
         setError("User already exists.");
@@ -68,7 +66,8 @@ export default function Signup() {
         form.reset();
         setError(null);
         setLoading(false);
-        toast.success("Registration successful!");
+        toast.success("Registration successful! Please, log in.");
+        router.push("/log-in");
       } else {
       }
     } catch (err) {
@@ -83,7 +82,6 @@ export default function Signup() {
   return (
     <>
       <form onSubmit={handleSubmit} className="flex flex-col min-w-64 mx-auto">
-        <Toaster position="bottom-center" />
         <h1 className="text-4xl font-medium mb-4">Register</h1>
         <p className="text-sm text text-foreground">
           Already have an account?{" "}
