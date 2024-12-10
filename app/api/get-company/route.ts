@@ -1,9 +1,5 @@
-import { MongoClient } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
-
-// Initialize the MongoClient instance
-const uri = process.env.MONGODB_URI as string; // Ensure this is defined in .env.local file
-const client = new MongoClient(uri);
+import { connectMongoDB, getMongoClient } from "../../../lib/mongo";
 
 export async function GET(req: NextRequest) {
   try {
@@ -20,8 +16,18 @@ export async function GET(req: NextRequest) {
     }
 
     console.log("Connecting to MongoDB...");
-    await client.connect();
-    const db = client.db("timeliner");
+    await connectMongoDB();
+    const client = getMongoClient();
+    const db = client?.connection?.db;
+
+    if (!db) {
+      console.error("Database connection failed");
+      return NextResponse.json(
+        { error: "Database connection failed" },
+        { status: 500 }
+      );
+    }
+
     const collection = db.collection("companies");
 
     console.log(`Searching for company with _slug: ${slug}`);
@@ -40,8 +46,5 @@ export async function GET(req: NextRequest) {
       { error: "Internal server error" },
       { status: 500 }
     );
-  } finally {
-    console.log("Closing MongoDB connection...");
-    await client.close();
   }
 }

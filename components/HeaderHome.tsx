@@ -5,8 +5,11 @@ import React from "react";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 import { FaUserCircle } from "react-icons/fa";
 import { MenuIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 const HeaderHome = () => {
+  const { status } = useSession();
+
   const placeholders = [
     "Browse start-ups...",
     "Browse companies...",
@@ -21,7 +24,7 @@ const HeaderHome = () => {
   };
 
   return (
-    <header className="container mx-auto py-6">
+    <header className="py-6">
       <nav className="relative flex items-center flex-row justify-between">
         <div className="hidden 2xl:block 2xl:absolute lg:left-1/2 2xl:transform 2xl:-translate-x-1/2">
           <PlaceholdersAndVanishInput
@@ -43,11 +46,11 @@ const HeaderHome = () => {
             About
           </Link> */}
           <Link
-            href="/register"
+            href={status === "authenticated" ? "/dashboard" : "/register"}
             className="button-secondary text-sm !px-3 !py-2 flex items-center gap-2"
           >
             <FaUserCircle />
-            <span>Register</span>
+            <span>{status === "authenticated" ? "Dashboard" : "Register"}</span>
           </Link>
           <Link href="/create-timeline" className="button-primary px-2 py-2">
             Create timeline

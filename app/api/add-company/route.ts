@@ -1,10 +1,5 @@
-import clientPromise from "@/lib/mongodb";
-import { error } from "console";
-import { MongoClient } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
-
-// Initialize the MongoClient instance
-const uri = process.env.MONGODB_URI as string; // Ensure this is defined in .env.local file
+import { connectMongoDB, getMongoClient } from "../../../lib/mongo";
 
 export async function POST(req: NextRequest) {
   try {
@@ -35,9 +30,18 @@ export async function POST(req: NextRequest) {
     }
 
     console.log("Connecting to MongoDB...");
-    const client = await clientPromise;
-    await client.connect();
-    const db = client.db("timeliner");
+    await connectMongoDB();
+    const client = getMongoClient();
+    const db = client?.connection?.db;
+
+    if (!db) {
+      console.error("Database connection failed");
+      return NextResponse.json(
+        { error: "Database connection failed" },
+        { status: 500 }
+      );
+    }
+
     const collection = db.collection("companies");
 
     console.log(`Inserting company with slug: ${body.slug}`);

@@ -1,6 +1,3 @@
-import HeaderAuth from "@/components/header-auth";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
@@ -8,6 +5,9 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 import { Suspense } from "react";
 import LoadingPage from "./timeline/[slug]/loading";
+
+import { getServerSession } from "next-auth";
+import SessionProvider from "@/utils/SessionProvider";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -20,26 +20,30 @@ export const metadata = {
     "Commemorate and share your startup's story with Timeliner. Let them know how it started.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession();
+
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <body className="bg-background text-foreground">
-        <Suspense fallback={<LoadingPage />}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-            <Footer />
-          </ThemeProvider>
-        </Suspense>
-      </body>
+      <SessionProvider session={session}>
+        <body className="bg-background text-foreground">
+          <Suspense fallback={<LoadingPage />}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              <Footer />
+            </ThemeProvider>
+          </Suspense>
+        </body>
+      </SessionProvider>
     </html>
   );
 }

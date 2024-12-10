@@ -4,9 +4,9 @@ import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export default function Register() {
@@ -91,32 +91,17 @@ export default function Register() {
         </p>
         <div className="flex flex-col gap-2 [&>input]:mb-6 mt-8">
           <Label htmlFor="name">Name</Label>
-          <Input
-            // ref={nameField}
-            // onChange={(e) => setName(e.target.value)}
-            name="name"
-            placeholder="Enter your name"
-          />
+          <Input name="name" placeholder="Enter your name" />
           <Label htmlFor="email">Email</Label>
-          <Input
-            // ref={emailField}
-            // onChange={(e) => setEmail(e.target.value)}
-            name="email"
-            placeholder="you@example.com"
-          />
+          <Input name="email" placeholder="you@example.com" />
           <Label htmlFor="password">Password</Label>
           <Input
-            // ref={passwordField}
-            // onChange={(e) => setPassword(e.target.value)}
             type="password"
             name="password"
             placeholder="Your password"
             minLength={6}
           />
-          <SubmitButton
-            className="text-black font-semibold"
-            pendingText="Registering..."
-          >
+          <SubmitButton className="text-black font-semibold">
             {loading ? (
               <span className="flex items-center gap-2">
                 <Loader2 className="animate-spin" /> Registering...
@@ -125,14 +110,11 @@ export default function Register() {
               "Register"
             )}
           </SubmitButton>
-          <div>
-            <p className="text-red-500 text-sm flex items-center gap-2">
-              {error}
-            </p>
-          </div>
+          <p className="text-red-500 text-sm flex items-center gap-2">
+            {error}
+          </p>
         </div>
       </form>
-      {/* <SmtpMessage /> */}
     </>
   );
 }
