@@ -67,7 +67,7 @@ export default function Register() {
         setError(null);
         setLoading(false);
         toast.success("Registration successful! Please, log in.");
-        router.push("/log-in");
+        router.push("/sign-in");
       } else {
       }
     } catch (err) {
@@ -85,7 +85,7 @@ export default function Register() {
         <h1 className="text-4xl font-medium mb-4">Register</h1>
         <p className="text-sm text text-foreground">
           Already have an account?{" "}
-          <Link className="text-primary font-medium underline" href="/log-in">
+          <Link className="text-primary font-medium underline" href="/sign-in">
             Log in
           </Link>
         </p>

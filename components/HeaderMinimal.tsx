@@ -3,10 +3,12 @@
 import Link from "next/link";
 import React from "react";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
-import { FaUserCircle } from "react-icons/fa";
 import { MenuIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { FaUserCircle } from "react-icons/fa";
 
 const HeaderHome = () => {
+  const { data: session } = useSession();
   const placeholders = [
     "Browse start-ups...",
     "Browse companies...",
@@ -42,16 +44,36 @@ const HeaderHome = () => {
           >
             About
           </Link>
-          <Link
-            href="/"
-            className="button-secondary text-sm !px-3 !py-2 flex items-center gap-2"
-          >
-            <span>Dashboard</span>
-          </Link>
-          <Link
-            href="/create-timeline"
-            className="bg-zinc-700 rounded-full w-8 h-8 my-auto"
-          ></Link>
+          {!session ? (
+            <>
+              <Link
+                href="/sign-in"
+                className="text-neutral-400 font-semibold hover:text-neutral-500 duration-200 px-2 py-2"
+              >
+                Sign in
+              </Link>
+              <Link
+                href="/register"
+                className="button-secondary text-sm !px-3 !py-2 flex items-center gap-2"
+              >
+                <FaUserCircle />
+                <span>"Register"</span>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/dashboard"
+                className="button-secondary text-sm !px-3 !py-2 flex items-center gap-2"
+              >
+                <span>Dashboard</span>
+              </Link>
+              <Link
+                href="/create-timeline"
+                className="bg-zinc-700 rounded-full w-8 h-8 my-auto"
+              ></Link>
+            </>
+          )}
         </div>
         <div className="flex md:hidden">
           <MenuIcon />

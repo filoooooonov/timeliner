@@ -59,7 +59,7 @@ export default function Login() {
   return (
     <main className="max-w-5xl">
       <form className="h-fit flex flex-col" onSubmit={handleSubmit}>
-        <h1 className="text-4xl font-medium mb-4">Log in</h1>
+        <h1 className="text-4xl font-medium mb-4">Sign in</h1>
         <p className="text-sm text-foreground">
           Don't have an account?{" "}
           <Link className="text-primary font-medium underline" href="/register">
@@ -90,10 +90,10 @@ export default function Login() {
           >
             {loading ? (
               <span className="flex items-center gap-2">
-                <Loader2 className="animate-spin" /> Logging in...
+                <Loader2 className="animate-spin" /> Signing in...
               </span>
             ) : (
-              "Log in"
+              "Sign in"
             )}
           </SubmitButton>
           <p className="text-red-500 text-sm flex items-center gap-2">
