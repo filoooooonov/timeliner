@@ -1,13 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import { Timeline } from "@/components/ui/timeline";
 import BrinImg from "@/public/sergey_brin.webp";
 import PageImg from "@/public/larry_page.webp";
 import { Skeleton } from "@/components/ui/skeleton";
-
-const production = process.env.PROD_URL;
-const development = "http://localhost:3000";
-const URL = process.env.NODE_ENV === "development" ? development : production;
 
 // Define the interface for the company data
 export interface CompanyData {
@@ -19,10 +17,12 @@ export interface CompanyData {
 }
 
 const fetchCompany = async (slug: string): Promise<CompanyData | null> => {
-  const response = await fetch(`${URL}/api/get-company?_slug=${slug}`);
-  const data = await response.json(); // Will parse JSON if response is valid
+  const res = await fetch(`/api/get-company?_slug=${slug}`, {
+    method: "GET",
+  });
+  const data = await res.json();
 
-  if (response.ok) {
+  if (res.ok) {
     console.log(data);
     return data;
   } else {

@@ -145,7 +145,7 @@ const generateSlug = (name: string) => {
 };
 
 const addCompanyDataToDB = async (formData: CompanyData) => {
-  const response = await fetch(`/api/add-company`, {
+  const res = await fetch(`/api/add-company`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -153,7 +153,7 @@ const addCompanyDataToDB = async (formData: CompanyData) => {
     body: JSON.stringify(formData),
   });
 
-  return response;
+  return res;
 };
 
 export default function CreateCompanyForm() {
