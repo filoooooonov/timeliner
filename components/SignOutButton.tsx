@@ -2,6 +2,7 @@
 
 import { signOut } from "next-auth/react";
 import React from "react";
+import { FaSignOutAlt } from "react-icons/fa";
 
 const SignOut = ({ text }: { text: string }) => {
   return (
@@ -9,8 +10,9 @@ const SignOut = ({ text }: { text: string }) => {
       onClick={() => {
         signOut({ callbackUrl: "/" });
       }}
-      className="button-secondary w-fit px-4"
+      className="button-red"
     >
+      <FaSignOutAlt />
       {text}
     </button>
   );

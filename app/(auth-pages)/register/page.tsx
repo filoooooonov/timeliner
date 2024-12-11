@@ -101,7 +101,7 @@ export default function Register() {
             placeholder="Your password"
             minLength={6}
           />
-          <SubmitButton className="text-black font-semibold">
+          <SubmitButton className="button-primary text-black font-semibold">
             {loading ? (
               <span className="flex items-center gap-2">
                 <Loader2 className="animate-spin" /> Registering...

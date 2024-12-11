@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -63,6 +63,7 @@ import {
 } from "@/components/ui/dialog";
 import Link from "next/link";
 import Confetti from "react-confetti-boom";
+import { useSession } from "next-auth/react";
 
 const months = [
   {
@@ -182,6 +183,7 @@ export default function CreateCompanyForm() {
       if (!slug) {
         throw new Error("Slug is not defined. Please check the company name.");
       }
+
       const response = await addCompanyDataToDB({ ...data, slug });
 
       if (response.ok) {

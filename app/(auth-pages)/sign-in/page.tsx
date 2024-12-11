@@ -85,7 +85,7 @@ export default function Login() {
             required
           />
           <SubmitButton
-            className="text-black font-semibold"
+            className="button-primary text-black font-semibold"
             // formAction={signInAction}
           >
             {loading ? (
