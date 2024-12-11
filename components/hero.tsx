@@ -23,7 +23,7 @@ export default function Home() {
                       Timeliner.
                     </p>
                     <div className="flex flex-col mt-0 lg:mt-32">
-                      <CreateTimelineButton />
+                      <CreateTimelineButton className="px-4 py-2 w-max mx-auto" />
 
                       <span className="text-neutral-400 mt-2">
                         Free forever.

@@ -55,7 +55,7 @@ const HeaderHome = () => {
             <FaUserCircle />
             <span>{!session ? "Register" : "Dashboard"}</span>
           </Link>
-          <CreateTimelineButton />
+          <CreateTimelineButton className="py-2 px-3" />
         </div>
 
         <div className="flex lg:hidden">

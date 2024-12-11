@@ -1,14 +1,21 @@
+"use client";
+
+import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
-const CreateTimelineButton = () => {
+interface Props {
+  className?: string;
+}
+
+const CreateTimelineButton = ({ className }: { className?: string }) => {
   const { data: session } = useSession();
 
   return (
     <Link
       href={session ? "/create-timeline" : "/register"}
-      className="button-primary px-2 py-2"
+      className={clsx("button-primary", className)}
     >
       Create timeline
     </Link>
