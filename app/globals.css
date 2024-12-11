@@ -19,17 +19,13 @@
    text-gray-900 cursor-pointer border-x-2 border-t-2 border-[#d5f387] ring-2 ring-[#2a2e1f] duration-200 active:translate-y-1 shadow-md shadow-black;
 }
 
-/* .button-secondary {
-  @apply hover:text-primary font-semibold border-2 border-zinc-800 
-    hover:border-primary rounded-md duration-300 text-zinc-400 px-4 py-3;
-} */
-
 .button-secondary {
   @apply flex items-center gap-2 px-4 py-2 text-sm rounded-md border-x-2 border-t-2 border-[#2b2b2b] bg-gradient-to-t 
   from-[#292929] to-[#191919] ring-2 ring-neutral-950 shadow-lg  hover:bg-neutral-950 duration-200 font-medium active:translate-y-1;
 }
 .button-red {
-  @apply flex items-center gap-2 px-4 py-2 text-sm rounded-md border-x-2 border-t-2 border-rose-900/40 bg-gradient-to-t from-rose-700/50 to-rose-800/50 ring-2 ring-rose-950/50 shadow-lg  hover:bg-rose-950/30 duration-200 font-medium;
+  @apply flex items-center gap-2 px-4 py-2 text-sm rounded-md border-x-2 border-t-2 border-rose-900/40 bg-gradient-to-t
+   from-rose-700/50 to-rose-800/50 ring-2 ring-rose-950/50 shadow-md shadow-black  hover:bg-rose-950/30 duration-200 font-medium active:translate-y-1;
 }
 
 .dot-background {

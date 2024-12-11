@@ -18,7 +18,9 @@ const Dashboard = async () => {
   return (
     <main className="px-5 max-w-5xl mx-auto pt-20">
       <div className="grid grid-cols-2 mb-32">
-        <h1 className="text-5xl">Hello, {session.user?.name}</h1>
+        <h1 className="text-5xl">
+          Hello, <span className="text-primary">{session.user?.name}</span>
+        </h1>
         <div className="ml-auto flex flex-col gap-4">
           <SignOutButton text="Sign out" />
         </div>

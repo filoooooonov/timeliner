@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ContainerScroll } from "./ui/container-scroll-animation";
 import Image from "next/image";
 import timelinerDemo from "@/public/placeholderDemo.webp";
+import CreateTimelineButton from "./CreateTimelineButton";
 
 export default function Home() {
   return (
@@ -22,12 +23,7 @@ export default function Home() {
                       Timeliner.
                     </p>
                     <div className="flex flex-col mt-0 lg:mt-32">
-                      <Link
-                        href="/create-timeline"
-                        className="button-primary px-4 py-3 w-max mx-auto"
-                      >
-                        Create timeline
-                      </Link>
+                      <CreateTimelineButton />
 
                       <span className="text-neutral-400 mt-2">
                         Free forever.

@@ -6,6 +6,7 @@ import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 import { FaUserCircle } from "react-icons/fa";
 import { MenuIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
+import CreateTimelineButton from "./CreateTimelineButton";
 
 const HeaderHome = () => {
   const { data: session } = useSession();
@@ -54,9 +55,7 @@ const HeaderHome = () => {
             <FaUserCircle />
             <span>{!session ? "Register" : "Dashboard"}</span>
           </Link>
-          <Link href="/create-timeline" className="button-primary px-2 py-2">
-            Create timeline
-          </Link>
+          <CreateTimelineButton />
         </div>
 
         <div className="flex lg:hidden">
