@@ -15,8 +15,8 @@
 }
 
 .button-primary {
-  @apply bg-gradient-to-t to-[#c4e966] from-[#bbe452] font-semibold rounded-md
-   text-gray-900 cursor-pointer border-x-2 border-t-2 border-[#e3ff9d] ring-2 ring-lime-950 duration-200 active:translate-y-1;
+  @apply bg-gradient-to-t from-[#d5f387] to-primary font-semibold rounded-md
+   text-gray-900 cursor-pointer border-x-2 border-t-2 border-[#d5f387] ring-2 ring-[#2a2e1f] duration-200 active:translate-y-1 shadow-md shadow-black;
 }
 
 /* .button-secondary {
@@ -25,8 +25,8 @@
 } */
 
 .button-secondary {
-  @apply flex items-center gap-2 px-4 py-2 text-sm rounded-md border-x-2 border-t-2 border-neutral-800 bg-gradient-to-t 
-  from-neutral-700/40 to-neutral-800/50 ring-2 ring-neutral-950 shadow-lg  hover:bg-neutral-950 duration-200 font-medium active:translate-y-1;
+  @apply flex items-center gap-2 px-4 py-2 text-sm rounded-md border-x-2 border-t-2 border-[#2b2b2b] bg-gradient-to-t 
+  from-[#292929] to-[#191919] ring-2 ring-neutral-950 shadow-lg  hover:bg-neutral-950 duration-200 font-medium active:translate-y-1;
 }
 .button-red {
   @apply flex items-center gap-2 px-4 py-2 text-sm rounded-md border-x-2 border-t-2 border-rose-900/40 bg-gradient-to-t from-rose-700/50 to-rose-800/50 ring-2 ring-rose-950/50 shadow-lg  hover:bg-rose-950/30 duration-200 font-medium;
