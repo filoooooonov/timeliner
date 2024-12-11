@@ -15,7 +15,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 
 const HeaderHome = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const placeholders = [
     "Browse start-ups...",
     "Browse companies...",
@@ -45,7 +45,7 @@ const HeaderHome = () => {
         </Link>
 
         <div className="hidden md:flex flex-row gap-6">
-          {!session ? (
+          {status !== "authenticated" ? (
             <>
               <Link
                 href="/sign-in"
@@ -73,7 +73,7 @@ const HeaderHome = () => {
                 </span>
               </Link>
               <Link
-                href="/create-timeline"
+                href="/dashboard"
                 className="bg-zinc-700 rounded-full w-8 h-8 my-auto"
               ></Link>
             </>

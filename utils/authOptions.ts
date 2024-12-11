@@ -33,5 +33,20 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async session({ session, token }) {
+      console.log("TOKEN:", token);
+      session.user.id = token.id as string; // Cast token.id to string
+      return session;
+    },
+    async jwt({ token, user }) {
+      // Attach user ID to token object
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+  },
+
   secret: process.env.NEXTAUTH_SECRET,
 };

@@ -91,7 +91,7 @@ export default function Register() {
         </p>
         <div className="flex flex-col gap-2 [&>input]:mb-6 mt-8">
           <Label htmlFor="name">Name</Label>
-          <Input name="name" placeholder="Enter your name" />
+          <Input autoComplete="off" name="name" placeholder="Enter your name" />
           <Label htmlFor="email">Email</Label>
           <Input name="email" placeholder="you@example.com" />
           <Label htmlFor="password">Password</Label>

@@ -68,51 +68,51 @@ import { useSession } from "next-auth/react";
 const months = [
   {
     label: "January",
-    value: "jan",
+    value: "Jan",
   },
   {
     label: "February",
-    value: "feb",
+    value: "Feb",
   },
   {
     label: "March",
-    value: "mar",
+    value: "Mar",
   },
   {
     label: "April",
-    value: "apr",
+    value: "Apr",
   },
   {
     label: "May",
-    value: "may",
+    value: "May",
   },
   {
     label: "June",
-    value: "jun",
+    value: "Jun",
   },
   {
     label: "July",
-    value: "jul",
+    value: "Jul",
   },
   {
     label: "August",
-    value: "aug",
+    value: "Aug",
   },
   {
     label: "September",
-    value: "sep",
+    value: "Sep",
   },
   {
     label: "October",
-    value: "oct",
+    value: "Oct",
   },
   {
     label: "November",
-    value: "nov",
+    value: "Nov",
   },
   {
     label: "December",
-    value: "dec",
+    value: "Dec",
   },
 ] as const;
 const currentYear = new Date().getFullYear();
@@ -159,6 +159,7 @@ const addCompanyDataToDB = async (formData: CompanyData) => {
 
 export default function CreateCompanyForm() {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [files, setFiles] = useState<File[] | null>(null);
   const [slug, setSlug] = useState<string | null>(null);
@@ -167,6 +168,7 @@ export default function CreateCompanyForm() {
     defaultValues: {
       name: "",
       description: "",
+      creator: "",
       month_founded: "",
       year_founded: "",
       slug: "",
@@ -184,7 +186,15 @@ export default function CreateCompanyForm() {
         throw new Error("Slug is not defined. Please check the company name.");
       }
 
-      const response = await addCompanyDataToDB({ ...data, slug });
+      if (!session) {
+        throw new Error("Use is not authenticated.");
+      }
+
+      const response = await addCompanyDataToDB({
+        ...data,
+        slug,
+        creator: session.user.id,
+      });
 
       if (response.ok) {
         setLoading(false);

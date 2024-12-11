@@ -33,7 +33,7 @@ const LoadingPage: React.FC = () => {
           </div>
 
           <div className="ml-auto w-full flex flex-col col-span-2">
-            <div className="ml-auto flex items-center button-secondary">
+            <div className="ml-auto flex items-center ">
               {/* ESTABLISHED_DATE */}
               <Skeleton className="w-[150px] h-5" />
             </div>

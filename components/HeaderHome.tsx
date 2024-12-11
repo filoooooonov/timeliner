@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import CreateTimelineButton from "./CreateTimelineButton";
 
 const HeaderHome = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const placeholders = [
     "Browse start-ups...",
@@ -40,7 +40,7 @@ const HeaderHome = () => {
         </Link>
 
         <div className="flex-row gap-4 hidden lg:flex">
-          {!session && (
+          {status !== "authenticated" && (
             <Link
               href="/sign-in"
               className="text-neutral-400 font-semibold hover:text-neutral-500 duration-200 px-2 py-2"
@@ -49,11 +49,11 @@ const HeaderHome = () => {
             </Link>
           )}
           <Link
-            href={!session ? "/register" : "/dashboard"}
+            href={status !== "authenticated" ? "/register" : "/dashboard"}
             className="button-secondary text-sm !px-3 !py-2 flex items-center gap-2"
           >
             <FaUserCircle />
-            <span>{!session ? "Register" : "Dashboard"}</span>
+            <span>{status !== "authenticated" ? "Register" : "Dashboard"}</span>
           </Link>
           <CreateTimelineButton className="py-2 px-3" />
         </div>

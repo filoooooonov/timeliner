@@ -32,7 +32,7 @@ export default function Login() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    // Validate email
+    // TODO: Validate email
 
     // Validate password
     if (!password || password.length < 8) {
