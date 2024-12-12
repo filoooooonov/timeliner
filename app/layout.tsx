@@ -30,7 +30,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <SessionProvider session={session}>
-        <body className="bg-background text-foreground">
+        <body className="relative bg-background text-foreground">
           <Suspense fallback={<LoadingPage />}>
             <ThemeProvider
               attribute="class"

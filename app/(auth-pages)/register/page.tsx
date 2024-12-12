@@ -33,7 +33,14 @@ export default function Register() {
 
     try {
       if (!email) {
-        setError("Something went wrong. Please, contact us.");
+        setError("Something went wrong. Please, contact us");
+        setLoading(false);
+        return;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email as string)) {
+        setError("Please enter a valid email address");
         setLoading(false);
         return;
       }
@@ -45,12 +52,12 @@ export default function Register() {
       });
 
       if (!resUserExists.ok) {
-        setError("Failed to check if user exists. Please, contact us.");
+        setError("Failed to check if user exists. Please, contact us");
       }
       const { userExists } = await resUserExists.json();
 
       if (userExists) {
-        setError("User already exists.");
+        setError("There is already an account with this email address");
         setLoading(false);
         return;
       }
@@ -68,11 +75,10 @@ export default function Register() {
         setLoading(false);
         toast.success("Registration successful! Please, log in.");
         router.push("/sign-in");
-      } else {
       }
     } catch (err) {
       console.log("Error during registration: ", err);
-      setError("Something went wrong during registration. Please, contact us.");
+      setError("Something went wrong during registration. Please, contact us");
       setLoading(false);
       return;
     }
@@ -86,7 +92,7 @@ export default function Register() {
         <p className="text-sm text text-foreground">
           Already have an account?{" "}
           <Link className="text-primary font-medium underline" href="/sign-in">
-            Log in
+            Sign in
           </Link>
         </p>
         <div className="flex flex-col gap-2 [&>input]:mb-6 mt-8">
@@ -99,7 +105,7 @@ export default function Register() {
             type="password"
             name="password"
             placeholder="Your password"
-            minLength={6}
+            minLength={8}
           />
           <SubmitButton className="button-primary text-black font-semibold">
             {loading ? (

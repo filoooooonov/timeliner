@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
-import { useSession } from "next-auth/react";
 import CompanyPage from "@/components/CompanyPage";
 
 // Define the interface for the company data
@@ -16,7 +15,7 @@ export interface CompanyData {
 const URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "https://timeliner-demo.vercel.app";
+    : process.env.PROD_URL;
 
 const fetchCompany = async (slug: string): Promise<CompanyData | null> => {
   const res = await fetch(`${URL}/api/get-company?_slug=${slug}`, {

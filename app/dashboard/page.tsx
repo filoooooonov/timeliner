@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import User from "@/models/user";
@@ -16,7 +16,11 @@ const Page = () => {
     redirect("/");
   }
 
-  return <Dashboard userId={session?.user.id} />;
+  return (
+    <Suspense fallback={<div className="bg-red-500">Loading...</div>}>
+      <Dashboard userId={session?.user.id} userName={session?.user.name} />
+    </Suspense>
+  );
 };
 
 export default Page;

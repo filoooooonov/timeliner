@@ -9,13 +9,15 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { FaAward } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
-import { IoShareSocialSharp } from "react-icons/io5";
+import { FaRegCopy } from "react-icons/fa6";
+import { toast, Toaster } from "sonner";
 
 const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const { data: session, status } = useSession();
 
   return (
     <div className="bg-background">
+      <Toaster />
       {/* <Image
       src={defaultImg}
       alt="company logo"
@@ -40,9 +42,17 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
                 </button>
               )}
 
-              <button className="button-secondary flex items-center gap-2 text-!sm">
-                <IoShareSocialSharp />
-                Share
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    `${process.env.PROD_URL}/timeline/${companyData.slug}`
+                  );
+                  toast.success("Link copied to clipboard!");
+                }}
+                className="button-secondary flex items-center gap-2 text-!sm"
+              >
+                <FaRegCopy />
+                Copy link
               </button>
             </div>
 

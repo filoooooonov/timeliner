@@ -45,7 +45,7 @@ h1 {
 }
 
 h2 {
-  @apply text-2xl md:text-4xl font-semibold mb-8;
+  @apply text-2xl md:text-4xl font-semibold;
 }
 
 input,
