@@ -40,7 +40,6 @@ export default async function Page({
 }) {
   const slug = (await params).slug;
   const companyData = await fetchCompany(slug);
-  // const { data: session } = useSession();
 
   if (!companyData) {
     return (

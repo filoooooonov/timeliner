@@ -187,7 +187,7 @@ export default function CreateCompanyForm() {
       }
 
       if (!session) {
-        throw new Error("Use is not authenticated.");
+        throw new Error("User is not authenticated.");
       }
 
       const response = await addCompanyDataToDB({

@@ -1,4 +1,5 @@
 import mongoose, { models, Schema } from "mongoose";
+import Company from "@/models/company";
 
 const userSchema = new Schema(
   {
@@ -15,6 +16,12 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    companies: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Company",
+      },
+    ],
   },
   { timestamps: true }
 );

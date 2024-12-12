@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectMongoDB, getMongoClient } from "../../../lib/mongo";
 import Company from "@/models/company";
+import User from "@/models/user";
 
 export async function POST(req: NextRequest) {
   try {
@@ -28,6 +29,14 @@ export async function POST(req: NextRequest) {
     });
 
     await newCompany.save();
+
+    console.log(body.creator);
+
+    const user = await User.findById(body.creator);
+    if (user) {
+      user.companies.push(newCompany.id);
+      await user.save();
+    }
 
     return NextResponse.json(
       { message: "Company added successfully" },
