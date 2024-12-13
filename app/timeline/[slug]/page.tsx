@@ -4,6 +4,7 @@ import CompanyPage from "@/components/CompanyPage";
 
 // Define the interface for the company data
 export interface CompanyData {
+  id: string;
   month_founded: string;
   year_founded: string;
   slug: string;

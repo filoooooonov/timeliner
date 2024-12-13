@@ -74,8 +74,11 @@ const HeaderHome = () => {
               </Link>
               <Link
                 href="/dashboard"
-                className="bg-zinc-700 rounded-full w-8 h-8 my-auto"
-              ></Link>
+                className="button-secondary text-sm !px-3 !py-2 flex items-center gap-2"
+              >
+                <FaUserCircle />
+                Dashboard
+              </Link>
             </>
           )}
         </div>

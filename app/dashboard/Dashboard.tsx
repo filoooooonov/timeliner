@@ -1,15 +1,18 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SignOutButton from "@/components/SignOutButton";
 import Link from "next/link";
 import { TiPlus } from "react-icons/ti";
 import { CompanyData } from "@/app/timeline/[slug]/page";
-import { useSession } from "next-auth/react";
-import { connectMongoDB } from "@/lib/mongo";
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
-import User from "@/models/user";
 import Image from "next/image";
-import { Loader2 } from "lucide-react";
+import { EllipsisVertical, Loader2 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MdDelete } from "react-icons/md";
 
 export async function getCompanyData(userId: string) {
   try {
@@ -61,6 +64,22 @@ const Dashboard = ({
     return null;
   };
 
+  const deleteCompany = async (e: React.FormEvent, companyId: string) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch(`/api/delete-company?companyId=${companyId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        throw new Error("Failed to delete company");
+      }
+      setCompanies(companies.filter((c) => c.id !== companyId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <main className="px-5 max-w-5xl mx-auto pt-20">
       <div className="grid grid-cols-2 mb-32">
@@ -95,13 +114,33 @@ const Dashboard = ({
               key={company.slug}
               className="p-6 bg-neutral-800/60 hover:bg-neutral-800/80 transition duration-200 rounded-lg shadow-md border-t-2 border-neutral-800 cursor-pointer flex flex-col"
             >
-              <div className="flex flex-row gap-4 items-center mb-8">
-                <div className="object-cover rounded-full size-16">
-                  {renderLogo(company.logo)}
+              <div className="flex items-center mb-8 justify-between">
+                <div className="flex flex-row items-center gap-4">
+                  <div className="object-cover rounded-full size-16">
+                    {renderLogo(company.logo)}
+                  </div>
+                  <h2>{company.name}</h2>
                 </div>
-                <h2>{company.name}</h2>
-              </div>
 
+                <DropdownMenu>
+                  <DropdownMenuTrigger
+                    className="rounded-full hover:bg-neutral-700 duration-200 p-2"
+                    asChild
+                  >
+                    <EllipsisVertical size={35} />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuItem
+                      onClick={async (e) => deleteCompany(e, company.id)}
+                    >
+                      <span className="text-red-500 flex items-center gap-2">
+                        <MdDelete />
+                        Delete company
+                      </span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
               <div className="flex flex-col w-full">
                 <p className="text-sm">{company.description}</p>
               </div>
