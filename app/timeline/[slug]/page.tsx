@@ -12,6 +12,11 @@ export interface CompanyData {
   description: string;
   name: string;
   creator: string;
+  founders: {
+    name: string;
+    job_title: string;
+    image: string;
+  }[];
 }
 
 const URL =

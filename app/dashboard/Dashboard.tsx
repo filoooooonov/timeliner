@@ -53,15 +53,14 @@ const Dashboard = ({
         <Image
           src={logo}
           alt="company logo"
-          className="size-16 object-cover rounded-full"
-          width={500}
-          height={500}
+          className="size-12 object-cover rounded-full"
+          width={100}
+          height={100}
         />
       );
     } else {
-      return <div className="bg-neutral-700 size-16 rounded-full"></div>;
+      return <div className="bg-neutral-700 size-12 rounded-full"></div>;
     }
-    return null;
   };
 
   const deleteCompany = async (e: React.FormEvent, companyId: string) => {
@@ -84,7 +83,7 @@ const Dashboard = ({
     <main className="px-5 max-w-5xl mx-auto pt-20">
       <div className="grid grid-cols-2 mb-32">
         <h1 className="text-5xl">
-          Hello, <span className="text-primary">{userName}</span>
+          Hey, <span className="text-primary">{userName}</span>!
         </h1>
         <div className="ml-auto flex flex-col gap-4">
           <SignOutButton text="Sign out" />
@@ -116,7 +115,7 @@ const Dashboard = ({
             >
               <div className="flex items-center mb-8 justify-between">
                 <div className="flex flex-row items-center gap-4">
-                  <div className="object-cover rounded-full size-16">
+                  <div className="object-cover rounded-full">
                     {renderLogo(company.logo)}
                   </div>
                   <h2>{company.name}</h2>
@@ -142,7 +141,12 @@ const Dashboard = ({
                 </DropdownMenu>
               </div>
               <div className="flex flex-col w-full">
-                <p className="text-sm">{company.description}</p>
+                <p className="text-sm">
+                  {company.description.split(" ").length > 15
+                    ? company.description.split(" ").slice(0, 25).join(" ") +
+                      "..."
+                    : company.description}
+                </p>
               </div>
             </Link>
           ))}

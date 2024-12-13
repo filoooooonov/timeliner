@@ -163,6 +163,8 @@ export default function CreateCompanyForm() {
   const [files, setFiles] = useState<File[] | null>(null);
   const [slug, setSlug] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // Store company name to show it in the dialog when the company is created
+  const [companyName, setCompanyName] = useState<string | null>(null);
 
   const form = useForm<CompanyData>({
     resolver: zodResolver(formSchema),
@@ -179,6 +181,7 @@ export default function CreateCompanyForm() {
   const [loading, setLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  // Send the data about the company to the database
   const handleFormSubmit = async (data: CompanyData) => {
     setLoading(true);
     setError(null);
@@ -194,8 +197,13 @@ export default function CreateCompanyForm() {
         throw new Error("User is not authenticated.");
       }
 
-      // Convert data.logo to a base64 string
-      const allowedFileTypes = ["image/svg+xml", "image/png", "image/jpeg"];
+      // Convert data.logo to a base64 string and check if it's of appropriate type
+      const allowedFileTypes = [
+        "image/svg+xml",
+        "image/png",
+        "image/jpeg",
+        "image/webp",
+      ];
       if (files && files.length > 0) {
         const logoFile = files[0];
         if (!allowedFileTypes.includes(logoFile.type)) {
@@ -219,6 +227,7 @@ export default function CreateCompanyForm() {
 
           if (response.ok) {
             setLoading(false);
+            setCompanyName(data.name);
             setDialogOpen(true);
           }
         };
@@ -612,14 +621,16 @@ export default function CreateCompanyForm() {
             <div className="text-6xl">🎉</div>
             <DialogTitle>Congratulations!</DialogTitle>
             <DialogDescription>
-              Your company's timeline has been created successfully!
+              Your company's page has been created! <br />
+              Now, you can add additional info and start adding events to your
+              timeline in the company's own page!
             </DialogDescription>
           </DialogHeader>
           <Link
-            className="button-primary px-4 py-2 w-max mx-auto mt-12 flex items-center gap-2"
+            className="button-primary px-4 py-2 w-max mx-auto mt-6 flex items-center gap-2"
             href={`/timeline/${slug}`}
           >
-            Visit company's page <ChevronRight />
+            Visit {companyName}&#x27;s page <ChevronRight />
           </Link>
         </DialogContent>
       </Dialog>

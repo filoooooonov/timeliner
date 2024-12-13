@@ -11,6 +11,8 @@ import { FaAward } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
 import { FaRegCopy } from "react-icons/fa6";
 import { toast, Toaster } from "sonner";
+import { MdOutlineAddCircle } from "react-icons/md";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 
 const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const { data: session, status } = useSession();
@@ -87,17 +89,34 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
               <p className="mt-6">{companyData.description}</p>
 
               {/* FOUNDERS */}
-              <div className="flex flex-row gap-2 mt-8">
-                <Image
-                  src={BrinImg}
-                  alt="founder image"
-                  className="avatar-image"
-                />
-                <Image
-                  src={PageImg}
-                  alt="founder image"
-                  className="avatar-image "
-                />
+              <div className="flex flex-col mt-8">
+                <h2 className="text-base text-neutral-400 mb-4">Founders</h2>
+                <div className="flex flex-row gap-2">
+                  <HoverCard>
+                    <HoverCardTrigger asChild>
+                      <Image
+                        src={BrinImg}
+                        alt="founder image"
+                        className="avatar-image size-16"
+                      />
+                    </HoverCardTrigger>
+
+                    <HoverCardContent className="w-max">
+                      <div className="text-center px-4">
+                        <h3 className="text-lg font-medium">founder.name</h3>
+                        <span className="text-neutral-300 text-sm">
+                          founder.job_title
+                        </span>
+                      </div>
+                    </HoverCardContent>
+                  </HoverCard>
+
+                  {session?.user.id === companyData.creator && (
+                    <div className="size-16 bg-neutral-800 rounded-full hover:bg-neutral-700/60 duration-200 cursor-pointer flex justify-center items-center">
+                      <MdOutlineAddCircle className="text-neutral-500 size-6" />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
