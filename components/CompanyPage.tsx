@@ -46,11 +46,11 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
       <Toaster />
 
       {/* Banner on top */}
-      <div className="relative bg-neutral-800 w-full h[30vh] md:h-[16vw] flex items-center">
+      <div className="relative bg-neutral-800 w-full h[30vh] md:h-[16vw] flex items-center py-8 md:py-0">
         <h2 className="text-neutral-700 text-5xl md:text-8xl mx-auto select-none">
           {companyData.name}
         </h2>
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex items-end justify-between pb-4 h-full md:w-[65%] mx-auto px-5 md:px-0 ">
+        <div className="w-full -bottom-16 absolute md:bottom-0 left-1/2 transform -translate-x-1/2 flex items-end justify-between pb-4 h-full md:w-[65%] mx-auto px-5 md:px-0 ">
           {session?.user.id === companyData.creator && (
             <button className="button-secondary flex items-center gap-2">
               <MdEdit />
@@ -72,17 +72,22 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
         </div>
       </div>
 
-      <div className="px-5 md:px-0 md:w-[65%] mx-auto bg-background mt-10">
-        <div className="grid grid-cols-5">
+      <div className="px-5 md:px-0 md:w-[65%] mx-auto bg-background pt-24 md:pt-0">
+        <div className="flex flex-col md:grid md:grid-cols-5">
           <div className="col-span-3">
             <div className="flex gap-4 items-center ">
               {renderLogo()}
-              <h1 className="text-5xl font-semibold text-white ">
+              <h1 className="text-5xl font-semibold text-white">
                 {companyData.name}
               </h1>
             </div>
-
-            <div className="mt-4 mb-6 flex flex-row gap-4"></div>
+            {/* ESTABLISHED_DATE */}
+            <div className="w-max flex items-center bg-neutral-900 px-4 py-2 mt-6 border-2 border-amber-300 rounded-md">
+              <p className="font-semibold flex items-center gap-2">
+                <FaAward />
+                Est. {companyData.month_founded} {companyData.year_founded}
+              </p>
+            </div>
 
             <div>
               {/* DESCRIPTION */}
@@ -122,8 +127,8 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
           </div>
 
           <div className="ml-auto w-full flex flex-col col-span-2">
-            <div className="ml-auto flex items-center bg-neutral-900 px-4 py-2 rounded-md">
-              {/* ESTABLISHED_DATE */}
+            {/* ESTABLISHED_DATE */}
+            <div className="hidden md:flex ml-auto items-center bg-neutral-900 px-4 py-2 rounded-md">
               <p className="font-semibold flex items-center gap-2">
                 <FaAward />
                 Est. {companyData.month_founded} {companyData.year_founded}
@@ -142,7 +147,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
           </div>
         </div>
 
-        {/* Socials on mobile */}
+        {/* SOCIALS on mobile */}
         <div className="block md:hidden ml-auto bg-neutral-900 rounded-md p-4 h-max min-w-[200px] mt-8">
           <h2 className="text-2xl font-semibold mb-2 text-zinc-300">Socials</h2>
           <ul>
