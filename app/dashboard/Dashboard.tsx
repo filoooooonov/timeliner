@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import SignOutButton from "@/components/SignOutButton";
 import Link from "next/link";
 import { TiPlus } from "react-icons/ti";
@@ -8,6 +8,7 @@ import { connectMongoDB } from "@/lib/mongo";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import User from "@/models/user";
+import Image from "next/image";
 
 export async function getCompanyData(userId: string) {
   try {
@@ -40,6 +41,23 @@ const Dashboard = ({
     fetchData();
   }, [userId]);
 
+  const [logo, setLogo] = useState<string | null>(null);
+
+  const renderLogo = (logo: string) => {
+    if (logo) {
+      return (
+        <Image
+          src={logo}
+          alt="company logo"
+          className="size-16 object-cover rounded-full"
+          width={500}
+          height={500}
+        />
+      );
+    }
+    return null;
+  };
+
   return (
     <main className="px-5 max-w-5xl mx-auto pt-20">
       <div className="grid grid-cols-2 mb-32">
@@ -69,9 +87,11 @@ const Dashboard = ({
               key={company.slug}
               className="p-6 bg-neutral-800/60 hover:bg-neutral-800/80 transition duration-200 rounded-lg shadow-md border-t-2 border-neutral-800 cursor-pointer flex flex-col"
             >
-              <div className="flex flex-row gap-4">
-                <div className="bg-amber-300 rounded-full size-10"></div>
-                <h2 className="mb-8">{company.name}</h2>
+              <div className="flex flex-row gap-4 items-center mb-8">
+                <div className="object-cover rounded-full size-16">
+                  {renderLogo(company.logo)}
+                </div>
+                <h2>{company.name}</h2>
               </div>
 
               <div className="flex flex-col w-full">

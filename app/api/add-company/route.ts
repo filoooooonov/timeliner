@@ -19,6 +19,14 @@ export async function POST(req: NextRequest) {
     console.log("Connecting to MongoDB...");
     await connectMongoDB();
 
+    const existingCompany = await Company.findOne({ slug: body.slug });
+    if (existingCompany) {
+      return NextResponse.json(
+        { error: "A company with this slug already exists" },
+        { status: 400 }
+      );
+    }
+
     const newCompany = new Company({
       name: body.name,
       slug: body.slug,
@@ -26,11 +34,10 @@ export async function POST(req: NextRequest) {
       description: body.description,
       month_founded: body.month_founded,
       year_founded: body.year_founded,
+      logo: body.logo,
     });
 
     await newCompany.save();
-
-    console.log(body.creator);
 
     const user = await User.findById(body.creator);
     if (user) {

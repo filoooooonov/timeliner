@@ -7,6 +7,7 @@ export interface CompanyData {
   month_founded: string;
   year_founded: string;
   slug: string;
+  logo: string;
   description: string;
   name: string;
   creator: string;

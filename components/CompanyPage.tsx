@@ -1,7 +1,7 @@
 "use client";
 
 import { CompanyData } from "@/app/timeline/[slug]/page";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Timeline } from "@/components/ui/timeline";
 import BrinImg from "@/public/sergey_brin.webp";
 import PageImg from "@/public/larry_page.webp";
@@ -15,14 +15,33 @@ import { toast, Toaster } from "sonner";
 const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const { data: session, status } = useSession();
 
+  const [logo, setLogo] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (companyData.logo) {
+      setLogo(companyData.logo);
+    }
+  }, [companyData.logo]);
+
+  const renderLogo = () => {
+    if (logo) {
+      return (
+        <Image
+          src={logo}
+          alt="company logo"
+          className="size-16 object-cover rounded-full"
+          width={500}
+          height={500}
+        />
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="bg-background">
       <Toaster />
-      {/* <Image
-      src={defaultImg}
-      alt="company logo"
-      className="h-[30vh] object-cover"
-    /> */}
+
       <div className="bg-neutral-800 w-full h[30vh] md:h-[16vw] flex items-center">
         <h2 className="text-neutral-700 text-5xl md:text-8xl mx-auto select-none">
           {companyData.name}
@@ -31,9 +50,13 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
       <main className="px-5 md:px-0 md:w-[65%] mx-auto bg-background mt-10">
         <div className="grid grid-cols-5">
           <div className="col-span-3">
-            <h1 className="text-5xl font-semibold text-white">
-              {companyData.name}
-            </h1>
+            <div className="flex gap-4 items-center py-10">
+              {renderLogo()}
+              <h1 className="text-5xl font-semibold text-white">
+                {companyData.name}
+              </h1>
+            </div>
+
             <div className="mt-4 mb-6 flex flex-row gap-4">
               {session?.user.id === companyData.creator && (
                 <button className="button-secondary flex items-center gap-2">

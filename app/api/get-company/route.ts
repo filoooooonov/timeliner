@@ -38,7 +38,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
 
-    console.log("Company found:", company);
     return NextResponse.json(company);
   } catch (error) {
     console.error("Internal server error:", error);

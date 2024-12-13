@@ -158,11 +158,11 @@ const addCompanyDataToDB = async (formData: CompanyData) => {
 };
 
 export default function CreateCompanyForm() {
-  const router = useRouter();
   const { data: session } = useSession();
 
   const [files, setFiles] = useState<File[] | null>(null);
   const [slug, setSlug] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const form = useForm<CompanyData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -183,11 +183,43 @@ export default function CreateCompanyForm() {
     console.log("handleFormSubmit called with data:", data);
     try {
       if (!slug) {
+        setError("Slug could not be defined for your company name");
         throw new Error("Slug is not defined. Please check the company name.");
       }
 
       if (!session) {
+        setError("User is not authenticated");
         throw new Error("User is not authenticated.");
+      }
+
+      // Convert data.logo to a base64 string
+      if (files && files.length > 0) {
+        const logoFile = files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(logoFile);
+        reader.onloadend = async () => {
+          const base64String = reader.result as string;
+          const response = await addCompanyDataToDB({
+            ...data,
+            logo: base64String,
+            slug,
+            creator: session.user.id,
+          });
+
+          if (response.ok) {
+            setLoading(false);
+            setDialogOpen(true);
+          }
+        };
+        reader.onerror = () => {
+          setError(
+            "Failed to read the logo image. Please try again or upload another image"
+          );
+          setLoading(false);
+        };
+      } else {
+        setError("Please upload a company logo");
+        setLoading(false);
       }
 
       const response = await addCompanyDataToDB({
@@ -201,6 +233,9 @@ export default function CreateCompanyForm() {
         setDialogOpen(true);
       }
     } catch (error) {
+      setError(
+        "Something went wrong while submitting your data. Please, try again"
+      );
       console.error("Form submission error:", error);
     }
   };
@@ -508,9 +543,9 @@ export default function CreateCompanyForm() {
           </div>
 
           {/* Company's logo */}
-          {/* <FormField
+          <FormField
             control={form.control}
-            name="company_image"
+            name="logo"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Company's logo</FormLabel>
@@ -552,7 +587,7 @@ export default function CreateCompanyForm() {
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
 
           <button type="submit" className="button-primary px-4 py-2">
             {loading ? (
