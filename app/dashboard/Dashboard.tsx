@@ -9,6 +9,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import User from "@/models/user";
 import Image from "next/image";
+import { Loader2 } from "lucide-react";
 
 export async function getCompanyData(userId: string) {
   try {
@@ -31,17 +32,17 @@ const Dashboard = ({
   userName?: string | null;
 }) => {
   const [companies, setCompanies] = React.useState<CompanyData[]>([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       const companies = await getCompanyData(userId);
       setCompanies(companies);
-      console.log("COMPANIES DATA", companies);
+      setLoading(false);
     };
 
     fetchData();
   }, [userId]);
-
-  const [logo, setLogo] = useState<string | null>(null);
 
   const renderLogo = (logo: string) => {
     if (logo) {
@@ -54,6 +55,8 @@ const Dashboard = ({
           height={500}
         />
       );
+    } else {
+      return <div className="bg-neutral-700 size-16 rounded-full"></div>;
     }
     return null;
   };
@@ -77,7 +80,12 @@ const Dashboard = ({
         </Link>
       </div>
 
-      {companies.length === 0 ? (
+      {loading ? (
+        <p className="flex items-center gap-4 mx-auto w-max mt-20">
+          <Loader2 className="animate-spin" />
+          Loading...
+        </p>
+      ) : companies.length === 0 ? (
         <p className="mt-8 text-center">You don't have any companies yet!</p>
       ) : (
         <div className="mt-12 md:grid md:grid-cols-2 flex flex-col gap-8">

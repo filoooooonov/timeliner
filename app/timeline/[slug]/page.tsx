@@ -25,7 +25,6 @@ const fetchCompany = async (slug: string): Promise<CompanyData | null> => {
   const data = await res.json();
 
   if (res.ok) {
-    console.log(data);
     return data;
   } else {
     console.error("API Error:", data.error);

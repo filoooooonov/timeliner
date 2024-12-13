@@ -39,24 +39,28 @@ const HeaderHome = () => {
           Timeliner.
         </Link>
 
-        <div className="flex-row gap-4 hidden lg:flex">
-          {status !== "authenticated" && (
+        {status !== "loading" && (
+          <div className="flex-row gap-4 hidden lg:flex">
+            {status !== "authenticated" && (
+              <Link
+                href="/sign-in"
+                className="text-neutral-400 font-semibold hover:text-neutral-500 duration-200 px-2 py-2"
+              >
+                Sign in
+              </Link>
+            )}
             <Link
-              href="/sign-in"
-              className="text-neutral-400 font-semibold hover:text-neutral-500 duration-200 px-2 py-2"
+              href={status !== "authenticated" ? "/register" : "/dashboard"}
+              className="button-secondary text-sm !px-3 !py-2 flex items-center gap-2"
             >
-              Sign in
+              <FaUserCircle />
+              <span>
+                {status !== "authenticated" ? "Register" : "Dashboard"}
+              </span>
             </Link>
-          )}
-          <Link
-            href={status !== "authenticated" ? "/register" : "/dashboard"}
-            className="button-secondary text-sm !px-3 !py-2 flex items-center gap-2"
-          >
-            <FaUserCircle />
-            <span>{status !== "authenticated" ? "Register" : "Dashboard"}</span>
-          </Link>
-          <CreateTimelineButton className="py-2 px-3" />
-        </div>
+            <CreateTimelineButton className="py-2 px-3" />
+          </div>
+        )}
 
         <div className="flex lg:hidden">
           <MenuIcon />

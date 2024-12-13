@@ -34,8 +34,9 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
           height={500}
         />
       );
+    } else {
+      return <div className="bg-neutral-700 size-16 rounded-full"></div>;
     }
-    return null;
   };
 
   return (

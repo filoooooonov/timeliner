@@ -163,6 +163,7 @@ export default function CreateCompanyForm() {
   const [files, setFiles] = useState<File[] | null>(null);
   const [slug, setSlug] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
   const form = useForm<CompanyData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -180,6 +181,7 @@ export default function CreateCompanyForm() {
 
   const handleFormSubmit = async (data: CompanyData) => {
     setLoading(true);
+    setError(null);
     console.log("handleFormSubmit called with data:", data);
     try {
       if (!slug) {
@@ -193,8 +195,17 @@ export default function CreateCompanyForm() {
       }
 
       // Convert data.logo to a base64 string
+      const allowedFileTypes = ["image/svg+xml", "image/png", "image/jpeg"];
       if (files && files.length > 0) {
         const logoFile = files[0];
+        if (!allowedFileTypes.includes(logoFile.type)) {
+          setError(
+            "Invalid file type. Please upload an SVG, PNG, or JPG image"
+          );
+          setLoading(false);
+          return;
+        }
+
         const reader = new FileReader();
         reader.readAsDataURL(logoFile);
         reader.onloadend = async () => {
@@ -211,6 +222,7 @@ export default function CreateCompanyForm() {
             setDialogOpen(true);
           }
         };
+
         reader.onerror = () => {
           setError(
             "Failed to read the logo image. Please try again or upload another image"
@@ -220,17 +232,6 @@ export default function CreateCompanyForm() {
       } else {
         setError("Please upload a company logo");
         setLoading(false);
-      }
-
-      const response = await addCompanyDataToDB({
-        ...data,
-        slug,
-        creator: session.user.id,
-      });
-
-      if (response.ok) {
-        setLoading(false);
-        setDialogOpen(true);
       }
     } catch (error) {
       setError(
@@ -567,7 +568,7 @@ export default function CreateCompanyForm() {
                           &nbsp; or drag and drop
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
-                          SVG, PNG, JPG or GIF
+                          SVG, PNG or JPG
                         </p>
                       </div>
                     </FileInput>
@@ -583,7 +584,7 @@ export default function CreateCompanyForm() {
                     </FileUploaderContent>
                   </FileUploader>
                 </FormControl>
-                <FormDescription>Select your company's logo.</FormDescription>
+                <FormDescription>Upload your company's logo.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -599,8 +600,12 @@ export default function CreateCompanyForm() {
               "Create timeline"
             )}
           </button>
+          <p className="text-red-500 text-sm flex items-center gap-2">
+            {error}
+          </p>
         </form>
       </FormProvider>
+
       <Dialog open={dialogOpen}>
         <DialogContent>
           <DialogHeader>
