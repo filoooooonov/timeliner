@@ -43,42 +43,44 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
     <div className="bg-background">
       <Toaster />
 
-      <div className="bg-neutral-800 w-full h[30vh] md:h-[16vw] flex items-center">
+      {/* Banner on top */}
+      <div className="relative bg-neutral-800 w-full h[30vh] md:h-[16vw] flex items-center">
         <h2 className="text-neutral-700 text-5xl md:text-8xl mx-auto select-none">
           {companyData.name}
         </h2>
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex items-end justify-between pb-4 h-full md:w-[65%] mx-auto px-5 md:px-0 ">
+          {session?.user.id === companyData.creator && (
+            <button className="button-secondary flex items-center gap-2">
+              <MdEdit />
+              Edit company info
+            </button>
+          )}
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `${process.env.NEXT_PUBLIC_PROD_URL}/timeline/${companyData.slug}`
+              );
+              toast.success("Link copied to clipboard!");
+            }}
+            className="button-secondary flex items-center gap-2 text-!sm"
+          >
+            <FaRegCopy />
+            Copy link
+          </button>
+        </div>
       </div>
-      <main className="px-5 md:px-0 md:w-[65%] mx-auto bg-background mt-10">
+
+      <div className="px-5 md:px-0 md:w-[65%] mx-auto bg-background mt-10">
         <div className="grid grid-cols-5">
           <div className="col-span-3">
-            <div className="flex gap-4 items-center py-10">
+            <div className="flex gap-4 items-center ">
               {renderLogo()}
-              <h1 className="text-5xl font-semibold text-white">
+              <h1 className="text-5xl font-semibold text-white ">
                 {companyData.name}
               </h1>
             </div>
 
-            <div className="mt-4 mb-6 flex flex-row gap-4">
-              {session?.user.id === companyData.creator && (
-                <button className="button-secondary flex items-center gap-2">
-                  <MdEdit />
-                  Edit company info
-                </button>
-              )}
-
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(
-                    `${process.env.PROD_URL}/timeline/${companyData.slug}`
-                  );
-                  toast.success("Link copied to clipboard!");
-                }}
-                className="button-secondary flex items-center gap-2 text-!sm"
-              >
-                <FaRegCopy />
-                Copy link
-              </button>
-            </div>
+            <div className="mt-4 mb-6 flex flex-row gap-4"></div>
 
             <div>
               {/* DESCRIPTION */}
@@ -133,7 +135,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
         <div className=" mb-40">
           <Timeline data={testData} />
         </div>
-      </main>
+      </div>
     </div>
   );
 };
