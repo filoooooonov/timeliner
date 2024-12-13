@@ -17,7 +17,7 @@ export interface CompanyData {
 const URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : process.env.PROD_URL;
+    : process.env.NEXT_PUBLIC_PROD_URL;
 
 const fetchCompany = async (slug: string): Promise<CompanyData | null> => {
   const res = await fetch(`${URL}/api/get-company?_slug=${slug}`, {
