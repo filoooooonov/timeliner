@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MdDelete } from "react-icons/md";
+import { toast, Toaster } from "sonner";
 
 export async function getCompanyData(userId: string) {
   try {
@@ -63,17 +64,21 @@ const Dashboard = ({
     }
   };
 
-  const deleteCompany = async (e: React.FormEvent, companyId: string) => {
+  const deleteCompany = async (e: React.FormEvent, companySlug: string) => {
     e.preventDefault();
 
+    console.log("C_SLUG", companySlug);
+
     try {
-      const res = await fetch(`/api/delete-company?companyId=${companyId}`, {
+      const res = await fetch(`/api/delete-company?slug=${companySlug}`, {
         method: "DELETE",
       });
       if (!res.ok) {
+        toast.error("Failed to delete company");
+
         throw new Error("Failed to delete company");
       }
-      setCompanies(companies.filter((c) => c.id !== companyId));
+      setCompanies(companies.filter((c) => c.slug !== companySlug));
     } catch (error) {
       console.error(error);
     }
@@ -81,6 +86,7 @@ const Dashboard = ({
 
   return (
     <main className="px-5 max-w-5xl mx-auto pt-20">
+      <Toaster />
       <div className="grid grid-cols-2 mb-32">
         <h1 className="text-5xl">
           Hey, <span className="text-primary">{userName}</span>!
@@ -130,7 +136,7 @@ const Dashboard = ({
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56">
                     <DropdownMenuItem
-                      onClick={async (e) => deleteCompany(e, company.id)}
+                      onClick={async (e) => deleteCompany(e, company.slug)}
                     >
                       <span className="text-red-500 flex items-center gap-2">
                         <MdDelete />

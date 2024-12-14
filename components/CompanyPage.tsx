@@ -96,7 +96,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
                 >
                   <EllipsisVertical size={40} />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
+                <DropdownMenuContent className="w-44">
                   {session?.user.id === companyData.creator && (
                     <DropdownMenuItem>
                       <span className="text-neutral-300 flex items-center gap-2">
