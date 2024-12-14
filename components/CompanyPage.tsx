@@ -4,7 +4,6 @@ import { CompanyData } from "@/app/[slug]/page";
 import React, { useEffect, useState } from "react";
 import { Timeline } from "@/components/ui/timeline";
 import BrinImg from "@/public/sergey_brin.webp";
-import PageImg from "@/public/larry_page.webp";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { FaAward } from "react-icons/fa6";
@@ -20,11 +19,34 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { EllipsisVertical } from "lucide-react";
+import useSWR from "swr";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Button } from "./ui/button";
+import { useMediaQuery } from "usehooks-ts";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "./ui/drawer";
+import clsx from "clsx";
 
 const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const { data: session, status } = useSession();
 
   const [logo, setLogo] = useState<string | null>(null);
+  const [founderDialogOpen, setFounderDialogOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (companyData.logo) {
@@ -46,6 +68,17 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
     } else {
       return <div className="bg-neutral-700 size-16 rounded-full"></div>;
     }
+  };
+
+  const addFounder = () => {
+    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+    const { data, error } = useSWR("/api/test", fetcher);
+
+    if (error) return <div>Failed to load</div>;
+    if (!data) return <div>Loading...</div>;
+
+    console.log(data);
   };
 
   return (
@@ -150,9 +183,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
                   </HoverCard>
 
                   {session?.user.id === companyData.creator && (
-                    <div className="size-16 bg-neutral-800 rounded-full hover:bg-neutral-700/60 duration-200 cursor-pointer flex justify-center items-center">
-                      <MdOutlineAddCircle className="text-neutral-500 size-6" />
-                    </div>
+                    <FounderDialog />
                   )}
                 </div>
               </div>
@@ -196,6 +227,60 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
     </div>
   );
 };
+
+export function FounderDialog() {
+  const [open, setOpen] = React.useState(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  if (isDesktop) {
+    return (
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <div className="size-16 bg-neutral-800 rounded-full hover:bg-neutral-700/60 duration-200 cursor-pointer flex justify-center items-center">
+            <MdOutlineAddCircle className="text-neutral-500 size-6" />
+          </div>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Edit founders</DialogTitle>
+            <DialogDescription>
+              Add or remove your founders here. Click save when you're done.
+            </DialogDescription>
+          </DialogHeader>
+          <ChangeFoundersForm />
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  return (
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>
+        <div className="size-16 bg-neutral-800 rounded-full hover:bg-neutral-700/60 duration-200 cursor-pointer flex justify-center items-center">
+          <MdOutlineAddCircle className="text-neutral-500 size-6" />
+        </div>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader className="text-left">
+          <DrawerTitle>Edit founders</DrawerTitle>
+          <DrawerDescription>
+            Add or remove your founders here. Click save when you're done.
+          </DrawerDescription>
+        </DrawerHeader>
+        <ChangeFoundersForm className="px-4 py-8" />
+        <DrawerFooter className="pt-2">
+          <DrawerClose asChild>
+            <Button className="button-secondary">Cancel</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
+}
+
+function ChangeFoundersForm({ className }: { className?: string }) {
+  return <div className={clsx("", className)}>Form</div>;
+}
 
 const testData = [
   {
