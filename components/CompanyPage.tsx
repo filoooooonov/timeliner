@@ -13,6 +13,13 @@ import { FaRegCopy } from "react-icons/fa6";
 import { toast, Toaster } from "sonner";
 import { MdOutlineAddCircle } from "react-icons/md";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { EllipsisVertical } from "lucide-react";
 
 const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const { data: session, status } = useSession();
@@ -50,7 +57,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
         <h2 className="text-neutral-700 text-5xl md:text-8xl mx-auto select-none">
           {companyData.name}
         </h2>
-        <div className="w-full -bottom-16 absolute md:bottom-0 left-1/2 transform -translate-x-1/2 flex items-end justify-between pb-4 h-full md:w-[65%] mx-auto px-5 md:px-0 ">
+        <div className="hidden lg:flex w-full -bottom-16 absolute md:bottom-0 left-1/2 transform -translate-x-1/2 items-end justify-between pb-4 h-full md:w-[65%] mx-auto px-5 md:px-0 ">
           {session?.user.id === companyData.creator && (
             <button className="button-secondary flex items-center gap-2">
               <MdEdit />
@@ -72,14 +79,40 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
         </div>
       </div>
 
-      <div className="px-5 md:px-0 md:w-[65%] mx-auto bg-background pt-24 md:pt-0">
+      <div className="px-5 md:px-0 md:w-[65%] mx-auto bg-background pt-8">
         <div className="flex flex-col md:grid md:grid-cols-5">
           <div className="col-span-3">
-            <div className="flex gap-4 items-center ">
-              {renderLogo()}
-              <h1 className="text-5xl font-semibold text-white">
-                {companyData.name}
-              </h1>
+            <div className="flex justify-between items-center">
+              <div className="flex gap-4 items-center">
+                {renderLogo()}
+                <h1 className="text-5xl font-semibold text-white">
+                  {companyData.name}
+                </h1>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  className="block md:hidden rounded-full hover:bg-neutral-700 duration-200 p-2"
+                  asChild
+                >
+                  <EllipsisVertical size={40} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  {session?.user.id === companyData.creator && (
+                    <DropdownMenuItem>
+                      <span className="text-neutral-300 flex items-center gap-2">
+                        <MdEdit />
+                        Edit company
+                      </span>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem>
+                    <span className="text-neutral-300 flex items-center gap-2">
+                      <FaRegCopy />
+                      Copy link
+                    </span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
             {/* ESTABLISHED_DATE */}
             <div className="w-max flex items-center bg-neutral-900 px-4 py-2 mt-6 border-2 border-amber-300 rounded-md">
