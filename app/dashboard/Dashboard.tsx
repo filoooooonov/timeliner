@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SignOutButton from "@/components/SignOutButton";
 import Link from "next/link";
 import { TiPlus } from "react-icons/ti";
-import { CompanyData } from "@/app/timeline/[slug]/page";
+import { CompanyData } from "@/app/[slug]/page";
 import Image from "next/image";
 import { EllipsisVertical, Loader2 } from "lucide-react";
 import {
@@ -109,7 +109,7 @@ const Dashboard = ({
         <div className="mt-12 md:grid md:grid-cols-2 flex flex-col gap-8">
           {companies.map((company: CompanyData) => (
             <Link
-              href={`/timeline/${company.slug}`}
+              href={`/${company.slug}`}
               key={company.slug}
               className="p-6 bg-neutral-800/60 hover:bg-neutral-800/80 transition duration-200 rounded-lg shadow-md border-t-2 border-neutral-800 cursor-pointer flex flex-col"
             >

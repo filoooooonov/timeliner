@@ -1,6 +1,6 @@
 "use client";
 
-import { CompanyData } from "@/app/timeline/[slug]/page";
+import { CompanyData } from "@/app/[slug]/page";
 import React, { useEffect, useState } from "react";
 import { Timeline } from "@/components/ui/timeline";
 import BrinImg from "@/public/sergey_brin.webp";
@@ -60,7 +60,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
           <button
             onClick={() => {
               navigator.clipboard.writeText(
-                `${process.env.NEXT_PUBLIC_PROD_URL}/timeline/${companyData.slug}`
+                `${process.env.NEXT_PUBLIC_PROD_URL}/${companyData.slug}`
               );
               toast.success("Link copied to clipboard!");
             }}

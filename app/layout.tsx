@@ -4,7 +4,7 @@ import Link from "next/link";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import { Suspense } from "react";
-import LoadingPage from "./timeline/[slug]/loading";
+import LoadingPage from "./[slug]/loading";
 
 import { getServerSession } from "next-auth";
 import SessionProvider from "@/utils/SessionProvider";

@@ -49,7 +49,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { CompanyData } from "../timeline/[slug]/page";
+import { CompanyData } from "../[slug]/page";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
@@ -628,7 +628,7 @@ export default function CreateCompanyForm() {
           </DialogHeader>
           <Link
             className="button-primary px-4 py-2 w-max mx-auto mt-6 flex items-center gap-2"
-            href={`/timeline/${slug}`}
+            href={`/${slug}`}
           >
             Visit {companyName}&#x27;s page <ChevronRight />
           </Link>
