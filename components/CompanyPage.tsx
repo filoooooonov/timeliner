@@ -41,6 +41,10 @@ import {
   DrawerTrigger,
 } from "./ui/drawer";
 import clsx from "clsx";
+import Company from "@/models/company";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import { useForm } from "react-hook-form";
 
 const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const { data: session, status } = useSession();
@@ -48,11 +52,26 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const [logo, setLogo] = useState<string | null>(null);
   const [founderDialogOpen, setFounderDialogOpen] = useState<boolean>(false);
 
+  const { register, handleSubmit, setValue } = useForm({
+    defaultValues: {
+      name: companyData.name,
+      description: companyData.description,
+    },
+  });
+
+  const onSubmit = (data: any) => {
+    // Handle form submission
+    console.log(data);
+    // You can add API call here to save the data
+  };
+
   useEffect(() => {
     if (companyData.logo) {
       setLogo(companyData.logo);
     }
-  }, [companyData.logo]);
+    setValue("name", companyData.name);
+    setValue("description", companyData.description);
+  }, [companyData, setValue]);
 
   const renderLogo = () => {
     if (logo) {
@@ -84,6 +103,11 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   return (
     <div className="bg-background">
       <Toaster />
+      <EditCompanyDialog
+        companyData={companyData}
+        open={founderDialogOpen}
+        setOpen={setFounderDialogOpen}
+      />
 
       {/* Banner on top */}
       <div className="relative bg-neutral-800 w-full h[30vh] md:h-[16vw] flex items-center py-8 md:py-0">
@@ -92,7 +116,10 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
         </h2>
         <div className="hidden lg:flex w-full -bottom-16 absolute md:bottom-0 left-1/2 transform -translate-x-1/2 items-end justify-between pb-4 h-full md:w-[65%] mx-auto px-5 md:px-0 ">
           {session?.user.id === companyData.creator && (
-            <button className="button-secondary flex items-center gap-2">
+            <button
+              className="button-secondary flex items-center gap-2"
+              onClick={() => setFounderDialogOpen(true)}
+            >
               <MdEdit />
               Edit company info
             </button>
@@ -132,7 +159,10 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
                 <DropdownMenuContent className="w-44">
                   {session?.user.id === companyData.creator && (
                     <DropdownMenuItem>
-                      <span className="text-neutral-300 flex items-center gap-2">
+                      <span
+                        className="text-neutral-300 flex items-center gap-2"
+                        onClick={() => setFounderDialogOpen(true)}
+                      >
                         <MdEdit />
                         Edit company
                       </span>
@@ -161,30 +191,41 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
 
               {/* FOUNDERS */}
               <div className="flex flex-col mt-8">
-                <h2 className="text-base text-neutral-400 mb-4">Founders</h2>
                 <div className="flex flex-row gap-2">
-                  <HoverCard>
-                    <HoverCardTrigger asChild>
-                      <Image
-                        src={BrinImg}
-                        alt="founder image"
-                        className="avatar-image size-16"
-                      />
-                    </HoverCardTrigger>
+                  {companyData.founders && (
+                    <>
+                      <h2 className="text-base text-neutral-400 mb-4">
+                        Founders
+                      </h2>
 
-                    <HoverCardContent className="w-max">
-                      <div className="text-center px-4">
-                        <h3 className="text-lg font-medium">founder.name</h3>
-                        <span className="text-neutral-300 text-sm">
-                          founder.job_title
-                        </span>
-                      </div>
-                    </HoverCardContent>
-                  </HoverCard>
+                      {companyData.founders.map((founder, index) => (
+                        <HoverCard key={index}>
+                          <HoverCardTrigger asChild>
+                            <Image
+                              src={founder.image}
+                              alt="founder image"
+                              className="avatar-image size-16"
+                            />
+                          </HoverCardTrigger>
 
-                  {session?.user.id === companyData.creator && (
-                    <FounderDialog />
+                          <HoverCardContent className="w-max">
+                            <div className="text-center px-4">
+                              <h3 className="text-lg font-medium">
+                                {founder.name}
+                              </h3>
+                              <span className="text-neutral-300 text-sm">
+                                {founder.job_title}
+                              </span>
+                            </div>
+                          </HoverCardContent>
+                        </HoverCard>
+                      ))}
+                    </>
                   )}
+
+                  {/* {session?.user.id === companyData.creator && (
+                    <FounderDialog />
+                  )} */}
                 </div>
               </div>
             </div>
@@ -228,26 +269,28 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   );
 };
 
-export function FounderDialog() {
-  const [open, setOpen] = React.useState(false);
+export function EditCompanyDialog({
+  open,
+  setOpen,
+  companyData,
+}: {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  companyData: CompanyData;
+}) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <div className="size-16 bg-neutral-800 rounded-full hover:bg-neutral-700/60 duration-200 cursor-pointer flex justify-center items-center">
-            <MdOutlineAddCircle className="text-neutral-500 size-6" />
-          </div>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Edit founders</DialogTitle>
+            <DialogTitle>Edit company info</DialogTitle>
             <DialogDescription>
-              Add or remove your founders here. Click save when you're done.
+              Edit your company information here. Click save when you're done.
             </DialogDescription>
           </DialogHeader>
-          <ChangeFoundersForm />
+          <EditCompanyForm companyData={companyData} />
         </DialogContent>
       </Dialog>
     );
@@ -255,19 +298,14 @@ export function FounderDialog() {
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>
-        <div className="size-16 bg-neutral-800 rounded-full hover:bg-neutral-700/60 duration-200 cursor-pointer flex justify-center items-center">
-          <MdOutlineAddCircle className="text-neutral-500 size-6" />
-        </div>
-      </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="text-left">
-          <DrawerTitle>Edit founders</DrawerTitle>
+          <DrawerTitle>Edit company info</DrawerTitle>
           <DrawerDescription>
-            Add or remove your founders here. Click save when you're done.
+            Edit your company information here. Click save when you're done.
           </DrawerDescription>
         </DrawerHeader>
-        <ChangeFoundersForm className="px-4 py-8" />
+        <EditCompanyForm companyData={companyData} className="px-4 py-8" />
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button className="button-secondary">Cancel</Button>
@@ -278,8 +316,37 @@ export function FounderDialog() {
   );
 }
 
-function ChangeFoundersForm({ className }: { className?: string }) {
-  return <div className={clsx("", className)}>Form</div>;
+function EditCompanyForm({
+  className,
+  companyData,
+}: {
+  className?: string;
+  companyData: CompanyData;
+}) {
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      name: companyData.name,
+      description: companyData.description,
+    },
+  });
+
+  const onSubmit = (data: any) => {
+    // Handle form submission
+    console.log(data);
+    // You can add API call here to save the data
+  };
+
+  return (
+    <div className={clsx("", className)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <Input type="text" {...register("name")} />
+        <Textarea {...register("description")} className="h-24" />
+        <Button type="submit" className="button-primary w-32">
+          Save
+        </Button>
+      </form>
+    </div>
+  );
 }
 
 const testData = [

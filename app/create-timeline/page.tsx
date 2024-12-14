@@ -65,7 +65,7 @@ import Link from "next/link";
 import Confetti from "react-confetti-boom";
 import { useSession } from "next-auth/react";
 
-const months = [
+export const months = [
   {
     label: "January",
     value: "Jan",
