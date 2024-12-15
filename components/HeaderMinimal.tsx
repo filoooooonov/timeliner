@@ -15,23 +15,32 @@ import { useSession } from "next-auth/react";
 import { FaUserCircle } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import SignOutButton from "@/components/SignOutButton";
+import { useRouter } from "next/navigation";
 
 const HeaderHome = () => {
   const { data: session, status } = useSession();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const router = useRouter();
+
   const placeholders = [
     "Browse start-ups...",
     "Browse companies...",
     "Browse projects...",
   ];
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-  };
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("submitted");
+    setInputValue(e.target.value);
   };
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    // const form = e.currentTarget;
+    // const input = form.querySelector("input");
+    // const query = input ? input.value : "";
+
+    if (inputValue) {
+      router.push(`/search?q=${inputValue}`);
+    }
+  };
 
   return (
     <>

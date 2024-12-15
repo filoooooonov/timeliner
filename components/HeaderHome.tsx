@@ -7,10 +7,14 @@ import { FaUserCircle } from "react-icons/fa";
 import { MenuIcon, XIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import CreateTimelineButton from "./CreateTimelineButton";
+import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const HeaderHome = () => {
   const { data: session, status } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const router = useRouter();
 
   const placeholders = [
     "Browse start-ups...",
@@ -18,11 +22,17 @@ const HeaderHome = () => {
     "Browse projects...",
   ];
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    setInputValue(e.target.value);
   };
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("submitted");
+    // const form = e.currentTarget;
+    // const input = form.querySelector("input");
+    // const query = input ? input.value : "";
+
+    if (inputValue) {
+      router.push(`/search?q=${inputValue}`);
+    }
   };
 
   return (
