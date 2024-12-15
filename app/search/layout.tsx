@@ -1,8 +1,8 @@
-import { Metadata } from "next";
 import HeaderMinimal from "@/components/HeaderMinimal";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard · Timeline",
+  title: "Search · Timeline",
 };
 
 export default function RootLayout({
@@ -12,8 +12,10 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <HeaderMinimal />
-      <main className="bg-background">{children}</main>
+      <main className="bg-background">
+        <HeaderMinimal />
+        {children}
+      </main>
     </>
   );
 }

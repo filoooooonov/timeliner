@@ -12,15 +12,15 @@ import { useSession } from "next-auth/react";
 const Page = () => {
   const { data: session, status } = useSession();
 
-  if (status !== "authenticated" || !session) {
+  if (status !== "authenticated" && status !== "loading") {
     redirect("/");
   }
 
-  return (
-    <Suspense fallback={<div className="bg-red-500">Loading...</div>}>
-      <Dashboard userId={session?.user.id} userName={session?.user.name} />
-    </Suspense>
-  );
+  if (!session?.user.id) {
+    return <div>Loading...</div>;
+  }
+
+  return <Dashboard userId={session?.user.id} userName={session?.user.name} />;
 };
 
 export default Page;

@@ -22,12 +22,16 @@ export default function Home() {
                       Commemorate and share your startup&apos;s story with
                       Timeliner.
                     </p>
-                    <div className="flex flex-col mt-0 lg:mt-32">
-                      <CreateTimelineButton className="px-4 py-2 w-max mx-auto" />
-
-                      <span className="text-neutral-400 mt-2">
-                        Free forever.
-                      </span>
+                    <div className="flex flex-row lg:mt-32 gap-4 mx-auto w-max">
+                      <div className="flex flex-col mt-0 ">
+                        <CreateTimelineButton className="px-4 py-2 w-max mx-auto" />
+                      </div>
+                      <Link
+                        href="/search"
+                        className="button-secondary px-4 py-2"
+                      >
+                        Browse all companies
+                      </Link>
                     </div>
                   </div>
                 </>

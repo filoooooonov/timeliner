@@ -1,5 +1,10 @@
 import HeaderMinimal from "@/components/HeaderMinimal";
+import { Metadata } from "next";
 import { Toaster } from "sonner";
+
+export const metadata: Metadata = {
+  title: "Sign up · Timeline",
+};
 
 export default async function Layout({
   children,

@@ -30,7 +30,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <SessionProvider session={session}>
-        <body className="relative bg-background text-foreground">
+        <body className="relative bg-background text-foreground pb-20">
           <Suspense fallback={<LoadingPage />}>
             <ThemeProvider
               attribute="class"
@@ -39,7 +39,7 @@ export default async function RootLayout({
               disableTransitionOnChange
             >
               {children}
-              <Footer />
+              {/* <Footer /> */}
             </ThemeProvider>
           </Suspense>
         </body>
