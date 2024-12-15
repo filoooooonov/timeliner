@@ -12,7 +12,13 @@ export async function GET(req: NextRequest) {
     console.log("Connecting to MongoDB...");
     await connectMongoDB();
 
-    const companies = await Company.find({});
+    const { searchParams } = new URL(req.url);
+    const q = searchParams.get("q");
+
+    const query =
+      q && q !== "null" ? { name: { $regex: q, $options: "i" } } : {};
+    const companies = await Company.find(query);
+
     return NextResponse.json(companies);
   } catch (error) {
     console.error("Internal server error:", error);

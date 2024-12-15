@@ -2,13 +2,21 @@
 
 import React from "react";
 import SearchPage from "./SearchPage";
-import useSWR from "swr";
 import { Loader2 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { CompanyData } from "../[slug]/page";
+import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const Page = () => {
-  const { data: companies, error } = useSWR("/api/get-all-companies", fetcher);
+export default function () {
+  const searchParams = useSearchParams();
+  const q = searchParams.get("q");
+
+  const { data: companies, error } = useSWR(
+    `/api/get-all-companies?q=${q}`,
+    fetcher
+  );
 
   if (error) {
     console.error("Error fetching companies:", error);
@@ -17,7 +25,7 @@ const Page = () => {
 
   if (!companies) {
     return (
-      <div className="mx-auto  w-max h-max mt-40">
+      <div className="mx-auto w-max h-max mt-40">
         <span className="flex items-center gap-2">
           <Loader2 className="animate-spin" />
           Loading...
@@ -26,7 +34,5 @@ const Page = () => {
     );
   }
 
-  return <SearchPage companies={companies} />;
-};
-
-export default Page;
+  return <SearchPage companies={companies} q={q} />;
+}
