@@ -21,7 +21,7 @@
 
 .button-secondary {
   @apply flex items-center gap-2 px-4 py-2 text-sm rounded-md border-x-2 border-t-2 border-[#2b2b2b] bg-gradient-to-t 
-  from-[#292929] to-[#191919] ring-2 ring-neutral-950 shadow-lg  hover:bg-neutral-950 duration-200 font-medium active:translate-y-1;
+  from-[#222222] to-[#191919] ring-2 ring-neutral-950 shadow-sm shadow-black  hover:bg-neutral-950 duration-200 font-medium active:translate-y-1;
 }
 .button-red {
   @apply flex items-center gap-2 px-4 py-2 text-sm rounded-md border-x-2 border-t-2 border-rose-900/40 bg-gradient-to-t
