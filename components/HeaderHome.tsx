@@ -56,6 +56,7 @@ const HeaderHome = () => {
 
     if (inputValue) {
       router.push(`/search?q=${inputValue}`);
+      setSidebarOpen(false);
     }
   };
 
@@ -148,7 +149,7 @@ const HeaderHome = () => {
         }`}
       >
         <div
-          className={`fixed right-0 -top-[100%] h-full w-full bg-background border-2-l border-neutral-800 shadow-lg z-50 p-4 transform transition-transform duration-300 ease-in-out ${
+          className={`fixed right-0 -top-[100%] h-full w-full bg-background shadow-lg z-50 p-4 transform transition-transform duration-300 ease-in-out ${
             sidebarOpen ? "translate-y-full" : "translate-y-0"
           }`}
         >

@@ -65,6 +65,7 @@ const HeaderHome = () => {
 
     if (inputValue) {
       router.push(`/search?q=${inputValue}`);
+      setSidebarOpen(false);
     }
   };
 
@@ -171,7 +172,7 @@ const HeaderHome = () => {
         onClick={() => setSidebarOpen(false)}
       >
         <div
-          className={`fixed right-0 -top-[100%] h-full w-full bg-background border-l-2 border-neutral-800 shadow-lg z-50 p-4 transform transition-transform duration-300 ease-in-out ${
+          className={`fixed right-0 -top-[100%] h-full w-full bg-background shadow-lg z-50 p-4 transform transition-transform duration-300 ease-in-out ${
             sidebarOpen ? "translate-y-full" : "translate-y-0"
           }`}
           onClick={(e) => e.stopPropagation()}
@@ -194,7 +195,7 @@ const HeaderHome = () => {
                     </Link>
                     <Link
                       href="/register"
-                      className="button-secondary text-sm !px-6 !py-3 mx-auto flex items-center gap-2"
+                      className="button-secondary text-sm !px-6 !py-3 flex items-center gap-2"
                     >
                       <FaUserCircle />
                       Register
