@@ -153,6 +153,7 @@ const HeaderHome = () => {
                   <FaUserCircle />
                   Dashboard
                 </Link>
+                <SignOutButton text="Sign out" />
               </>
             )}
           </div>

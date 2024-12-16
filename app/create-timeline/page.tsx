@@ -288,7 +288,8 @@ export default function CreateCompanyForm() {
       )}
       <FormProvider {...form}>
         <h1 className="text-4xl">
-          Let's create your <span className="text-primary">Timeline.</span>
+          Let's create your{" "}
+          <span className="text-primary">Timeline. / {session?.user.id}</span>
         </h1>
         <form
           onSubmit={(e) => {

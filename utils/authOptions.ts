@@ -47,7 +47,7 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user }) {
       // Attach user ID to token object
       if (user) {
-        token.id = user.id;
+        token.id = user.id; // Use MongoDB user ID
       }
       return token;
     },
@@ -56,13 +56,14 @@ export const authOptions: AuthOptions = {
         await connectMongoDB();
         const existingUser = await User.findOne({ email: user.email });
         if (!existingUser) {
-          await User.create({
+          const newUser = await User.create({
             name: user.name,
             email: user.email,
-            password: "", // No password for Google users
           });
+          user.id = newUser._id; // Assign new user's MongoDB ID to user object
         } else {
-          return false;
+          user.id = existingUser._id; // Assign existing user's MongoDB ID to user object
+          user.name = existingUser.name;
         }
       }
       return true;
