@@ -18,6 +18,7 @@ import { IoIosSettings } from "react-icons/io";
 import SignOutButton from "@/components/SignOutButton";
 import { useRouter } from "next/navigation";
 import { CompanyData } from "@/app/[slug]/page";
+import Image from "next/image";
 
 const HeaderHome = () => {
   const { data: session, status } = useSession();
@@ -31,6 +32,15 @@ const HeaderHome = () => {
     "Browse companies...",
     "Browse projects...",
   ];
+
+  // Disable scrolling when sidebar is open
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+  }, [sidebarOpen]);
 
   useEffect(() => {
     if (inputValue) {
@@ -58,6 +68,22 @@ const HeaderHome = () => {
     }
   };
 
+  const renderLogo = (logo: string) => {
+    if (logo) {
+      return (
+        <Image
+          src={logo}
+          alt="company logo"
+          className="size-6 object-cover rounded-full"
+          width={100}
+          height={100}
+        />
+      );
+    } else {
+      return <Search size={20} />;
+    }
+  };
+
   return (
     <>
       <header className="py-8 px-4">
@@ -69,14 +95,14 @@ const HeaderHome = () => {
               onSubmit={onSubmit}
             />
             {suggestions.length > 0 && (
-              <div className="absolute z-50 bg-neutral-900 shadow-lg rounded-lg mt-2 p-2 w-full flex flex-col border-2 border-neutral-800">
+              <div className="absolute w-64 lg:w-full z-50 bg-neutral-900 shadow-lg rounded-lg mt-2 p-2 flex flex-col border-2 border-neutral-800">
                 {suggestions.map((suggestion: CompanyData, index) => (
                   <Link
                     href={`/${suggestion.slug}`}
                     key={index}
-                    className="p-3 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800/50 cursor-pointer rounded-md duration-200 flex items-center gap-4"
+                    className="p-3 text-sm text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800/50 cursor-pointer rounded-md duration-200 flex items-center gap-4"
                   >
-                    <Search size={20} />
+                    {renderLogo(suggestion.logo)}
                     {suggestion.name}
                   </Link>
                 ))}
@@ -96,7 +122,7 @@ const HeaderHome = () => {
               <>
                 <Link
                   href="/sign-in"
-                  className="text-neutral-400 font-semibold hover:text-neutral-500 duration-200 px-2 py-2"
+                  className="text-neutral-400 font-semibold hover:text-neutral-500 duration-200 px-6 py-3 w-max mx-auto"
                 >
                   Sign in
                 </Link>
@@ -162,16 +188,16 @@ const HeaderHome = () => {
                   <>
                     <Link
                       href="/sign-in"
-                      className="text-neutral-400 font-semibold hover:text-neutral-500 duration-200 px-2 py-2"
+                      className="text-neutral-400 font-semibold hover:text-neutral-500 duration-200 px-6 py-3 mx-auto"
                     >
                       Sign in
                     </Link>
                     <Link
                       href="/register"
-                      className="button-secondary text-sm !px-3 !py-2 flex items-center gap-2"
+                      className="button-secondary text-sm !px-6 !py-3 mx-auto flex items-center gap-2"
                     >
                       <FaUserCircle />
-                      <span>Register</span>
+                      Register
                     </Link>
                   </>
                 ) : (
