@@ -55,7 +55,7 @@ const HeaderHome = () => {
           </Link>
 
           {status !== "loading" && (
-            <div className="flex-row gap-4 hidden lg:flex">
+            <div className="absolute right-0 flex-row gap-4 hidden lg:flex">
               {status !== "authenticated" && (
                 <Link
                   href="/sign-in"

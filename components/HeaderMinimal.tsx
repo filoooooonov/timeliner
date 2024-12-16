@@ -61,7 +61,7 @@ const HeaderHome = () => {
             Timeliner.
           </Link>
 
-          <div className="hidden md:flex flex-row gap-6">
+          <div className="absolute right-0 hidden md:flex flex-row gap-6">
             {status !== "authenticated" ? (
               <>
                 <Link

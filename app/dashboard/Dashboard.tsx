@@ -70,12 +70,12 @@ const Dashboard = ({
   return (
     <main className="px-5 max-w-5xl mx-auto pt-20">
       <Toaster />
-      <div className="grid grid-cols-2 mb-32">
+      <div className="flex flex-row justify-between space-x-4 mb-32">
         <h1 className="text-5xl">
           Hey, <span className="text-primary">{userName}</span>!
         </h1>
         <div className="ml-auto flex flex-col gap-4">
-          <SignOutButton text="Sign out" />
+          <SignOutButton className="w-max" text="Sign out" />
         </div>
       </div>
 
