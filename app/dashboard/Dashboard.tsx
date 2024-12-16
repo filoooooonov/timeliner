@@ -54,13 +54,16 @@ const Dashboard = ({
     fetchData();
   }, [userId]);
 
-  const deleteCompany = async (companyId: string) => {
+  const deleteCompany = async (companySlug: string) => {
     try {
-      await fetch(`/api/delete-company?companyId=${companyId}`, {
+      const res = await fetch(`/api/delete-company?slug=${companySlug}`, {
         method: "DELETE",
       });
-      toast.success("Company deleted successfully!");
-      fetchData(); // Refresh the list of companies
+
+      if (res.ok) {
+        toast.success("Company deleted successfully!");
+        fetchData(); // Refresh the list of companies
+      }
     } catch (error) {
       toast.error("Failed to delete company");
       console.error(error);
@@ -98,9 +101,9 @@ const Dashboard = ({
         <div className="mt-12 md:grid md:grid-cols-2 flex flex-col gap-8">
           {companies.map((company: CompanyData) => (
             <CompanyDemoBlock
-              key={company.id}
+              key={company.slug}
               company={company}
-              onDelete={() => deleteCompany(company.id)}
+              onDelete={() => deleteCompany(company.slug)}
             />
           ))}
         </div>
