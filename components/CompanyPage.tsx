@@ -110,7 +110,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
       />
 
       {/* Banner on top */}
-      <div className="relative bg-neutral-800 w-full h[30vh] md:h-[16vw] flex items-center py-8 md:py-0">
+      <div className="relative bg-neutral-800 w-full h-[30vh] md:h-[16vw] flex items-center py-8 md:py-0">
         <h2 className="text-neutral-700 text-5xl md:text-8xl mx-auto select-none">
           {companyData.name}
         </h2>

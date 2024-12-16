@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 import {
   LucideSettings,
   MenuIcon,
+  Search,
   Settings,
   Settings2,
   Settings2Icon,
@@ -16,11 +17,13 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import SignOutButton from "@/components/SignOutButton";
 import { useRouter } from "next/navigation";
+import { CompanyData } from "@/app/[slug]/page";
 
 const HeaderHome = () => {
   const { data: session, status } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [suggestions, setSuggestions] = useState<CompanyData[]>([]);
   const router = useRouter();
 
   const placeholders = [
@@ -28,6 +31,19 @@ const HeaderHome = () => {
     "Browse companies...",
     "Browse projects...",
   ];
+
+  useEffect(() => {
+    if (inputValue) {
+      // Fetch suggestions from the database
+      fetch(`/api/suggestions?q=${inputValue}`)
+        .then((response) => response.json())
+        .then((data) => setSuggestions(data))
+        .catch((error) => console.error("Error fetching suggestions:", error));
+    } else {
+      setSuggestions([]);
+    }
+  }, [inputValue]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -44,14 +60,28 @@ const HeaderHome = () => {
 
   return (
     <>
-      <header className="mt-2 py-6 px-4">
-        <nav className="relative flex items-center flex-row justify-between">
-          <div className="hidden 2xl:block 2xl:absolute lg:left-1/2 2xl:transform 2xl:-translate-x-1/2">
+      <header className="py-8 px-4">
+        <nav className="relative flex items-center flex-row justify-between z-[999]">
+          <div className="relative hidden 2xl:block 2xl:absolute lg:left-1/2 2xl:transform 2xl:-translate-x-1/2">
             <PlaceholdersAndVanishInput
               placeholders={placeholders}
               onChange={handleChange}
               onSubmit={onSubmit}
             />
+            {suggestions.length > 0 && (
+              <div className="absolute z-50 bg-neutral-900 shadow-lg rounded-lg mt-2 p-2 w-full flex flex-col border-2 border-neutral-800">
+                {suggestions.map((suggestion: CompanyData, index) => (
+                  <Link
+                    href={`/${suggestion.slug}`}
+                    key={index}
+                    className="p-3 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800/50 cursor-pointer rounded-md duration-200 flex items-center gap-4"
+                  >
+                    <Search size={20} />
+                    {suggestion.name}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
 
           <Link

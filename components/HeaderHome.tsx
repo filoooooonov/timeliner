@@ -1,19 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 import { FaUserCircle } from "react-icons/fa";
-import { MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon, Search, XIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import CreateTimelineButton from "./CreateTimelineButton";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { CompanyData } from "@/app/[slug]/page";
+import Image from "next/image";
 
 const HeaderHome = () => {
   const { data: session, status } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [suggestions, setSuggestions] = useState<CompanyData[]>([]);
   const router = useRouter();
 
   const placeholders = [
@@ -25,6 +28,18 @@ const HeaderHome = () => {
     setInputValue(e.target.value);
   };
 
+  useEffect(() => {
+    if (inputValue) {
+      // Fetch suggestions from the database
+      fetch(`/api/suggestions?q=${inputValue}`)
+        .then((response) => response.json())
+        .then((data) => setSuggestions(data))
+        .catch((error) => console.error("Error fetching suggestions:", error));
+    } else {
+      setSuggestions([]);
+    }
+  }, [inputValue]);
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     // const form = e.currentTarget;
     // const input = form.querySelector("input");
@@ -32,6 +47,22 @@ const HeaderHome = () => {
 
     if (inputValue) {
       router.push(`/search?q=${inputValue}`);
+    }
+  };
+
+  const renderLogo = (logo: string) => {
+    if (logo) {
+      return (
+        <Image
+          src={logo}
+          alt="company logo"
+          className="size-6 object-cover rounded-full"
+          width={100}
+          height={100}
+        />
+      );
+    } else {
+      return <Search size={20} />;
     }
   };
 
@@ -45,6 +76,20 @@ const HeaderHome = () => {
               onChange={handleChange}
               onSubmit={onSubmit}
             />
+            {suggestions.length > 0 && (
+              <div className="absolute bg-neutral-900 shadow-lg rounded-lg mt-2 p-2 w-full flex flex-col border-2 border-neutral-800">
+                {suggestions.map((suggestion: CompanyData, index) => (
+                  <Link
+                    href={`/${suggestion.slug}`}
+                    key={index}
+                    className="p-3 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800/50 cursor-pointer rounded-md duration-200 flex items-center gap-4"
+                  >
+                    {renderLogo(suggestion.logo)}
+                    {suggestion.name}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
 
           <Link
@@ -103,6 +148,20 @@ const HeaderHome = () => {
               onChange={handleChange}
               onSubmit={onSubmit}
             />
+            {suggestions.length > 0 && (
+              <div className="absolute bg-neutral-900 shadow-lg rounded-lg mt-2 p-2 w-full flex flex-col border-2 border-neutral-800">
+                {suggestions.map((suggestion: CompanyData, index) => (
+                  <Link
+                    href={`/${suggestion.slug}`}
+                    key={index}
+                    className="p-3 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800/50 cursor-pointer rounded-md duration-200 flex items-center gap-4"
+                  >
+                    <Search size={20} />
+                    {suggestion.name}
+                  </Link>
+                ))}
+              </div>
+            )}
             {status !== "loading" && (
               <div className="pt-8 flex flex-col gap-8">
                 {status !== "authenticated" && (
