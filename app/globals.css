@@ -29,6 +29,10 @@
    from-rose-700/50 to-rose-800/50 ring-2 ring-rose-950/50 shadow-sm shadow-black hover:bg-rose-950/30 duration-200 font-medium active:translate-y-1;
 }
 
+.button-google {
+  @apply bg-neutral-100  w-max border-t-2 border-x-2 border-white hover:bg-neutral-200 hover:border-neutral-200 duration-300 shadow-md shadow-black w-full font-medium text-sm text-black rounded-md py-1 flex items-center gap-4 justify-center;
+}
+
 .dot-background {
   @apply w-full flex-col gap-20 bg-lime-900/20 bg-dot-white/[0.2] relative justify-center;
 }

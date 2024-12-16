@@ -8,6 +8,9 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import GoogleIcon from "@/public/google_logo_icon.webp";
+import { signIn } from "next-auth/react";
 
 export default function Register() {
   const [error, setError] = useState<string | null>(null);
@@ -86,7 +89,7 @@ export default function Register() {
   };
 
   return (
-    <>
+    <main className="max-w-5xl">
       <form onSubmit={handleSubmit} className="flex flex-col min-w-64 mx-auto">
         <h1 className="text-4xl font-medium mb-4">Register</h1>
         <p className="text-sm text text-foreground">
@@ -116,11 +119,23 @@ export default function Register() {
               "Register"
             )}
           </SubmitButton>
-          <p className="text-red-500 text-sm flex items-center gap-2">
-            {error}
-          </p>
+          <div className="flex items-center my-4">
+            <hr className="flex-grow border-t border-neutral-500" />
+            <span className="mx-4 text-neutral-500 text-sm">OR</span>
+            <hr className="flex-grow border-t border-neutral-500" />
+          </div>
         </div>
       </form>
-    </>
+      <button
+        className="button-google"
+        onClick={() => {
+          signIn("google", { callbackUrl: "/dashboard" });
+        }}
+      >
+        <Image src={GoogleIcon} className="size-8" alt="google logo" />
+        Register with Google
+      </button>
+      <p className="text-red-500 text-sm flex items-center gap-2">{error}</p>
+    </main>
   );
 }

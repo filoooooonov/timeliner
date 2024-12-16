@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import GoogleIcon from "@/public/google_logo_icon.webp";
+import Image from "next/image";
 
 export default function Login() {
   // change these as in register
@@ -84,10 +86,7 @@ export default function Login() {
             placeholder="Your password"
             required
           />
-          <SubmitButton
-            className="button-primary text-black font-semibold"
-            // formAction={signInAction}
-          >
+          <SubmitButton className="button-primary text-black font-semibold">
             {loading ? (
               <span className="flex items-center gap-2">
                 <Loader2 className="animate-spin" /> Signing in...
@@ -96,11 +95,24 @@ export default function Login() {
               "Sign in"
             )}
           </SubmitButton>
-          <p className="text-red-500 text-sm flex items-center gap-2">
-            {error}
-          </p>
+
+          <div className="flex items-center my-4">
+            <hr className="flex-grow border-t border-neutral-500" />
+            <span className="mx-4 text-neutral-500 text-sm">OR</span>
+            <hr className="flex-grow border-t border-neutral-500" />
+          </div>
         </div>
       </form>
+      <button
+        className="button-google"
+        onClick={() => {
+          signIn("google", { callbackUrl: "/dashboard" });
+        }}
+      >
+        <Image src={GoogleIcon} className="size-8" alt="google logo" />
+        Sign in with Google
+      </button>
+      <p className="text-red-500 text-sm flex items-center gap-2">{error}</p>
     </main>
   );
 }
