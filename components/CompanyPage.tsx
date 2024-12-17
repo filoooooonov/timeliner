@@ -20,10 +20,13 @@ import { EllipsisVertical } from "lucide-react";
 import useSWR from "swr";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { useMediaQuery } from "usehooks-ts";
@@ -46,6 +49,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
 
   const [logo, setLogo] = useState<string | null>(null);
   const [editorDialogOpen, setEditorDialogOpen] = useState<boolean>(false);
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
   const onSubmit = (data: any) => {
     // Handle form submission
@@ -129,7 +133,8 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
                   {companyData.name}
                 </h1>
               </div>
-              <DropdownMenu>
+
+              <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
                 <DropdownMenuTrigger
                   className="block md:hidden rounded-full hover:bg-neutral-700 duration-200 p-2"
                   asChild
@@ -138,11 +143,14 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-44">
                   {session?.user.id === companyData.creator && (
-                    <DropdownMenuItem>
-                      <span
-                        className="text-neutral-300 flex items-center gap-2"
-                        onClick={() => setEditorDialogOpen(true)}
-                      >
+                    <DropdownMenuItem
+                      onSelect={(e) => {
+                        e.preventDefault();
+                        setDropdownOpen(false);
+                        setEditorDialogOpen(true);
+                      }}
+                    >
+                      <span className="text-neutral-300 flex items-center gap-2">
                         <MdEdit />
                         Edit company
                       </span>
