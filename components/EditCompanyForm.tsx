@@ -28,6 +28,7 @@ import {
 import { CompanyData } from "@/app/[slug]/page";
 import clsx from "clsx";
 import Image from "next/image";
+import useSWR from "swr";
 
 const formSchema = z.object({
   name: z.string().optional(),
@@ -57,19 +58,27 @@ export default function EditCompanyForm({
     defaultValues: {
       name: companyData.name,
       description: companyData.description,
-      tags: ["test"],
+      tags: companyData.tags,
       logo: companyData.logo,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      console.log(values);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
+      console.log("ID---", companyData.slug);
+      const res = await fetch("/api/edit-company", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...values, slug: companyData.slug }),
+      });
+
+      if (res.ok) {
+        toast.success("Company details updated successfully");
+      } else {
+        toast.error("Failed to update company details. Please try again.");
+      }
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");

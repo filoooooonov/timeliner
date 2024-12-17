@@ -166,7 +166,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
               </DropdownMenu>
             </div>
             {/* ESTABLISHED_DATE */}
-            <div className="w-max flex items-center bg-neutral-900 px-4 py-2 mt-6 border-2 border-amber-300 rounded-md">
+            <div className="hidden lg:flex w-max items-center bg-neutral-900 px-4 py-2 mt-6 border-2 border-amber-300 rounded-md">
               <p className="font-semibold flex items-center gap-2">
                 <FaAward />
                 Est. {companyData.month_founded} {companyData.year_founded}
@@ -175,6 +175,18 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
 
             <div>
               {/* DESCRIPTION */}
+              {companyData.tags.length > 0 && (
+                <div className="mt-6">
+                  {companyData.tags.map((tag, index) => (
+                    <div
+                      key={index}
+                      className="bg-neutral-800 w-max text-neutral-300 text-xs px-2 py-1 rounded-md"
+                    >
+                      {tag}
+                    </div>
+                  ))}
+                </div>
+              )}
               <p className="mt-6">{companyData.description}</p>
 
               {/* FOUNDERS */}
