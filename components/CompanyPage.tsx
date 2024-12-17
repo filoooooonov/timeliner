@@ -39,6 +39,7 @@ import {
 } from "./ui/drawer";
 import { useForm } from "react-hook-form";
 import EditCompanyForm from "@/components//EditCompanyForm";
+import { ScrollArea } from "./ui/scroll-area";
 
 const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const { data: session, status } = useSession();
@@ -277,14 +278,16 @@ export function EditCompanyDialog({
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerContent className="overflow-y-auto max-h-[80vh] !scrollbar-none">
+      <DrawerContent className="max-h-[80vh] !scrollbar-none">
         <DrawerHeader className="text-left">
           <DrawerTitle>Edit company info</DrawerTitle>
           <DrawerDescription>
             Edit your company information here. Click save when you're done.
           </DrawerDescription>
         </DrawerHeader>
-        <EditCompanyForm companyData={companyData} className="px-4 py-8" />
+        <ScrollArea className="overflow-y-auto">
+          <EditCompanyForm companyData={companyData} className="px-4 py-8" />
+        </ScrollArea>
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button className="button-secondary">Cancel</Button>
