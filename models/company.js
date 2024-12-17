@@ -33,6 +33,11 @@ const companySchema = new Schema(
       type: String,
       required: true,
     },
+    tags: [
+      {
+        type: String,
+      },
+    ],
     founders: [
       {
         // id: {

@@ -64,6 +64,7 @@ import {
 import Link from "next/link";
 import Confetti from "react-confetti-boom";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const months = [
   {
@@ -163,6 +164,7 @@ export default function CreateCompanyForm() {
   const [files, setFiles] = useState<File[] | null>(null);
   const [slug, setSlug] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [logo, setLogo] = useState<string | null>(null);
   // Store company name to show it in the dialog when the company is created
   const [companyName, setCompanyName] = useState<string | null>(null);
 
@@ -274,6 +276,15 @@ export default function CreateCompanyForm() {
     }
   }, 500);
 
+  function handleFileChange(files: File[] | null) {
+    setFiles(files);
+    if (files && files.length > 0) {
+      const file = files[0];
+      const imageUrl = URL.createObjectURL(file);
+      setLogo(imageUrl);
+    }
+  }
+
   return (
     <main className="relative max-w-xl mx-auto px-4 pt-32">
       {dialogOpen && (
@@ -288,8 +299,7 @@ export default function CreateCompanyForm() {
       )}
       <FormProvider {...form}>
         <h1 className="text-4xl">
-          Let's create your{" "}
-          <span className="text-primary">Timeline. / {session?.user.id}</span>
+          Let's create your <span className="text-primary">Timeline.</span>
         </h1>
         <form
           onSubmit={(e) => {
@@ -315,6 +325,7 @@ export default function CreateCompanyForm() {
                         field.onChange(e);
                         checkCompanyName(e.target.value);
                       }}
+                      autoComplete="off"
                       className={cn(
                         nameExists && "border-2 border-red-500",
                         isChecking && "border-2 border-yellow-500"
@@ -563,35 +574,49 @@ export default function CreateCompanyForm() {
                 <FormControl>
                   <FileUploader
                     value={files}
-                    onValueChange={setFiles}
+                    onValueChange={handleFileChange}
                     dropzoneOptions={dropZoneConfig}
-                    className="relative bg-background rounded-lg p-2"
+                    className="relative bg-background rounded-lg p-3 h-max border-dashed border border-neutral-500 bg-neutral-800/50 flex items-center space-x-3"
                   >
-                    <FileInput
-                      id="fileInput"
-                      className="outline-dashed outline-1 outline-slate-500"
-                    >
-                      <div className="flex items-center justify-center flex-col p-8 w-full ">
-                        <CloudUpload className="text-gray-500 w-10 h-10" />
-                        <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
-                          <span className="font-semibold">Click to upload</span>
-                          &nbsp; or drag and drop
+                    <div className="relative w-32 h-32 bg-neutral-700 rounded-md flex items-center justify-center aspect-square">
+                      <Image
+                        src={logo || ""}
+                        alt="company logo"
+                        fill={true}
+                        className="rounded-md object-contain p-4"
+                      />
+                    </div>
+                    <div className="w-full">
+                      <div className="flex flex-col justify-center space-y-2">
+                        <p className="mb-1 text-sm text-neutral-500 dark:text-neutral-400">
+                          <span className="font-semibold">Click to upload</span>{" "}
+                          or drag and drop
                         </p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
-                          SVG, PNG or JPG
+                        <p className="text-xs text-gray-500 dark:text-neutral-400">
+                          SVG, PNG, JPG or WEBP
                         </p>
+                        <FileInput
+                          id="fileInput"
+                          className="button-primary w-max px-2 py-1 mb-4 mt-2"
+                        >
+                          Choose Image
+                        </FileInput>
                       </div>
-                    </FileInput>
-                    <FileUploaderContent>
-                      {files &&
-                        files.length > 0 &&
-                        files.map((file, i) => (
-                          <FileUploaderItem key={i} index={i}>
-                            <Paperclip className="h-4 w-4 stroke-current" />
-                            <span>{file.name}</span>
-                          </FileUploaderItem>
-                        ))}
-                    </FileUploaderContent>
+                      <FileUploaderContent>
+                        {files &&
+                          files.length > 0 &&
+                          files.map((file, i) => (
+                            <FileUploaderItem
+                              key={i}
+                              index={i}
+                              setLogo={setLogo}
+                            >
+                              <Paperclip className="h-4 w-4 text-neutral-400 stroke-current" />
+                              <span>{file.name}</span>
+                            </FileUploaderItem>
+                          ))}
+                      </FileUploaderContent>
+                    </div>
                   </FileUploader>
                 </FormControl>
                 <FormDescription>Upload your company's logo.</FormDescription>

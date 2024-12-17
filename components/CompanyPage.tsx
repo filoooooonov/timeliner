@@ -3,14 +3,12 @@
 import { CompanyData } from "@/app/[slug]/page";
 import React, { useEffect, useState } from "react";
 import { Timeline } from "@/components/ui/timeline";
-import BrinImg from "@/public/sergey_brin.webp";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { FaAward } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
 import { FaRegCopy } from "react-icons/fa6";
 import { toast, Toaster } from "sonner";
-import { MdOutlineAddCircle } from "react-icons/md";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import {
   DropdownMenu,
@@ -26,7 +24,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { useMediaQuery } from "usehooks-ts";
@@ -40,38 +37,20 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "./ui/drawer";
-import clsx from "clsx";
-import Company from "@/models/company";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
 import { useForm } from "react-hook-form";
+import EditCompanyForm from "@/components//EditCompanyForm";
 
 const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const { data: session, status } = useSession();
 
   const [logo, setLogo] = useState<string | null>(null);
-  const [founderDialogOpen, setFounderDialogOpen] = useState<boolean>(false);
-
-  const { register, handleSubmit, setValue } = useForm({
-    defaultValues: {
-      name: companyData.name,
-      description: companyData.description,
-    },
-  });
+  const [editorDialogOpen, setEditorDialogOpen] = useState<boolean>(false);
 
   const onSubmit = (data: any) => {
     // Handle form submission
     console.log(data);
     // You can add API call here to save the data
   };
-
-  useEffect(() => {
-    if (companyData.logo) {
-      setLogo(companyData.logo);
-    }
-    setValue("name", companyData.name);
-    setValue("description", companyData.description);
-  }, [companyData, setValue]);
 
   const renderLogo = () => {
     if (logo) {
@@ -105,8 +84,8 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
       <Toaster />
       <EditCompanyDialog
         companyData={companyData}
-        open={founderDialogOpen}
-        setOpen={setFounderDialogOpen}
+        open={editorDialogOpen}
+        setOpen={setEditorDialogOpen}
       />
 
       {/* Banner on top */}
@@ -118,7 +97,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
           {session?.user.id === companyData.creator && (
             <button
               className="button-secondary flex items-center gap-2"
-              onClick={() => setFounderDialogOpen(true)}
+              onClick={() => setEditorDialogOpen(true)}
             >
               <MdEdit />
               Edit company info
@@ -161,7 +140,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
                     <DropdownMenuItem>
                       <span
                         className="text-neutral-300 flex items-center gap-2"
-                        onClick={() => setFounderDialogOpen(true)}
+                        onClick={() => setEditorDialogOpen(true)}
                       >
                         <MdEdit />
                         Edit company
@@ -283,7 +262,7 @@ export function EditCompanyDialog({
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-2xl">
+        <DialogContent className="overflow-y-auto max-w-7xl max-h-[80vh] scrollbar-hide">
           <DialogHeader>
             <DialogTitle>Edit company info</DialogTitle>
             <DialogDescription>
@@ -298,7 +277,7 @@ export function EditCompanyDialog({
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerContent>
+      <DrawerContent className="overflow-y-auto max-h-[80vh] !scrollbar-none">
         <DrawerHeader className="text-left">
           <DrawerTitle>Edit company info</DrawerTitle>
           <DrawerDescription>
@@ -313,39 +292,6 @@ export function EditCompanyDialog({
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
-  );
-}
-
-function EditCompanyForm({
-  className,
-  companyData,
-}: {
-  className?: string;
-  companyData: CompanyData;
-}) {
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      name: companyData.name,
-      description: companyData.description,
-    },
-  });
-
-  const onSubmit = (data: any) => {
-    // Handle form submission
-    console.log(data);
-    // You can add API call here to save the data
-  };
-
-  return (
-    <div className={clsx("", className)}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <Input type="text" {...register("name")} />
-        <Textarea {...register("description")} className="h-24" />
-        <Button type="submit" className="button-primary w-32">
-          Save
-        </Button>
-      </form>
-    </div>
   );
 }
 
