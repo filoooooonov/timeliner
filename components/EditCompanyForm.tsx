@@ -199,16 +199,27 @@ export default function EditCompanyForm({
                   value={files}
                   onValueChange={handleFileChange}
                   dropzoneOptions={dropZoneConfig}
-                  className="relative bg-background rounded-lg p-3 h-max border-dashed border border-neutral-500 bg-neutral-800/50 flex items-center space-x-3"
+                  className="relative bg-background rounded-xl p-3 h-max border-dashed border border-neutral-500 bg-neutral-800/50 flex items-center space-x-3"
                 >
-                  <div className="relative w-32 h-32 bg-neutral-700/50 rounded-md flex items-center justify-center aspect-square">
-                    <Image
-                      src={logo || companyData.logo}
-                      alt="company logo"
-                      fill={true}
-                      className="rounded-md object-contain p-4"
-                    />
-                  </div>
+                  {logo ? (
+                    <div className="relative w-32 h-32 bg-neutral-800 rounded-md flex items-center justify-center aspect-square">
+                      <Image
+                        src={logo}
+                        alt="company logo"
+                        fill={true}
+                        className="rounded-md object-contain p-4"
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <FileInput
+                        id="fileInput"
+                        className="relative size-32 bg-neutral-800 rounded-md flex items-center justify-center aspect-square"
+                      >
+                        <Upload className="size-8 w-max text-neural-500" />
+                      </FileInput>
+                    </div>
+                  )}
                   <div className="w-full">
                     <div className="flex flex-col justify-center space-y-2">
                       <p className="mb-1 text-sm text-neutral-500 dark:text-neutral-400">
@@ -220,7 +231,7 @@ export default function EditCompanyForm({
                       </p>
                       <FileInput
                         id="fileInput"
-                        className="button-primary w-max px-2 py-1 mb-4 mt-2"
+                        className="bg-neutral-800 text-neutral-400 hover:bg-neutral-700/50 font-semibold text-sm duration-300 w-max px-3 py-2 mb-4 mt-2 rounded-lg"
                       >
                         Choose Image
                       </FileInput>
