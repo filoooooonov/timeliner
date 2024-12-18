@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectMongoDB, getMongoClient } from "../../../lib/mongo";
+import mongoose from "mongoose";
+import Company from "@/models/company";
+import { connectMongoDB } from "@/lib/mongo";
 
 export async function GET(req: NextRequest) {
   try {
@@ -17,21 +19,9 @@ export async function GET(req: NextRequest) {
 
     console.log("Connecting to MongoDB...");
     await connectMongoDB();
-    const client = getMongoClient();
-    const db = client?.connection?.db;
-
-    if (!db) {
-      console.error("Database connection failed");
-      return NextResponse.json(
-        { error: "Database connection failed" },
-        { status: 500 }
-      );
-    }
-
-    const collection = db.collection("companies");
 
     console.log(`Searching for company with _slug: ${slug}`);
-    const company = await collection.findOne({ slug: slug });
+    const company = await Company.findOne({ slug });
 
     if (!company) {
       console.error("Company not found");
@@ -40,10 +30,12 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(company);
   } catch (error) {
-    console.error("Internal server error:", error);
+    console.error("Error fetching company:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Failed to fetch company details" },
       { status: 500 }
     );
+  } finally {
+    mongoose.connection.close();
   }
 }

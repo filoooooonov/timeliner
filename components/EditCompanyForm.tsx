@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { TagsInput } from "@/components/ui/tags-input";
-import { CloudUpload, Paperclip, Upload } from "lucide-react";
+import { CloudUpload, Loader2, Paperclip, Upload } from "lucide-react";
 import {
   FileInput,
   FileUploader,
@@ -29,6 +29,9 @@ import { CompanyData } from "@/app/[slug]/page";
 import clsx from "clsx";
 import Image from "next/image";
 import useSWR from "swr";
+import { generateSlug } from "@/app/create-timeline/page";
+import { useRouter } from "next/navigation";
+import { set } from "mongoose";
 
 const formSchema = z.object({
   name: z.string().optional(),
@@ -46,6 +49,9 @@ export default function EditCompanyForm({
 }) {
   const [files, setFiles] = useState<File[] | null>(null);
   const [logo, setLogo] = useState<string | null>(companyData.logo);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const dropZoneConfig = {
     maxFiles: 1,
@@ -65,32 +71,56 @@ export default function EditCompanyForm({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      console.log("ID---", companyData.slug);
-      const res = await fetch("/api/edit-company", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...values, slug: companyData.slug }),
-      });
+      setLoading(true);
+      if (values.name) {
+        const newSlug = generateSlug(values.name);
 
-      if (res.ok) {
-        toast.success("Company details updated successfully");
+        const res = await fetch("/api/edit-company", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...values,
+            oldSlug: companyData.slug,
+            newSlug: newSlug,
+          }),
+        });
+        if (res.ok) {
+          toast.success("Company details updated successfully");
+          setLoading(false);
+          router.push(`/${newSlug}`);
+        } else {
+          toast.error("Failed to update company details. Please try again.");
+          setLoading(false);
+        }
       } else {
-        toast.error("Failed to update company details. Please try again.");
+        console.error("values.name is undefined");
+        setLoading(false);
       }
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
+      setLoading(false);
     }
   }
 
-  function handleFileChange(files: File[] | null) {
+  function convertToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  async function handleFileChange(files: File[] | null) {
     setFiles(files);
     if (files && files.length > 0) {
       const file = files[0];
-      const imageUrl = URL.createObjectURL(file);
-      setLogo(imageUrl);
+      const base64 = await convertToBase64(file);
+      setLogo(base64);
+      form.setValue("logo", base64);
     }
   }
 
@@ -112,7 +142,6 @@ export default function EditCompanyForm({
                   placeholder="Company name"
                   type="text"
                   {...field}
-                  value={companyData.name}
                 />
               </FormControl>
               <FormMessage />
@@ -131,7 +160,6 @@ export default function EditCompanyForm({
                   placeholder="Type here..."
                   className="resize-y h-[250px] scrollbar-none"
                   {...field}
-                  value={companyData.description}
                 />
               </FormControl>
               <FormMessage />
@@ -214,7 +242,11 @@ export default function EditCompanyForm({
             </FormItem>
           )}
         />
-        <Button type="submit" className="button-primary">
+        <Button
+          type="submit"
+          className="button-primary flex items-center gap-2"
+        >
+          {loading && <Loader2 className="animate-spin" />}
           Save changes
         </Button>
       </form>

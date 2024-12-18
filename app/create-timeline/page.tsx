@@ -139,7 +139,7 @@ const dropZoneConfig = {
   multiple: false,
 };
 
-const generateSlug = (name: string) => {
+export const generateSlug = (name: string) => {
   return name
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")

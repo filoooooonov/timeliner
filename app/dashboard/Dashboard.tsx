@@ -16,19 +16,6 @@ import { MdDelete } from "react-icons/md";
 import { toast, Toaster } from "sonner";
 import CompanyDemoBlock from "@/components/ui/CompanyDemoBlock";
 
-export async function getCompanyData(userId: string) {
-  try {
-    const res = await fetch(`/api/get-users-companies?userId=${userId}`);
-    if (!res.ok) {
-      throw new Error("Failed to fetch company data");
-    }
-    return await res.json();
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
-
 const Dashboard = ({
   userId,
   userName,
@@ -38,11 +25,32 @@ const Dashboard = ({
 }) => {
   const [companies, setCompanies] = React.useState<CompanyData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  async function getCompanyData(userId: string) {
+    try {
+      const res = await fetch(`/api/get-users-companies?userId=${userId}`);
+      if (!res.ok) {
+        setError("Failed to fetch company data");
+        throw new Error(
+          "Failed to fetch company data. Please try again later."
+        );
+      }
+      return await res.json();
+    } catch (error) {
+      console.error(error);
+      setError(
+        "An error occured while fetching company data. Please try again later."
+      );
+      return [];
+    }
+  }
 
   const fetchData = async () => {
     if (!userId) {
       console.error("User ID is required");
       setLoading(false);
+      setError("Something went wrong. Please try again later.");
       return;
     }
     const companies = await getCompanyData(userId);
@@ -95,8 +103,10 @@ const Dashboard = ({
           <Loader2 className="animate-spin" />
           Loading...
         </p>
-      ) : companies.length === 0 ? (
+      ) : companies.length === 0 && !error ? (
         <p className="mt-8 text-center">You don't have any companies yet!</p>
+      ) : error ? (
+        <p className="mt-8 text-center text-red-500">{error}</p>
       ) : (
         <div className="mt-12 md:grid md:grid-cols-2 flex flex-col gap-8">
           {companies.map((company: CompanyData) => (

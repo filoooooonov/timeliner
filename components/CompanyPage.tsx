@@ -58,10 +58,10 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   };
 
   const renderLogo = () => {
-    if (logo) {
+    if (companyData.logo) {
       return (
         <Image
-          src={logo}
+          src={companyData.logo}
           alt="company logo"
           className="size-16 object-cover rounded-full"
           width={500}
@@ -86,7 +86,6 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
 
   return (
     <div className="bg-background">
-      <Toaster />
       <EditCompanyDialog
         companyData={companyData}
         open={editorDialogOpen}
@@ -166,7 +165,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
               </DropdownMenu>
             </div>
             {/* ESTABLISHED_DATE */}
-            <div className="hidden lg:flex w-max items-center bg-neutral-900 px-4 py-2 mt-6 border-2 border-amber-300 rounded-md">
+            <div className="flex lg:hidden w-max items-center bg-neutral-900 px-4 py-2 mt-6 border-2 border-amber-300 rounded-md">
               <p className="font-semibold flex items-center gap-2">
                 <FaAward />
                 Est. {companyData.month_founded} {companyData.year_founded}
@@ -175,8 +174,8 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
 
             <div>
               {/* DESCRIPTION */}
-              {companyData.tags.length > 0 && (
-                <div className="mt-6">
+              {companyData.tags && (
+                <div className="mt-6 flex flex-row gap-2">
                   {companyData.tags.map((tag, index) => (
                     <div
                       key={index}

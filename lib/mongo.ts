@@ -1,14 +1,21 @@
 import mongoose from "mongoose";
 
-let client: typeof mongoose | null = null;
+let cachedClient: typeof mongoose | null = null;
 
 export const connectMongoDB = async () => {
   try {
-    if (!client) {
-      client = await mongoose.connect(process.env.MONGODB_URI as string);
+    if (cachedClient && cachedClient.connection.readyState === 1) {
+      console.log("Using cached MongoDB client");
+      return cachedClient;
+    } else {
+      console.log("Creating a new MongoDB client...");
+      cachedClient = await mongoose.connect(process.env.MONGODB_URI as string);
     }
-    if (client.connection.readyState === 1) {
+
+    if (cachedClient.connection.readyState === 1) {
       return Promise.resolve(true);
+    } else {
+      return Promise.reject(new Error("Failed to connect to MongoDB"));
     }
   } catch (error) {
     console.error(error);
@@ -16,4 +23,4 @@ export const connectMongoDB = async () => {
   }
 };
 
-export const getMongoClient = () => client;
+export const getMongoClient = () => cachedClient;

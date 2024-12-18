@@ -5,9 +5,9 @@ import { connectMongoDB } from "@/lib/mongo";
 
 export async function POST(request: NextRequest) {
   try {
-    const { slug, ...data } = await request.json();
+    const { newSlug, oldSlug, ...data } = await request.json();
 
-    if (!slug) {
+    if (!newSlug || !oldSlug) {
       return NextResponse.json(
         { error: "Company slug is required" },
         { status: 400 }
@@ -16,9 +16,11 @@ export async function POST(request: NextRequest) {
 
     await connectMongoDB();
 
-    const company = await Company.findOneAndUpdate({ slug }, data, {
-      new: true,
-    });
+    const company = await Company.findOneAndUpdate(
+      { slug: oldSlug },
+      { ...data, slug: newSlug, logo: data.logo },
+      { new: true }
+    );
 
     if (!company) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
