@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { TagsInput } from "@/components/ui/tags-input";
-import { CloudUpload, Loader2, Paperclip, Upload } from "lucide-react";
+import { CloudUpload, Loader2, Paperclip, Plus, Upload } from "lucide-react";
 import {
   FileInput,
   FileUploader,
@@ -130,64 +130,7 @@ export default function EditCompanyForm({
         onSubmit={form.handleSubmit(onSubmit)}
         className={clsx("space-y-8 w-full mx-auto py-10", className)}
       >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Company name</FormLabel>
-              <FormControl>
-                <Input
-                  autoComplete="off"
-                  placeholder="Company name"
-                  type="text"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Type here..."
-                  className="resize-y h-[250px] scrollbar-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="tags"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tags related to your company</FormLabel>
-              <FormControl>
-                <TagsInput
-                  value={field.value}
-                  onValueChange={field.onChange}
-                  placeholder="Enter your tags"
-                />
-              </FormControl>
-              <FormDescription>
-                Add tags by typing and pressing Enter.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
+        {/* LOGO UPLOAD */}
         <FormField
           control={form.control}
           name="logo"
@@ -253,6 +196,92 @@ export default function EditCompanyForm({
             </FormItem>
           )}
         />
+
+        {/* COMPANY NAME */}
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Company name</FormLabel>
+              <FormControl>
+                <Input
+                  autoComplete="off"
+                  placeholder="Company name"
+                  type="text"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* COMPANY DESCRIPTION */}
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Type here..."
+                  className="resize-y h-[250px] scrollbar-none"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* TAGS */}
+        <FormField
+          control={form.control}
+          name="tags"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Tags related to your company</FormLabel>
+              <FormControl>
+                <TagsInput
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  placeholder="Enter your tags"
+                />
+              </FormControl>
+              <FormDescription>
+                Add tags by typing and pressing Enter.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* FOUNDERS */}
+        <div>
+          <p>Founders</p>
+          <div className="mt-2 border-2 border-neutral-800 rounded-xl w-full p-4 flex items-center gap-8">
+            <div className="size-20 aspect-square bg-neutral-700/50 rounded-full flex items-center justify-center">
+              <Upload />
+            </div>
+            <div className="flex flex-row w-full gap-8">
+              <div>
+                <label>Name</label>
+                <input></input>
+              </div>
+              <div>
+                <label>Title</label>
+                <input></input>
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 w-full cursor-pointer py-3 bg-neutral-800 hover:bg-neutral-700/60 text-neutral-400 rounded-lg flex items-center gap-2 justify-center duration-300">
+            <Plus size={18} />
+            Add founder
+          </div>
+        </div>
+
         <Button
           type="submit"
           className="button-primary flex items-center gap-2"
