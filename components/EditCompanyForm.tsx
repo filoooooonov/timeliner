@@ -29,7 +29,7 @@ import { CompanyData } from "@/app/[slug]/page";
 import clsx from "clsx";
 import Image from "next/image";
 import useSWR from "swr";
-import { generateSlug } from "@/app/create-timeline/page";
+import { generateSlug } from "@/utils/utils";
 import { useRouter } from "next/navigation";
 import { set } from "mongoose";
 

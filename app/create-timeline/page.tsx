@@ -65,6 +65,7 @@ import Link from "next/link";
 import Confetti from "react-confetti-boom";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { generateSlug } from "@/utils/utils";
 
 const months = [
   {
@@ -137,13 +138,6 @@ const dropZoneConfig = {
   maxFiles: 1,
   maxSize: 1024 * 1024 * 4,
   multiple: false,
-};
-
-export const generateSlug = (name: string) => {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)+/g, "");
 };
 
 const addCompanyDataToDB = async (formData: CompanyData) => {

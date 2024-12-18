@@ -10,7 +10,14 @@ import { redirect } from "next/navigation";
 export function encodedRedirect(
   type: "error" | "success",
   path: string,
-  message: string,
+  message: string
 ) {
   return redirect(`${path}?${type}=${encodeURIComponent(message)}`);
+}
+
+export function generateSlug(name: string) {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
 }
