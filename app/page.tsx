@@ -27,7 +27,7 @@ export default async function Index() {
         </div>
       </div> */}
 
-      <div className="py-32 lg:grid lg:grid-cols-2 flex flex-col max-w-5xl mx-auto">
+      <div className="py-32 px-5 md:px-0 lg:grid lg:grid-cols-2 flex flex-col max-w-5xl mx-auto">
         <div>
           <h2>Here's how it works</h2>
 
@@ -65,7 +65,7 @@ export default async function Index() {
             </div>
           </div>
         </div>
-        <div className="w-[60%] rounded-xl bg-neutral-900  h-[600px] ml-auto bg-gradient-to-tl from-primary/5  to-neutral-0900"></div>
+        <div className="w-[80%] lg:w-[60%] rounded-xl bg-neutral-900  h-[600px] mx-auto lg:ml-auto bg-gradient-to-tl from-primary/5 to-neutral-0900"></div>
       </div>
 
       <FeedBack />

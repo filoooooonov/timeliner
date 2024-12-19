@@ -20,7 +20,7 @@ export default function Home() {
                       <a
                         href="https://filoooooonov.github.io"
                         target="_blank"
-                        className="px-1 text-primary hover:underline underline-offset-4 flex items-center gap-2"
+                        className="px-1 text-neutral-400 font-medium flex items-center gap-2 hover:font-bold duration-300"
                       >
                         Aleksei
                         <MdOpenInNew />
