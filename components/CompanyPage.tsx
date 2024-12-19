@@ -190,35 +190,48 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
 
               {/* FOUNDERS */}
               <div className="flex flex-col mt-8">
-                <div className="flex flex-row gap-2">
+                <div className="flex flex-col gap-2">
                   {companyData.founders && (
                     <>
-                      <h2 className="text-base text-neutral-400 mb-4">
+                      <h2 className="text-base text-neutral-400 mb-2">
                         Founders
                       </h2>
 
-                      {companyData.founders.map((founder, index) => (
-                        <HoverCard key={index}>
-                          <HoverCardTrigger asChild>
-                            <Image
-                              src={founder.image}
-                              alt="founder image"
-                              className="avatar-image size-16"
-                            />
-                          </HoverCardTrigger>
+                      <div className="flex flex-row gap-2">
+                        {companyData.founders.map((founder, index) => (
+                          <HoverCard
+                            key={index}
+                            openDelay={150}
+                            closeDelay={100}
+                          >
+                            <HoverCardTrigger asChild>
+                              {founder.image ? (
+                                <div className="relative bg-neutral-800 size-16 rounded-full">
+                                  <Image
+                                    src={founder.image}
+                                    fill={true}
+                                    alt="founder image"
+                                    className="avatar-image size-16"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="bg-neutral-800 size-16 rounded-full cursor-pointer"></div>
+                              )}
+                            </HoverCardTrigger>
 
-                          <HoverCardContent className="w-max">
-                            <div className="text-center px-4">
-                              <h3 className="text-lg font-medium">
-                                {founder.name}
-                              </h3>
-                              <span className="text-neutral-300 text-sm">
-                                {founder.job_title}
-                              </span>
-                            </div>
-                          </HoverCardContent>
-                        </HoverCard>
-                      ))}
+                            <HoverCardContent className="w-max">
+                              <div className="text-center">
+                                <h3 className="text-sm font-medium">
+                                  {founder.name}
+                                </h3>
+                                <span className="text-neutral-400 text-xs">
+                                  {founder.job_title}
+                                </span>
+                              </div>
+                            </HoverCardContent>
+                          </HoverCard>
+                        ))}
+                      </div>
                     </>
                   )}
 

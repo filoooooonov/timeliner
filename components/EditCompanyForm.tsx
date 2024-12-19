@@ -1,10 +1,9 @@
 "use client";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { TagsInput } from "@/components/ui/tags-input";
-import { CloudUpload, Loader2, Paperclip, Plus, Upload } from "lucide-react";
+import { Loader2, Paperclip, Plus, Upload } from "lucide-react";
 import {
   FileInput,
   FileUploader,
@@ -28,16 +27,22 @@ import {
 import { CompanyData } from "@/app/[slug]/page";
 import clsx from "clsx";
 import Image from "next/image";
-import useSWR from "swr";
-import { generateSlug } from "@/utils/utils";
+import { convertToBase64, generateSlug } from "@/utils/utils";
 import { useRouter } from "next/navigation";
-import { set } from "mongoose";
+import { RxCross2 } from "react-icons/rx";
 
 const formSchema = z.object({
   name: z.string().optional(),
   description: z.string().optional(),
   tags: z.array(z.string()).optional().default([]),
   logo: z.string().optional(),
+  founders: z.array(
+    z.object({
+      name: z.string(),
+      job_title: z.string(),
+      image: z.string().optional(),
+    })
+  ),
 });
 
 export default function EditCompanyForm({
@@ -51,6 +56,7 @@ export default function EditCompanyForm({
   const [logo, setLogo] = useState<string | null>(companyData.logo);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
 
   const dropZoneConfig = {
@@ -66,6 +72,10 @@ export default function EditCompanyForm({
       description: companyData.description,
       tags: companyData.tags,
       logo: companyData.logo,
+      founders:
+        companyData.founders.length > 0
+          ? companyData.founders
+          : [{ name: "", job_title: "", image: "" }],
     },
   });
 
@@ -105,14 +115,22 @@ export default function EditCompanyForm({
     }
   }
 
-  function convertToBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-  }
+  const { fields, append, update, remove } = useFieldArray({
+    control: form.control,
+    name: "founders",
+  });
+
+  const handleAddFounder = () => {
+    append({ name: "", job_title: "", image: "" });
+  };
+
+  const handleImageChange = (index: number, file: File) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      update(index, { ...fields[index], image: reader.result as string });
+    };
+    reader.readAsDataURL(file);
+  };
 
   async function handleFileChange(files: File[] | null) {
     setFiles(files);
@@ -261,22 +279,106 @@ export default function EditCompanyForm({
         {/* FOUNDERS */}
         <div>
           <p>Founders</p>
-          <div className="mt-2 border-2 border-neutral-800 rounded-xl w-full p-4 flex items-center gap-8">
-            <div className="size-20 aspect-square bg-neutral-700/50 rounded-full flex items-center justify-center">
-              <Upload />
-            </div>
-            <div className="flex flex-row w-full gap-8">
-              <div>
-                <label>Name</label>
-                <input></input>
+          {fields.map((field, index) => (
+            <div
+              key={field.id}
+              className="mt-2 border-2 border-neutral-800 rounded-xl w-full p-4 flex items-center gap-8"
+            >
+              <div className="size-20 aspect-square bg-neutral-700/50 rounded-full flex items-center justify-center">
+                <FormField
+                  control={form.control}
+                  name={`founders.${index}.image`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <FileUploader
+                          value={files}
+                          onValueChange={(files) => {
+                            if (files && files[0]) {
+                              handleImageChange(index, files[0]);
+                            }
+                          }}
+                          dropzoneOptions={{
+                            maxFiles: 1,
+                            maxSize: 1024 * 1024 * 4,
+                            multiple: false,
+                          }}
+                          className="relative p-3 h-max  flex items-center space-x-3"
+                        >
+                          {field.value ? (
+                            <div className="relative size-16 flex items-center justify-center ">
+                              <FileInput
+                                id={`upload-${index}`}
+                                className="relative size-16 flex items-center justify-center overflow-hidden"
+                              >
+                                <Image
+                                  src={field.value}
+                                  alt="founder image"
+                                  fill={true}
+                                  className="object-contain rounded-full"
+                                />
+                              </FileInput>
+                            </div>
+                          ) : (
+                            <div>
+                              <FileInput
+                                id={`upload-${index}`}
+                                className="relative size-16 flex items-center justify-center"
+                              >
+                                <Upload className="size-8 w-max text-neural-500" />
+                              </FileInput>
+                            </div>
+                          )}
+                        </FileUploader>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
-              <div>
-                <label>Title</label>
-                <input></input>
+              <div className="flex flex-row w-full gap-8 relative">
+                <FormField
+                  control={form.control}
+                  name={`founders.${index}.name`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`founders.${index}.job_title`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Title" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <button
+                  className="absolute right-0 top-0"
+                  onClick={() => remove(index)}
+                >
+                  <RxCross2
+                    size={16}
+                    className="text-neutral-400 hover:text-white  duration-200"
+                  />
+                </button>
               </div>
             </div>
-          </div>
-          <div className="mt-4 w-full cursor-pointer py-3 bg-neutral-800 hover:bg-neutral-700/60 text-neutral-400 rounded-lg flex items-center gap-2 justify-center duration-300">
+          ))}
+          <div
+            className="mt-4 w-full cursor-pointer py-3 bg-neutral-800 hover:bg-neutral-700/60 text-neutral-400 rounded-lg flex items-center gap-2 justify-center duration-300"
+            onClick={handleAddFounder}
+          >
             <Plus size={18} />
             Add founder
           </div>
