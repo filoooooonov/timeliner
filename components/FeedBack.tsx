@@ -17,7 +17,7 @@ const FeedBack = () => {
           </Link>
           with me!
         </p>
-        <a href="/">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeqiq88c63NlRtbi1zT0kKvuQ7BaMGzq-G42Cn2xrIPPllXrg/viewform?usp=dialog">
           <button className="button-primary px-4 py-2 w-max mx-auto mt-8">
             Leave feedback
           </button>
