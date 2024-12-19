@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ContainerScroll } from "./ui/container-scroll-animation";
 import Image from "next/image";
-import timelinerDemo from "@/public/placeholderDemo.webp";
+import timelinerDemo from "@/public/Screenshot 2024-12-19 212623.png";
 import CreateTimelineButton from "./CreateTimelineButton";
 import { MdOpenInNew } from "react-icons/md";
 
@@ -52,9 +52,7 @@ export default function Home() {
               <Image
                 src={timelinerDemo}
                 alt="timeliner demo image"
-                height={720}
-                width={1400}
-                className="mx-auto rounded-2xl object-cover h-full object-left-top"
+                className="mx-auto rounded-2xl object-scale-down h-full object-left-top"
                 draggable={false}
               />
             </ContainerScroll>

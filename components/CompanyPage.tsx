@@ -191,7 +191,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
               {/* FOUNDERS */}
               <div className="flex flex-col mt-8">
                 <div className="flex flex-col gap-2">
-                  {companyData.founders && (
+                  {companyData.founders.length > 0 && (
                     <>
                       <h2 className="text-base text-neutral-400 mb-2">
                         Founders
@@ -219,7 +219,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
                               )}
                             </HoverCardTrigger>
 
-                            <HoverCardContent className="w-max rounded-lg border shadow-sm border-neutral-800">
+                            <HoverCardContent className="w-max rounded-lg bg-neutral-900 border shadow-sm border-neutral-800">
                               <div className="text-center">
                                 <h3 className="text-sm font-medium">
                                   {founder.name}

@@ -344,7 +344,11 @@ export default function EditCompanyForm({
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Name" {...field} />
+                        <Input
+                          autoComplete="off"
+                          placeholder="Name"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -357,7 +361,11 @@ export default function EditCompanyForm({
                     <FormItem>
                       <FormLabel>Title</FormLabel>
                       <FormControl>
-                        <Input placeholder="Title" {...field} />
+                        <Input
+                          autoComplete="off"
+                          placeholder="Title"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
