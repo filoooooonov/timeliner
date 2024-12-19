@@ -20,8 +20,6 @@ export default function RootLayout({
           <Toaster />
           {children}
         </div>
-
-        <FeedBack />
       </main>
     </>
   );

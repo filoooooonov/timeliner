@@ -219,7 +219,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
                               )}
                             </HoverCardTrigger>
 
-                            <HoverCardContent className="w-max">
+                            <HoverCardContent className="w-max rounded-lg border shadow-sm border-neutral-800">
                               <div className="text-center">
                                 <h3 className="text-sm font-medium">
                                   {founder.name}
