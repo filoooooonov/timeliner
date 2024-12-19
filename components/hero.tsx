@@ -3,6 +3,7 @@ import { ContainerScroll } from "./ui/container-scroll-animation";
 import Image from "next/image";
 import timelinerDemo from "@/public/placeholderDemo.webp";
 import CreateTimelineButton from "./CreateTimelineButton";
+import { MdOpenInNew } from "react-icons/md";
 
 export default function Home() {
   return (
@@ -14,11 +15,22 @@ export default function Home() {
               titleComponent={
                 <>
                   <div className="text-center mb-24 md:mb-32">
+                    <div className="mx-auto mb-6 bg-black w-max px-4 py-1 rounded-full border-2 border-neutral-900 flex flex-row">
+                      👋 Built by{" "}
+                      <a
+                        href="https://filoooooonov.github.io"
+                        target="_blank"
+                        className="px-1 text-primary hover:underline underline-offset-4 flex items-center gap-2"
+                      >
+                        Aleksei
+                        <MdOpenInNew />
+                      </a>
+                    </div>
                     <h1 className="text-4xl md:text-6xl font-bold mb-6">
                       Let them know{" "}
                       <span className="text-primary">how it started</span>
                     </h1>
-                    <p className="text-lg text-text_secondary md:text-2xl mb-16 max-w-2xl mx-auto">
+                    <p className="text-lg text-neutral-400 md:text-2xl mb-16 max-w-2xl mx-auto">
                       Commemorate and share your startup&apos;s story with
                       Timeliner.
                     </p>
@@ -49,23 +61,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* <section className="bg-gray-900 p-8 rounded-lg">
-        <h2 className="text-2xl font-bold mb-4 text-center">Stay Updated</h2>
-        <form className="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
-          <input
-            type="email"
-            placeholder="Enter your email"
-            className="bg-gray-800 text-gray-100 border-gray-600"
-          />
-          <button
-            type="submit"
-            className="bg-primary text-gray-900 hover:bg-lime-500"
-          >
-            Subscribe
-          </button>
-        </form>
-      </section> */}
     </div>
   );
 }

@@ -79,7 +79,7 @@ const HeaderHome = () => {
   return (
     <>
       <header className="py-6 mt-2 ">
-        <nav className="relative  flex items-center flex-row justify-between">
+        <nav className="relative flex items-center flex-row justify-between">
           <div className="hidden 2xl:block 2xl:absolute lg:left-1/2 2xl:transform 2xl:-translate-x-1/2">
             <PlaceholdersAndVanishInput
               placeholders={placeholders}

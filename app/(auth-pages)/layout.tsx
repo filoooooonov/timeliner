@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import HeaderMinimal from "@/components/HeaderMinimal";
 import { Metadata } from "next";
 import { Toaster } from "sonner";
@@ -14,8 +15,7 @@ export default async function Layout({
   return (
     <div className="flex h-[80vh] flex-col justify-center items-center gap-12">
       <Toaster position="bottom-center" />
-
-      {children}
+      <div>{children}</div>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import FeedBack from "@/components/FeedBack";
 import HeaderMinimal from "@/components/HeaderMinimal";
 import { Metadata } from "next";
 import { Toaster } from "sonner";
@@ -14,9 +15,13 @@ export default function RootLayout({
   return (
     <>
       <main className="bg-background">
-        <HeaderMinimal />
-        <Toaster />
-        {children}
+        <div className="h-screen">
+          <HeaderMinimal />
+          <Toaster />
+          {children}
+        </div>
+
+        <FeedBack />
       </main>
     </>
   );
