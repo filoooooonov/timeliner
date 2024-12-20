@@ -4,14 +4,24 @@ import React, { useState, useEffect } from "react";
 
 const HowItWorks = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveStep((prevStep) => (prevStep + 1) % 3);
-    }, 9000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const progressInterval = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress < 100 ? prevProgress + 1 : 100
+      );
+    }, 50);
+    return () => clearInterval(progressInterval);
+  }, [activeStep]);
 
   const steps = [
     {
@@ -59,8 +69,8 @@ const HowItWorks = () => {
                   <div
                     className={`absolute h-full ${activeStep === index ? "bg-primary" : "bg-neutral-800"}`}
                     style={{
-                      width: `${activeStep === index ? 100 : 0}%`,
-                      transition: "width 9s linear",
+                      width: `${activeStep === index ? progress : 0}%`,
+                      transition: "width 5s linear",
                     }}
                   ></div>
                 </div>
