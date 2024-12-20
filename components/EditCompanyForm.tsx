@@ -72,10 +72,7 @@ export default function EditCompanyForm({
       description: companyData.description,
       tags: companyData.tags,
       logo: companyData.logo,
-      founders:
-        companyData.founders.length > 0
-          ? companyData.founders
-          : [{ name: "", job_title: "", image: "" }],
+      founders: companyData.founders.length > 0 ? companyData.founders : [],
     },
   });
 
@@ -127,7 +124,7 @@ export default function EditCompanyForm({
   const handleImageChange = (index: number, file: File) => {
     const reader = new FileReader();
     reader.onloadend = () => {
-      update(index, { ...fields[index], image: reader.result as string });
+      form.setValue(`founders.${index}.image`, reader.result as string);
     };
     reader.readAsDataURL(file);
   };
@@ -177,7 +174,7 @@ export default function EditCompanyForm({
                         id="fileInput"
                         className="relative size-32 bg-neutral-800 rounded-md flex items-center justify-center aspect-square"
                       >
-                        <Upload className="size-8 w-max text-neural-500" />
+                        <Upload className="size-8 w-max text-neutral-700" />
                       </FileInput>
                     </div>
                   )}
@@ -325,7 +322,7 @@ export default function EditCompanyForm({
                                 id={`upload-${index}`}
                                 className="relative size-16 flex items-center justify-center"
                               >
-                                <Upload className="size-8 w-max text-neural-500" />
+                                <Upload className="size-8 w-max text-neutral-500" />
                               </FileInput>
                             </div>
                           )}
@@ -346,7 +343,7 @@ export default function EditCompanyForm({
                       <FormControl>
                         <Input
                           autoComplete="off"
-                          placeholder="Name"
+                          placeholder="Type here..."
                           {...field}
                         />
                       </FormControl>
@@ -363,7 +360,7 @@ export default function EditCompanyForm({
                       <FormControl>
                         <Input
                           autoComplete="off"
-                          placeholder="Title"
+                          placeholder="Type here..."
                           {...field}
                         />
                       </FormControl>
