@@ -34,7 +34,7 @@
 }
 
 .dot-background {
-  @apply w-full flex-col gap-20 bg-teal-950/70 bg-dot-white/[0.15] relative justify-center;
+  @apply w-full flex-col gap-20 bg-[#454839]/30 bg-dot-white/[0.15] relative justify-center;
 }
 
 p {
