@@ -47,7 +47,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <div className="mx-auto max-w-5xl py-20">
+    <div className="mx-auto max-w-5xl py-20 px-5 md:px-0">
       <h2 className="text-neutral-200">How it works</h2>
       <div className="flex flex-col lg:grid lg:grid-cols-2">
         <div>
