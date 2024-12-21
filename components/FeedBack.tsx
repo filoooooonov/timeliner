@@ -4,11 +4,14 @@ import React from "react";
 
 const FeedBack = () => {
   return (
-    <div className="w-full bg-black">
-      <div className="max-w-4xl mx-auto py-32 mx-auto flex justify-center flex-col gap-6 text-center">
+    <div className="w-full bg-black px-5 md:px-0">
+      <div className="max-w-4xl py-32 mx-auto flex justify-center flex-col gap-6 text-center">
+        <Code2 size={30} className="text-neutral-500 flex md:hidden mx-auto" />
+
         <h2 className="text-center flex items-center gap-4 mx-auto text-neutral-200">
-          <Code2 size={30} className="text-neutral-500" />
-          Timeliner is still in development . . .
+          <Code2 size={30} className="text-neutral-500 hidden md:flex" />
+          Timeliner is still in development{" "}
+          <span className="hidden md:flex">. . .</span>
         </h2>
         <p>
           Below you can share any bugs, wishes and thoughts about

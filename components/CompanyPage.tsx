@@ -320,11 +320,11 @@ export function EditCompanyDialog({
         <ScrollArea className="overflow-y-auto">
           <EditCompanyForm companyData={companyData} className="px-4 py-8" />
         </ScrollArea>
-        <DrawerFooter className="pt-2">
+        {/* <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button className="button-secondary">Cancel</Button>
           </DrawerClose>
-        </DrawerFooter>
+        </DrawerFooter> */}
       </DrawerContent>
     </Drawer>
   );
