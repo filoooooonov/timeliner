@@ -58,6 +58,18 @@ const companySchema = new Schema(
         },
       },
     ],
+    timeline_entries: [
+      {
+        date: {
+          type: String,
+          required: true,
+        },
+        text: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

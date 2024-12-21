@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <>
       <main className="bg-background">
-        <div className="h-screen">
+        <div className="min-h-screen">
           <HeaderMinimal />
           <Toaster />
           {children}

@@ -18,6 +18,10 @@ export interface CompanyData {
     job_title: string;
     image: string;
   }[];
+  timeline_entries: {
+    date: string;
+    text: string;
+  }[];
 }
 
 const URL =
