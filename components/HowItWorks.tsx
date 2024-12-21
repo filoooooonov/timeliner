@@ -1,27 +1,26 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { Progress } from "./ui/progress";
 
 const HowItWorks = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveStep((prevStep) => (prevStep + 1) % 3);
-    }, 5000);
-
-    return () => clearInterval(interval);
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => Math.min(prev + 1, 100));
+    }, 90);
+    return () => clearInterval(progressInterval);
   }, []);
 
+  // Once progress hits 100, reset and advance step
   useEffect(() => {
-    const progressInterval = setInterval(() => {
-      setProgress((prevProgress) =>
-        prevProgress < 100 ? prevProgress + 1 : 100
-      );
-    }, 50);
-    return () => clearInterval(progressInterval);
-  }, [activeStep]);
+    if (progress === 100) {
+      setProgress(0);
+      setActiveStep((prevStep) => (prevStep + 1) % 3);
+    }
+  }, [progress]);
 
   const steps = [
     {
@@ -56,7 +55,10 @@ const HowItWorks = () => {
             <div
               key={index}
               className="mt-12 cursor-pointer"
-              onClick={() => setActiveStep(index)}
+              onClick={() => {
+                setActiveStep(index);
+                setProgress(0);
+              }}
             >
               <div
                 className={`py-5 ${activeStep === index ? step.color : "text-neutral-300"}`}
@@ -66,13 +68,11 @@ const HowItWorks = () => {
                   {step.description}
                 </p>
                 <div className="relative h-1 bg-neutral-800 mt-4">
-                  <div
-                    className={`absolute h-full ${activeStep === index ? "bg-primary" : "bg-neutral-800"}`}
-                    style={{
-                      width: `${activeStep === index ? progress : 0}%`,
-                      transition: "width 5s linear",
-                    }}
-                  ></div>
+                  {activeStep === index ? (
+                    <Progress value={progress} className="rounded-none h-1" />
+                  ) : (
+                    <div className="absolute h-full bg-neutral-800"></div>
+                  )}
                 </div>
               </div>
             </div>
