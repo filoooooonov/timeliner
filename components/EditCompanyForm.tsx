@@ -333,7 +333,7 @@ export default function EditCompanyForm({
                   )}
                 />
               </div>
-              <div className="flex flex-row w-full gap-8 relative">
+              <div className="flex flex-col md:flex-row w-full gap-4 md:gap-8 relative">
                 <FormField
                   control={form.control}
                   name={`founders.${index}.name`}
@@ -391,7 +391,7 @@ export default function EditCompanyForm({
 
         <Button
           type="submit"
-          className="button-primary flex items-center gap-2"
+          className="button-primary flex items-center gap-2 w-full"
         >
           {loading && <Loader2 className="animate-spin" />}
           Save changes
