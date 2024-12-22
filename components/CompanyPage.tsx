@@ -274,7 +274,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
         </div>
 
         <div className=" mb-40">
-          <Timeline data={testData} />
+          <Timeline data={companyData.timeline_entries} />
         </div>
       </div>
     </div>

@@ -1,21 +1,20 @@
 "use client";
+import { CompanyData, TimelineEntry } from "@/app/[slug]/page";
 import {
   useMotionValueEvent,
   useScroll,
   useTransform,
   motion,
 } from "framer-motion";
+import { Plus } from "lucide-react";
+import { useSession } from "next-auth/react";
 import React, { useEffect, useRef, useState } from "react";
-
-interface TimelineEntry {
-  title: string;
-  content: React.ReactNode;
-}
 
 export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     if (ref.current) {
@@ -31,6 +30,18 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
   const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+
+  if (!data) {
+    return (
+      <div className="mt-32 mx-auto text-center w-full flex flex-col gap-4 h-[40vh]">
+        You don't have a timeline yet.
+        <button className="button-secondary px-4 py-2 mx-auto">
+          <Plus size={16} />
+          Add entry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -71,15 +82,15 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
               </div>
               {/* Date */}
               <h3 className="hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-neutral-500 ">
-                {item.title}
+                {item.date}
               </h3>
             </div>
 
             <div className="relative pl-20 pr-4 md:pl-4 w-full">
               <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500">
-                {item.title}
+                {item.text}
               </h3>
-              {item.content}
+              {item.text}
             </div>
           </div>
         ))}

@@ -49,7 +49,7 @@ const HowItWorks = () => {
   return (
     <div className="mx-auto max-w-5xl py-20 px-5 md:px-0">
       <h2 className="text-neutral-200">How it works</h2>
-      <div className="flex flex-col lg:grid lg:grid-cols-2">
+      <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 md:gap-0">
         <div>
           {steps.map((step, index) => (
             <div
@@ -80,7 +80,7 @@ const HowItWorks = () => {
         </div>
 
         <div
-          className={`w-[80%] lg:w-[60%] rounded-xl h-[600px] ml-auto lg:ml-auto bg-gradient-to-tl ${steps[activeStep].gradient}`}
+          className={`w-[80%] lg:w-[60%] rounded-xl h-[600px] mx-auto md:ml-auto lg:ml-auto bg-gradient-to-tl ${steps[activeStep].gradient}`}
         ></div>
       </div>
     </div>

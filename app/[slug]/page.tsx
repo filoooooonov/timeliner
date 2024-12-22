@@ -2,6 +2,11 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 import CompanyPage from "@/components/CompanyPage";
 
+export interface TimelineEntry {
+  date: string;
+  text: string;
+}
+
 // Define the interface for the company data
 export interface CompanyData {
   id: string;
@@ -18,10 +23,7 @@ export interface CompanyData {
     job_title: string;
     image: string;
   }[];
-  timeline_entries: {
-    date: string;
-    text: string;
-  }[];
+  timeline_entries: TimelineEntry[];
 }
 
 const URL =

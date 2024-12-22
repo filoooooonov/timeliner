@@ -13,8 +13,10 @@ export default function RootLayout({
   return (
     <>
       <main className="bg-background">
-        <HeaderMinimal />
-        {children}
+        <div className="min-h-screen">
+          <HeaderMinimal />
+          {children}
+        </div>
       </main>
     </>
   );

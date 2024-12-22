@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 
 const Footer = () => {
   return (
-    <footer className="max-w-3xl mx-auto text-text_secondary pt-12 pb-4">
+    <footer className="max-w-3xl mx-auto text-text_secondary pt-12 pb-4 px-5 md:px-0">
       <h3 className="font-bold text-sm text-neutral-500 mb-2">LEGAL</h3>
       <ul className="mb-8 space-y-2">
         <li>
