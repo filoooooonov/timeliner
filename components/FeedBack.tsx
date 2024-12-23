@@ -10,7 +10,7 @@ const FeedBack = () => {
 
         <h2 className="text-center flex items-center gap-4 mx-auto text-neutral-200">
           <Code2 size={30} className="text-neutral-500 hidden md:flex" />
-          Timeliner is still in development{" "}
+          Timeliner is in development{" "}
           <span className="hidden md:flex">. . .</span>
         </h2>
         <p>

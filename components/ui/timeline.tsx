@@ -28,34 +28,20 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
     offset: ["start 10%", "end 50%"],
   });
 
-  const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
+  const heightTransform = useTransform(scrollYProgress, [0, 0.7], [0, height]);
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
-
-  if (!data) {
-    return (
-      <div className="mt-32 mx-auto text-center w-full flex flex-col gap-4 h-[40vh]">
-        You don't have a timeline yet.
-        <button className="button-secondary px-4 py-2 mx-auto">
-          <Plus size={16} />
-          Add entry
-        </button>
-      </div>
-    );
-  }
 
   return (
     <div
-      className="w-full relative bg-background font-sans pb-40"
+      className="w-full relative bg-background font-sans pb-40 pt-20"
       ref={containerRef}
     >
       {/* UPCOMING */}
-      <div className="flex justify-start pt-10 md:pt-32 md:gap-10">
+      {/* <div className="flex justify-start pt-10 md:pt-32 md:gap-10">
         <div className="flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
-          {/* Circles on timeline */}
           <div className="h-6 absolute left-4 md:left-[21px] w-6 rounded-full bg-black flex items-center justify-center">
             <div className="h-3 w-3 rounded-full bg-neutral-800 border border-neutral-700 p-1" />
           </div>
-          {/* Date */}
           <h3 className="hidden md:block text-lg md:pl-20 md:text-3xl font-semibold text-neutral-500 ">
             Upcoming...
           </h3>
@@ -66,39 +52,42 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           </h3>
           item.content
         </div>
-      </div>
+      </div> */}
 
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
         {/* MAIN TIMELINE */}
-        {data.map((item, index) => (
-          <div
-            key={index}
-            className="flex justify-start pt-10 md:pt-40 md:gap-10"
-          >
-            <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
-              {/* Circles on timeline */}
-              <div className="size-6 absolute left-4 md:left-[21px]  rounded-full bg-black flex items-center justify-center">
-                <div className="h-3 w-3 rounded-full bg-neutral-800 border border-neutral-700 p-1" />
+        <div className="relative">
+          {data.map((item, index) => (
+            <div
+              key={index}
+              className="flex justify-start pt-10 md:pt-40 md:gap-10"
+            >
+              <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
+                {/* Circles on timeline */}
+                <div className="size-6 absolute left-[20px] md:left-[21px]  rounded-full bg-black flex items-center justify-center">
+                  <div className="h-3 w-3 rounded-full bg-neutral-800 border border-neutral-700 p-1" />
+                </div>
+                {/* Date */}
+                <h3 className="hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-neutral-500 ">
+                  {item.date}
+                </h3>
               </div>
-              {/* Date */}
-              <h3 className="hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-neutral-500 ">
-                {item.date}
-              </h3>
-            </div>
 
-            <div className="relative pl-20 pr-4 md:pl-4 w-full">
-              <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500">
+              <div className="relative pl-20 pr-4 md:pl-4 w-full">
+                <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500">
+                  {item.text}
+                </h3>
                 {item.text}
-              </h3>
-              {item.text}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        {/* <div className="absolute bottom-0 w-full bg-background h-24 z-[10]"></div> */}
         <div
           style={{
             height: height + "px",
           }}
-          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-700 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] "
+          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-700 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_50%,transparent_100%)] "
         >
           <motion.div
             style={{

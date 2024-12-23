@@ -16,46 +16,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, Plus } from "lucide-react";
 import useSWR from "swr";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
-import { Button } from "./ui/button";
-import { useMediaQuery } from "usehooks-ts";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "./ui/drawer";
-import { useForm } from "react-hook-form";
-import EditCompanyForm from "@/components//EditCompanyForm";
-import { ScrollArea } from "./ui/scroll-area";
+import EditCompanyForm from "./EditCompanyForm";
+import { ResponsiveDialog } from "./ResponsiveDialog";
+import AddEntryForm from "./AddEntryForm";
 
 const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const { data: session, status } = useSession();
 
   const [logo, setLogo] = useState<string | null>(null);
-  const [editorDialogOpen, setEditorDialogOpen] = useState<boolean>(false);
+  const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
+  const [entryDialogOpen, setEntryDialogOpen] = useState<boolean>(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-
-  const onSubmit = (data: any) => {
-    // Handle form submission
-    console.log(data);
-    // You can add API call here to save the data
-  };
 
   const renderLogo = () => {
     if (companyData.logo) {
@@ -73,23 +46,26 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
     }
   };
 
-  const addFounder = () => {
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-    const { data, error } = useSWR("/api/test", fetcher);
-
-    if (error) return <div>Failed to load</div>;
-    if (!data) return <div>Loading...</div>;
-
-    console.log(data);
-  };
-
   return (
     <div className="bg-background">
-      <EditCompanyDialog
+      {/* Edit company dialog */}
+      <ResponsiveDialog
+        open={editDialogOpen}
+        setOpen={setEditDialogOpen}
         companyData={companyData}
-        open={editorDialogOpen}
-        setOpen={setEditorDialogOpen}
+        Form={EditCompanyForm}
+        title="Edit Company"
+        description="Edit your company info here."
+      />
+
+      {/* Add entry dialog */}
+      <ResponsiveDialog
+        open={entryDialogOpen}
+        setOpen={setEntryDialogOpen}
+        companyData={companyData}
+        Form={AddEntryForm}
+        title="Add Entry"
+        description="Add a new timeline entry."
       />
 
       {/* Banner on top */}
@@ -101,7 +77,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
           {session?.user.id === companyData.creator && (
             <button
               className="button-secondary flex items-center gap-2"
-              onClick={() => setEditorDialogOpen(true)}
+              onClick={() => setEditDialogOpen(true)}
             >
               <MdEdit />
               Edit company info
@@ -146,7 +122,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
                       onSelect={(e) => {
                         e.preventDefault();
                         setDropdownOpen(false);
-                        setEditorDialogOpen(true);
+                        setEditDialogOpen(true);
                       }}
                     >
                       <span className="text-neutral-300 flex items-center gap-2">
@@ -273,125 +249,42 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
           </ul>
         </div>
 
-        <div className=" mb-40">
-          <Timeline data={companyData.timeline_entries} />
-        </div>
+        {companyData.timeline_entries && (
+          <button
+            className="ml-auto button-secondary px-2 py-1"
+            onClick={() => setEntryDialogOpen(true)}
+          >
+            <Plus size={16} /> Add entry
+          </button>
+        )}
+
+        {companyData.timeline_entries ? (
+          <div className=" mb-40">
+            <Timeline data={companyData.timeline_entries} />
+          </div>
+        ) : (
+          <>
+            {companyData.creator === session?.user.id ? (
+              <div className="mt-32 mx-auto text-center w-full flex flex-col gap-4 h-[40vh]">
+                {companyData.name} does not have a timeline yet.
+                <button
+                  className="button-secondary px-4 py-2 mx-auto"
+                  onClick={() => setEntryDialogOpen(true)}
+                >
+                  <Plus size={16} />
+                  Add the first entry
+                </button>
+              </div>
+            ) : (
+              <div className="mt-32 mx-auto text-center w-full flex flex-col gap-4 h-[40vh]">
+                {companyData.name} does not have a timeline yet.
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
 };
-
-export function EditCompanyDialog({
-  open,
-  setOpen,
-  companyData,
-}: {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-  companyData: CompanyData;
-}) {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-
-  if (isDesktop) {
-    return (
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="overflow-y-auto max-w-7xl max-h-[80vh] scrollbar-hide">
-          <DialogHeader>
-            <DialogTitle>Edit company info</DialogTitle>
-            <DialogDescription>
-              Edit your company information here. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
-          <EditCompanyForm companyData={companyData} />
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
-  return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerContent className="max-h-[80vh] !scrollbar-none">
-        <DrawerHeader className="text-left">
-          <DrawerTitle>Edit company info</DrawerTitle>
-          <DrawerDescription>
-            Edit your company information here. Click save when you're done.
-          </DrawerDescription>
-        </DrawerHeader>
-        <ScrollArea className="overflow-y-auto">
-          <EditCompanyForm companyData={companyData} className="px-4 py-8" />
-        </ScrollArea>
-        {/* <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button className="button-secondary">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter> */}
-      </DrawerContent>
-    </Drawer>
-  );
-}
-
-const testData = [
-  {
-    title: "2024",
-    content: (
-      <div>
-        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-          Built and launched Aceternity UI and Aceternity UI Pro from scratch
-        </p>
-      </div>
-    ),
-  },
-  {
-    title: "Early 2023",
-    content: (
-      <div>
-        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-          I usually run out of copy, but when I see content this big, I try to
-          integrate lorem ipsum.
-        </p>
-        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-          Lorem ipsum is for people who are too lazy to write copy. But we are
-          not. Here are some more example of beautiful designs I built.
-        </p>
-        <div className="grid grid-cols-2 gap-4">
-          {/* <Image
-              src="https://assets.aceternity.com/pro/hero-sections.png"
-              alt="hero template"
-              width={500}
-              height={500}
-              className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-            /> */}
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Changelog",
-    content: (
-      <div>
-        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
-          Deployed 5 new components on Aceternity today
-        </p>
-        <div className="mb-8">
-          <div className="flex gap-2 items-center text-neutral-700 dark:text-neutral-300 text-xs md:text-sm">
-            ✅ Card grid component
-          </div>
-          <div className="flex gap-2 items-center text-neutral-700 dark:text-neutral-300 text-xs md:text-sm">
-            ✅ Startup template Aceternity
-          </div>
-          <div className="flex gap-2 items-center text-neutral-700 dark:text-neutral-300 text-xs md:text-sm">
-            ✅ Random file upload lol
-          </div>
-          <div className="flex gap-2 items-center text-neutral-700 dark:text-neutral-300 text-xs md:text-sm">
-            ✅ Himesh Reshammiya Music CD
-          </div>
-          <div className="flex gap-2 items-center text-neutral-700 dark:text-neutral-300 text-xs md:text-sm">
-            ✅ Salman Bhai Fan Club registrations open
-          </div>
-        </div>
-      </div>
-    ),
-  },
-];
 
 export default CompanyPage;
