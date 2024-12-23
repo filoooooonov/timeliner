@@ -252,7 +252,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
 
         {companyData.timeline_entries && (
           <button
-            className="ml-auto button-secondary px-2 py-1"
+            className="ml-auto button-secondary px-2 py-1 mt-12 md:mt-4"
             onClick={() => setEntryDialogOpen(true)}
           >
             <Plus size={16} /> Add entry

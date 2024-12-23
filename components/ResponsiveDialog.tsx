@@ -71,7 +71,7 @@ export function ResponsiveDialog({
           <DrawerTitle>{title}</DrawerTitle>
           <DrawerDescription>{description}</DrawerDescription>
         </DrawerHeader>
-        <ScrollArea className="overflow-y-auto">
+        <ScrollArea className="overflow-y-auto px-4">
           <Form companyData={companyData} />
           {/* <EditCompanyForm companyData={companyData} className="" /> */}
         </ScrollArea>
