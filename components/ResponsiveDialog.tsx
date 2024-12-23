@@ -58,7 +58,7 @@ export function ResponsiveDialog({
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
-          <EditCompanyForm companyData={companyData} />
+          <Form companyData={companyData} />
         </DialogContent>
       </Dialog>
     );

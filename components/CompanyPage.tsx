@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import { FaAward } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
 import { FaRegCopy } from "react-icons/fa6";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import {
   DropdownMenu,
@@ -17,10 +17,10 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { EllipsisVertical, Plus } from "lucide-react";
-import useSWR from "swr";
 import EditCompanyForm from "./EditCompanyForm";
-import { ResponsiveDialog } from "./ResponsiveDialog";
 import AddEntryForm from "./AddEntryForm";
+import MedalImg from "@/public/medal.png";
+import { ResponsiveDialog } from "./ResponsiveDialog";
 
 const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const { data: session, status } = useSession();
@@ -54,8 +54,8 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
         setOpen={setEditDialogOpen}
         companyData={companyData}
         Form={EditCompanyForm}
-        title="Edit Company"
-        description="Edit your company info here."
+        title={`Edit ${companyData.name}`}
+        description="Edit your company information."
       />
 
       {/* Add entry dialog */}
@@ -224,6 +224,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
             <div className="hidden md:flex ml-auto items-center bg-neutral-900 px-4 py-2 rounded-md">
               <p className="font-semibold flex items-center gap-2">
                 <FaAward />
+                {/* <Image src={MedalImg} alt="medal" className="size-8" /> */}
                 Est. {companyData.month_founded} {companyData.year_founded}
               </p>
             </div>

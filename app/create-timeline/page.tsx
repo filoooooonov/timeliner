@@ -419,7 +419,7 @@ export default function CreateCompanyForm() {
                                 variant="outline"
                                 role="combobox"
                                 className={cn(
-                                  "w-[200px] justify-between bg-neutral-900 border border-neutral-700 !text-white",
+                                  "w-[200px] justify-between bg-neutral-900 border-2 border-neutral-800 !text-white",
                                   !field.value && "text-muted-foreground "
                                 )}
                               >
@@ -497,7 +497,7 @@ export default function CreateCompanyForm() {
                               variant="outline"
                               role="combobox"
                               className={cn(
-                                "w-[200px] justify-between bg-neutral-900 border border-neutral-700 !text-white",
+                                "w-[200px] justify-between bg-neutral-900 border-2 border-neutral-800 !text-white",
                                 !field.value && "text-muted-foreground"
                               )}
                             >
