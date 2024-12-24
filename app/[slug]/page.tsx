@@ -4,6 +4,7 @@ import CompanyPage from "@/components/CompanyPage";
 
 export interface TimelineEntry {
   date: string;
+  dateISO: string;
   text: string;
 }
 

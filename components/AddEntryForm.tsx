@@ -27,7 +27,10 @@ import {
   CalendarIcon,
   CalendarDaysIcon,
   CalendarClockIcon,
+  Loader2,
 } from "lucide-react";
+import { CompanyData } from "@/app/[slug]/page";
+import { set } from "mongoose";
 
 const days = Array.from({ length: 31 }, (_, i) => String(i + 1));
 const months = [
@@ -53,24 +56,69 @@ const formSchema = z.object({
   text: z.string(),
 });
 
-export default function AddEntryForm() {
+export default function AddEntryForm({
+  companyData,
+}: {
+  companyData: CompanyData;
+}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    function monthIndex(monthName: string) {
+      return [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ].indexOf(monthName);
+    }
+
+    const dateObj = new Date(
+      parseInt(values.year),
+      monthIndex(values.month),
+      values.day ? parseInt(values.day) : 1 // default day if none selected
+    );
     try {
+      setLoading(true);
       const fullDate = `${values.day ? values.day + " " : ""}${values.month} ${values.year}`;
-      console.log(fullDate);
 
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
+      const res = await fetch("/api/add-entry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          slug: companyData.slug,
+          date: fullDate,
+          dateISO: dateObj.toISOString(),
+          text: values.text,
+        }),
+      });
+
+      if (res.ok) {
+        toast.success("Entry added successfully");
+        setLoading(false);
+      } else {
+        setError("Failed to add entry. Please try again.");
+        setLoading(false);
+      }
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
+      setError("Failed to add entry. Please try again.");
+      setLoading(false);
     }
   }
 
@@ -229,8 +277,19 @@ export default function AddEntryForm() {
             </FormItem>
           )}
         />
+        <p className="text-red-500 text-sm flex items-center gap-2 my-1">
+          {error}
+        </p>
+
         <Button type="submit" className="text-black">
-          Add entry
+          {loading ? (
+            <span className="flex items-center gap-2">
+              <Loader2 className="animate-spin" />
+              Adding entry...
+            </span>
+          ) : (
+            "Add entry"
+          )}
         </Button>
       </form>
     </Form>
