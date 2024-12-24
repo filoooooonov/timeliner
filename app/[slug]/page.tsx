@@ -32,9 +32,7 @@ const URL =
     ? "http://localhost:3000"
     : process.env.NEXT_PUBLIC_PROD_URL;
 
-export const fetchCompany = async (
-  slug: string
-): Promise<CompanyData | null> => {
+const fetchCompany = async (slug: string): Promise<CompanyData | null> => {
   const res = await fetch(`${URL}/api/get-company?_slug=${slug}`, {
     method: "GET",
   });
