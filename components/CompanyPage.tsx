@@ -210,10 +210,6 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
                       </div>
                     </>
                   )}
-
-                  {/* {session?.user.id === companyData.creator && (
-                    <FounderDialog />
-                  )} */}
                 </div>
               </div>
             </div>
@@ -250,18 +246,23 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
           </ul>
         </div>
 
-        {companyData.timeline_entries && (
-          <button
-            className="ml-auto button-secondary px-2 py-1 mt-12 md:mt-4"
-            onClick={() => setEntryDialogOpen(true)}
-          >
-            <Plus size={16} /> Add entry
-          </button>
-        )}
+        {companyData.timeline_entries.length > 0 &&
+          session?.user.id === companyData.creator && (
+            <button
+              className="ml-auto button-secondary px-2 py-1 mt-12 md:mt-4"
+              onClick={() => setEntryDialogOpen(true)}
+            >
+              <Plus size={16} /> Add entry
+            </button>
+          )}
 
-        {companyData.timeline_entries ? (
+        {companyData.timeline_entries.length > 0 ? (
           <div className=" mb-40">
-            <Timeline data={companyData.timeline_entries} />
+            <Timeline
+              data={companyData.timeline_entries}
+              slug={companyData.slug}
+              userIsCreator={session?.user.id === companyData.creator}
+            />
           </div>
         ) : (
           <>

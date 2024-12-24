@@ -30,7 +30,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { CompanyData } from "@/app/[slug]/page";
-import { set } from "mongoose";
+import { useRouter } from "next/navigation";
 
 const days = Array.from({ length: 31 }, (_, i) => String(i + 1));
 const months = [
@@ -66,6 +66,7 @@ export default function AddEntryForm({
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     function monthIndex(monthName: string) {
@@ -110,6 +111,7 @@ export default function AddEntryForm({
       if (res.ok) {
         toast.success("Entry added successfully");
         setLoading(false);
+        router.refresh();
       } else {
         setError("Failed to add entry. Please try again.");
         setLoading(false);

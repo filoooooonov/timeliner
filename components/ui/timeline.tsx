@@ -1,20 +1,32 @@
 "use client";
 import { CompanyData, TimelineEntry } from "@/app/[slug]/page";
-import {
-  useMotionValueEvent,
-  useScroll,
-  useTransform,
-  motion,
-} from "framer-motion";
-import { Plus } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { useScroll, useTransform, motion } from "framer-motion";
+import { EllipsisVertical, Plus } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./dropdown-menu";
+import { MdDelete, MdEdit } from "react-icons/md";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
+export const Timeline = ({
+  data,
+  slug,
+  userIsCreator,
+}: {
+  data: TimelineEntry[];
+  slug: string;
+  userIsCreator: boolean;
+}) => {
+  const [entries, setEntries] = useState(data);
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
-  const { data: session, status } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     if (ref.current) {
@@ -30,6 +42,31 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
   const heightTransform = useTransform(scrollYProgress, [0, 0.7], [0, height]);
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+
+  async function deleteEntry(entryIndex: number) {
+    try {
+      const response = await fetch("/api/delete-entry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ slug, entryIndex }),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to delete entry");
+        toast.error("Failed to delete entry. Please try again.");
+        return;
+      }
+      toast.success("Entry deleted successfully");
+      const updatedEntries = entries.filter((_, index) => index !== entryIndex);
+      router.refresh();
+      setEntries(updatedEntries);
+    } catch (error) {
+      console.error("Error deleting entry:", error);
+      toast.error("Failed to delete entry. Please try again.");
+    }
+  }
 
   return (
     <div
@@ -57,10 +94,10 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
         {/* MAIN TIMELINE */}
         <div className="relative">
-          {data.map((item, index) => (
+          {entries.map((item, index) => (
             <div
               key={index}
-              className="flex justify-start pt-10 md:pt-40 md:gap-10"
+              className=" flex justify-start pt-10 md:pt-40 md:gap-10"
             >
               <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
                 {/* Circles on timeline */}
@@ -75,14 +112,39 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
               <div className="relative pl-20 pr-4 md:pl-4 w-full">
                 <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500">
-                  {item.text}
+                  {item.date}
                 </h3>
                 {item.text}
+                <div className="absolute right-0 top-0">
+                  {userIsCreator && (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger
+                        className="rounded-full text-neutral-400 hover:text-neutral-100 cursor-pointer hover:bg-neutral-700 duration-200 p-2"
+                        asChild
+                      >
+                        <EllipsisVertical size={35} />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-40">
+                        <DropdownMenuItem>
+                          <span className="flex items-center gap-2">
+                            <MdEdit />
+                            Edit entry
+                          </span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => deleteEntry(index)}>
+                          <span className="text-red-500 flex items-center gap-2">
+                            <MdDelete />
+                            Delete entry
+                          </span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
+                </div>
               </div>
             </div>
           ))}
         </div>
-        {/* <div className="absolute bottom-0 w-full bg-background h-24 z-[10]"></div> */}
         <div
           style={{
             height: height + "px",

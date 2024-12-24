@@ -79,7 +79,7 @@ const Dashboard = ({
   };
 
   return (
-    <main className="px-5 max-w-5xl mx-auto pt-20">
+    <main className="px-5 max-w-5xl mx-auto pt-20 pb-20">
       <Toaster />
       <div className="flex flex-row justify-between space-x-4 mb-32">
         <h1 className="text-5xl">
