@@ -30,6 +30,9 @@ export const Timeline = ({
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
+  const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(
+    null
+  );
   const router = useRouter();
 
   useEffect(() => {
@@ -143,7 +146,14 @@ export const Timeline = ({
                 <p className="pr-8 text-neutral-300">{item.text}</p>
                 <div className="absolute right-0 top-0">
                   {userIsCreator && (
-                    <DropdownMenu>
+                    <DropdownMenu
+                      key={index}
+                      open={openDropdownIndex === index}
+                      onOpenChange={(open) => {
+                        if (open) setOpenDropdownIndex(index);
+                        else setOpenDropdownIndex(null);
+                      }}
+                    >
                       <DropdownMenuTrigger
                         className="rounded-full text-neutral-400 hover:text-neutral-100 cursor-pointer hover:bg-neutral-700 duration-200 p-2"
                         asChild
@@ -151,7 +161,12 @@ export const Timeline = ({
                         <EllipsisVertical size={35} />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-40">
-                        <DropdownMenuItem onClick={() => setDialogOpen(true)}>
+                        <DropdownMenuItem
+                          onClick={() => {
+                            setDialogOpen(true);
+                            setOpenDropdownIndex(null);
+                          }}
+                        >
                           <span className="flex items-center gap-2">
                             <MdEdit />
                             Edit entry
