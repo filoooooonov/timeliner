@@ -56,7 +56,7 @@ const formSchema = z.object({
   text: z.string(),
 });
 
-export default function AddEntryForm({
+export default function EditEntryForm({
   companyData,
   setOpen,
 }: {

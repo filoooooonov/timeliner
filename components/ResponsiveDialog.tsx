@@ -58,7 +58,7 @@ export function ResponsiveDialog({
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
-          <Form companyData={companyData} />
+          <Form companyData={companyData} setOpen={setOpen} />
         </DialogContent>
       </Dialog>
     );
@@ -72,7 +72,7 @@ export function ResponsiveDialog({
           <DrawerDescription>{description}</DrawerDescription>
         </DrawerHeader>
         <ScrollArea className="overflow-y-auto px-4">
-          <Form companyData={companyData} />
+          <Form companyData={companyData} setOpen={setOpen} />
           {/* <EditCompanyForm companyData={companyData} className="" /> */}
         </ScrollArea>
         {/* <DrawerFooter className="pt-2">

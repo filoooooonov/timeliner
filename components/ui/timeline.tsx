@@ -17,10 +17,14 @@ export const Timeline = ({
   data,
   slug,
   userIsCreator,
+  dialogOpen,
+  setDialogOpen,
 }: {
   data: TimelineEntry[];
   slug: string;
   userIsCreator: boolean;
+  dialogOpen: boolean;
+  setDialogOpen: (value: boolean) => void;
 }) => {
   const [entries, setEntries] = useState(data);
   const ref = useRef<HTMLDivElement>(null);
@@ -43,6 +47,28 @@ export const Timeline = ({
   const heightTransform = useTransform(scrollYProgress, [0, 0.7], [0, height]);
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 
+  async function editEntry(entryIndex: number) {
+    try {
+      const res = await fetch("/api/edit-entry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ slug, entryIndex }),
+      });
+      if (!res.ok) {
+        console.error("Failed to edit entry");
+        toast.error("Failed to edit entry. Please try again.");
+        return;
+      }
+      toast.success("Entry edited successfully!");
+      router.refresh();
+    } catch (error) {
+      console.error("Error editing entry:", error);
+      toast.error("Failed to edit entry. Please try again.");
+    }
+  }
+
   async function deleteEntry(entryIndex: number) {
     try {
       const response = await fetch("/api/delete-entry", {
@@ -58,10 +84,10 @@ export const Timeline = ({
         toast.error("Failed to delete entry. Please try again.");
         return;
       }
-      toast.success("Entry deleted successfully");
+      toast.success("Entry deleted successfully!");
       const updatedEntries = entries.filter((_, index) => index !== entryIndex);
-      router.refresh();
       setEntries(updatedEntries);
+      router.refresh();
     } catch (error) {
       console.error("Error deleting entry:", error);
       toast.error("Failed to delete entry. Please try again.");
@@ -70,7 +96,7 @@ export const Timeline = ({
 
   return (
     <div
-      className="w-full relative bg-background font-sans pb-40 pt-20"
+      className="w-full relative bg-background font-sans pb-40"
       ref={containerRef}
     >
       {/* UPCOMING */}
@@ -110,11 +136,11 @@ export const Timeline = ({
                 </h3>
               </div>
 
-              <div className="relative pl-20 pr-4 md:pl-4 w-full">
+              <div className="relative text-neutral-300 pl-20 md:pl-4 w-full">
                 <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500">
                   {item.date}
                 </h3>
-                {item.text}
+                <p className="pr-8 text-neutral-300">{item.text}</p>
                 <div className="absolute right-0 top-0">
                   {userIsCreator && (
                     <DropdownMenu>
@@ -125,7 +151,7 @@ export const Timeline = ({
                         <EllipsisVertical size={35} />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-40">
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setDialogOpen(true)}>
                           <span className="flex items-center gap-2">
                             <MdEdit />
                             Edit entry

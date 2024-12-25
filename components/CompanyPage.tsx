@@ -19,6 +19,7 @@ import {
 import { EllipsisVertical, Plus } from "lucide-react";
 import EditCompanyForm from "./EditCompanyForm";
 import AddEntryForm from "./AddEntryForm";
+import EditEntryForm from "./EditEntryForm";
 import MedalImg from "@/public/medal.png";
 import { ResponsiveDialog } from "./ResponsiveDialog";
 
@@ -29,6 +30,8 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
   const [entryDialogOpen, setEntryDialogOpen] = useState<boolean>(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const [editEntryDialogOpen, setEditEntryDialogOpen] =
+    useState<boolean>(false);
 
   const renderLogo = () => {
     if (companyData.logo) {
@@ -66,6 +69,16 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
         Form={AddEntryForm}
         title="Add Entry"
         description="Add a new timeline entry."
+      />
+
+      {/* Edit entry dialog */}
+      <ResponsiveDialog
+        open={editEntryDialogOpen}
+        setOpen={setEditEntryDialogOpen}
+        companyData={companyData}
+        Form={EditEntryForm}
+        title="Edit Entry"
+        description="Edit your timeline entry."
       />
 
       {/* Banner on top */}
@@ -262,6 +275,8 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
               data={companyData.timeline_entries}
               slug={companyData.slug}
               userIsCreator={session?.user.id === companyData.creator}
+              dialogOpen={editEntryDialogOpen}
+              setDialogOpen={setEditEntryDialogOpen}
             />
           </div>
         ) : (
