@@ -1,6 +1,6 @@
 "use client";
 
-import { CompanyData } from "@/app/[slug]/page";
+import { CompanyData, TimelineEntry } from "@/app/[slug]/page";
 import React, { useEffect, useState } from "react";
 import { Timeline } from "@/components/ui/timeline";
 import Image from "next/image";
@@ -32,6 +32,15 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [editEntryDialogOpen, setEditEntryDialogOpen] =
     useState<boolean>(false);
+
+  // maintain a selected entry state to keep track of the entry being edited
+  const [selectedEntry, setSelectedEntry] = useState<TimelineEntry | null>(
+    null
+  );
+  function handleEditClick(entry: TimelineEntry) {
+    setSelectedEntry(entry);
+    setEditEntryDialogOpen(true);
+  }
 
   const renderLogo = () => {
     if (companyData.logo) {
@@ -79,6 +88,11 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
         Form={EditEntryForm}
         title="Edit Entry"
         description="Edit your timeline entry."
+        selectedEntry={{
+          date: selectedEntry?.date ?? "",
+          dateISO: selectedEntry?.dateISO ?? "",
+          text: selectedEntry?.text ?? "",
+        }}
       />
 
       {/* Banner on top */}
@@ -277,6 +291,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
               userIsCreator={session?.user.id === companyData.creator}
               dialogOpen={editEntryDialogOpen}
               setDialogOpen={setEditEntryDialogOpen}
+              handleEditClick={handleEditClick}
             />
           </div>
         ) : (

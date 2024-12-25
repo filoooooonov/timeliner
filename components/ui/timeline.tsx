@@ -19,12 +19,14 @@ export const Timeline = ({
   userIsCreator,
   dialogOpen,
   setDialogOpen,
+  handleEditClick,
 }: {
   data: TimelineEntry[];
   slug: string;
   userIsCreator: boolean;
   dialogOpen: boolean;
   setDialogOpen: (value: boolean) => void;
+  handleEditClick: (entry: TimelineEntry) => void;
 }) => {
   const [entries, setEntries] = useState(data);
   const ref = useRef<HTMLDivElement>(null);
@@ -163,6 +165,7 @@ export const Timeline = ({
                       <DropdownMenuContent className="w-40">
                         <DropdownMenuItem
                           onClick={() => {
+                            handleEditClick(item);
                             setDialogOpen(true);
                             setOpenDropdownIndex(null);
                           }}

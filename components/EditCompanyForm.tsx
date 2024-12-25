@@ -24,7 +24,7 @@ import {
   FileUploaderContent,
   FileUploaderItem,
 } from "@/components/ui/file-upload";
-import { CompanyData } from "@/app/[slug]/page";
+import { CompanyData, TimelineEntry } from "@/app/[slug]/page";
 import clsx from "clsx";
 import Image from "next/image";
 import { convertToBase64, generateSlug } from "@/utils/utils";
@@ -48,9 +48,11 @@ const formSchema = z.object({
 export default function EditCompanyForm({
   companyData,
   className,
+  selectedEntry,
 }: {
   companyData: CompanyData;
   className?: string;
+  selectedEntry?: TimelineEntry;
 }) {
   const [files, setFiles] = useState<File[] | null>(null);
   const [logo, setLogo] = useState<string | null>(companyData.logo);

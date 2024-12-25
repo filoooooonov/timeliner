@@ -29,7 +29,7 @@ import {
   CalendarClockIcon,
   Loader2,
 } from "lucide-react";
-import { CompanyData } from "@/app/[slug]/page";
+import { CompanyData, TimelineEntry } from "@/app/[slug]/page";
 import { useRouter } from "next/navigation";
 
 const days = Array.from({ length: 31 }, (_, i) => String(i + 1));
@@ -59,12 +59,20 @@ const formSchema = z.object({
 export default function EditEntryForm({
   companyData,
   setOpen,
+  selectedEntry,
 }: {
   companyData: CompanyData;
   setOpen: (value: boolean) => void;
+  selectedEntry?: TimelineEntry;
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      day: "",
+      month: "",
+      year: "",
+      text: selectedEntry?.text ?? "", // prefilled here
+    },
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -293,7 +301,7 @@ export default function EditEntryForm({
               Adding entry...
             </span>
           ) : (
-            "Add entry"
+            "Edit entry"
           )}
         </Button>
       </form>

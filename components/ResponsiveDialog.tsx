@@ -25,7 +25,7 @@ import { ScrollArea } from "./ui/scroll-area";
 
 import { Button } from "./ui/button";
 import { useMediaQuery } from "usehooks-ts";
-import { CompanyData } from "@/app/[slug]/page";
+import { CompanyData, TimelineEntry } from "@/app/[slug]/page";
 
 type FormProps = {
   companyData: CompanyData;
@@ -38,6 +38,7 @@ type ResponsiveDialogProps = {
   Form: React.ComponentType<any>;
   title?: string;
   description?: string;
+  selectedEntry?: TimelineEntry;
 };
 
 export function ResponsiveDialog({
@@ -47,6 +48,7 @@ export function ResponsiveDialog({
   Form,
   title = "Dialog Title",
   description = "Dialog Description",
+  selectedEntry,
 }: ResponsiveDialogProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -58,7 +60,11 @@ export function ResponsiveDialog({
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
-          <Form companyData={companyData} setOpen={setOpen} />
+          <Form
+            companyData={companyData}
+            setOpen={setOpen}
+            selectedEntry={selectedEntry}
+          />
         </DialogContent>
       </Dialog>
     );
@@ -72,7 +78,11 @@ export function ResponsiveDialog({
           <DrawerDescription>{description}</DrawerDescription>
         </DrawerHeader>
         <ScrollArea className="overflow-y-auto px-4">
-          <Form companyData={companyData} setOpen={setOpen} />
+          <Form
+            companyData={companyData}
+            setOpen={setOpen}
+            selectedEntry={selectedEntry}
+          />
           {/* <EditCompanyForm companyData={companyData} className="" /> */}
         </ScrollArea>
         {/* <DrawerFooter className="pt-2">
