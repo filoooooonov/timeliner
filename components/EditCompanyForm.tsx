@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AutosizeTextarea } from "@/components/ui/textarea";
+import { AutosizeTextarea } from "@/components/ui/autosizeTextarea";
 import { TagsInput } from "@/components/ui/tags-input";
 import { Loader2, Paperclip, Plus, Upload } from "lucide-react";
 import {

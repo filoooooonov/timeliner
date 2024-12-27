@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { AutosizeTextarea } from "@/components/ui/autosizeTextarea";
 import { format, set } from "date-fns";
 import {
   Popover,
@@ -365,7 +365,7 @@ export default function CreateCompanyForm() {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Textarea
+                  <AutosizeTextarea
                     placeholder="Type here..."
                     className="resize-none"
                     {...field}

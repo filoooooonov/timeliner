@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AutosizeTextarea } from "./ui/textarea";
+import { AutosizeTextarea } from "./ui/autosizeTextarea";
 import {
   CalendarIcon,
   CalendarDaysIcon,
