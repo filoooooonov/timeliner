@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "./ui/textarea";
+import { AutosizeTextarea } from "./ui/textarea";
 import {
   CalendarIcon,
   CalendarDaysIcon,
@@ -269,9 +269,10 @@ export default function AddEntryForm({
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea
+                <AutosizeTextarea
                   placeholder="Type here..."
                   className="resize-none"
+                  maxHeight={400}
                   {...field}
                 />
               </FormControl>

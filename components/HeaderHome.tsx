@@ -116,7 +116,7 @@ const HeaderHome = () => {
               {status !== "authenticated" && (
                 <Link
                   href="/sign-in"
-                  className="text-neutral-400 font-semibold hover:text-neutral-500 duration-200 px-2 py-2"
+                  className="text-neutral-400 font-semibold hover:bg-neutral-800/20 hover:text-neutral-200 rounded-lg duration-200 px-4 py-2"
                 >
                   Sign in
                 </Link>

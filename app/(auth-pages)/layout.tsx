@@ -1,6 +1,8 @@
 import Footer from "@/components/Footer";
 import HeaderMinimal from "@/components/HeaderMinimal";
+import { ChevronLeft } from "lucide-react";
 import { Metadata } from "next";
+import Link from "next/link";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
@@ -13,9 +15,18 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col justify-center items-center gap-12">
+    <div className="relative flex min-h-screen flex-col justify-center items-center gap-12">
       <Toaster position="bottom-center" />
       <div>{children}</div>
+      <Link
+        href="/"
+        className="absolute top-16 left-16 flex items-center gap-2 font-semibold 
+        text-neutral-400 hover:text-neutral-200 bg-neutral-800/40  hover:bg-neutral-800 
+        duration-200 px-4 py-3 rounded-full"
+      >
+        <ChevronLeft />
+        Home
+      </Link>
     </div>
   );
 }

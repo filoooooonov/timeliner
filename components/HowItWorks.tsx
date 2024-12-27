@@ -26,21 +26,21 @@ const HowItWorks = () => {
     {
       title: "Add your company",
       description:
-        "Add entries that each correspond to a period in your company's development and share what happened then",
+        "Create your company's page and add the information about it like description, founders or links to social media accounts ✍️ ",
       color: "text-primary",
       gradient: "from-yellow-500 to-neutral-900",
     },
     {
       title: "Create your timeline",
       description:
-        "Add entries that each correspond to a period in your company's development and share what happened then",
+        "Add entries that each correspond to a period in your company's development and share what happened then 👀",
       color: "text-primary",
       gradient: "from-green-500 to-neutral-900",
     },
     {
       title: "Enjoy and share",
       description:
-        "Your story is engraved in stone, now you can edit it and share your timeline with others!",
+        "Your story is engraved in stone, now you can edit it and share your timeline with others! 🎉",
       color: "text-primary",
       gradient: "from-blue-500 to-neutral-900",
     },
@@ -80,7 +80,7 @@ const HowItWorks = () => {
         </div>
 
         <div
-          className={`w-[80%] lg:w-[60%] rounded-xl h-[600px] mx-auto md:ml-auto lg:ml-auto bg-gradient-to-tl ${steps[activeStep].gradient}`}
+          className={`w-[80%] lg:w-[60%] rounded-xl h-[600px] mx-auto md:mx-0 md:ml-auto bg-gradient-to-tl ${steps[activeStep].gradient}`}
         ></div>
       </div>
     </div>

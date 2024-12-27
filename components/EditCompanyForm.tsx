@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { AutosizeTextarea } from "@/components/ui/textarea";
 import { TagsInput } from "@/components/ui/tags-input";
 import { Loader2, Paperclip, Plus, Upload } from "lucide-react";
 import {
@@ -48,11 +48,9 @@ const formSchema = z.object({
 export default function EditCompanyForm({
   companyData,
   className,
-  selectedEntry,
 }: {
   companyData: CompanyData;
   className?: string;
-  selectedEntry?: TimelineEntry;
 }) {
   const [files, setFiles] = useState<File[] | null>(null);
   const [logo, setLogo] = useState<string | null>(companyData.logo);
@@ -242,7 +240,7 @@ export default function EditCompanyForm({
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea
+                <AutosizeTextarea
                   placeholder="Type here..."
                   className="resize-y h-[250px] scrollbar-none"
                   {...field}
@@ -393,7 +391,7 @@ export default function EditCompanyForm({
 
         <Button
           type="submit"
-          className="button-primary flex items-center gap-2 w-full"
+          className="button-primary flex items-center gap-2 w-max mx-auto"
         >
           {loading && <Loader2 className="animate-spin" />}
           Save changes

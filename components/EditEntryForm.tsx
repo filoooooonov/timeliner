@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "./ui/textarea";
+import { AutosizeTextarea } from "./ui/textarea";
 import {
   CalendarIcon,
   CalendarDaysIcon,
@@ -139,7 +139,7 @@ export default function EditEntryForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 !max-w-4xl mx-auto py-10"
+        className="space-y-8 !w-6xl mx-auto"
       >
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-4">
@@ -277,9 +277,10 @@ export default function EditEntryForm({
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea
+                <AutosizeTextarea
                   placeholder="Type here..."
-                  className="resize-none"
+                  className="resize-none scrollbar-hide"
+                  maxHeight={400}
                   {...field}
                 />
               </FormControl>
