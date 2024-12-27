@@ -13,7 +13,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-[80vh] flex-col justify-center items-center gap-12">
+    <div className="flex min-h-screen flex-col justify-center items-center gap-12">
       <Toaster position="bottom-center" />
       <div>{children}</div>
     </div>
