@@ -91,7 +91,7 @@ export default function AddEntryForm({
     const dateObj = new Date(
       parseInt(values.year),
       monthIndex(values.month),
-      values.day ? parseInt(values.day) : 1 // default day if none selected
+      values.day ? parseInt(values.day) + 1 : 1 // default day if none selected
     );
     try {
       setLoading(true);

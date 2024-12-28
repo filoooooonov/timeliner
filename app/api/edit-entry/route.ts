@@ -8,13 +8,13 @@ export async function PUT(request: NextRequest) {
     const { slug, entryIndex, dateISO, includesDay, text } =
       await request.json();
 
-    console.log(slug);
     if (
       !slug ||
       entryIndex === undefined ||
       entryIndex === null ||
       !dateISO ||
-      !text
+      !text ||
+      includesDay === undefined
     ) {
       console.error("Missing required fields");
       return NextResponse.json(
