@@ -21,7 +21,7 @@ export default async function Layout({
       <Link
         href="/"
         className="absolute top-16 left-16 flex items-center gap-2 font-semibold 
-        text-neutral-400 hover:text-neutral-200 bg-neutral-800/40  hover:bg-neutral-800 
+        text-neutral-500 hover:text-neutral-200  hover:bg-neutral-900 
         duration-200 px-4 py-3 rounded-full"
       >
         <ChevronLeft />

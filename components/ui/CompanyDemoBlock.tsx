@@ -38,7 +38,10 @@ const CompanyDemoBlock = ({
   };
 
   return (
-    <div className="p-6 bg-neutral-800/60 hover:bg-neutral-800/80 transition duration-200 rounded-lg shadow-md border-t-2 border-neutral-800 cursor-pointer flex flex-col">
+    <Link
+      href={`/${company.slug}`}
+      className="p-6 bg-neutral-800/60 hover:bg-neutral-800/80 transition duration-200 rounded-lg shadow-md border-t-2 border-neutral-800 cursor-pointer flex flex-col"
+    >
       <div className="flex items-center mb-8 justify-between">
         <div className="flex flex-row items-center gap-4">
           <div className="object-cover rounded-full">
@@ -67,7 +70,7 @@ const CompanyDemoBlock = ({
           </DropdownMenu>
         )}
       </div>
-      <Link href={`/${company.slug}`} key={company.slug}>
+      <div key={company.slug}>
         <div className="flex flex-col w-full">
           <p className="text-sm">
             {company.description.split(" ").length > 15
@@ -75,8 +78,8 @@ const CompanyDemoBlock = ({
               : company.description}
           </p>
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 };
 

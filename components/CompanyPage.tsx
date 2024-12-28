@@ -89,6 +89,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
         title="Edit Entry"
         description="Edit your timeline entry."
         selectedEntry={{
+          index: selectedEntry?.index ?? 0,
           date: selectedEntry?.date ?? "",
           dateISO: selectedEntry?.dateISO ?? "",
           text: selectedEntry?.text ?? "",

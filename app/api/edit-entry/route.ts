@@ -1,15 +1,24 @@
-import { NextResponse } from "next/server";
+import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import Company from "@/models/company";
 import { connectMongoDB } from "@/lib/mongo";
 
-export async function POST(request: Request) {
+export async function PUT(request: NextRequest) {
   try {
-    const { slug, date, dateISO, text } = await request.json();
+    const { slug, entryIndex, date, dateISO, text } = await request.json();
 
-    // console.log(slug, date, text);
-    if (!slug || typeof slug !== "string" || !slug.trim()) {
+    console.log(slug);
+    if (
+      !slug ||
+      entryIndex === undefined ||
+      entryIndex === null ||
+      !date ||
+      !dateISO ||
+      !text
+    ) {
+      console.error("Missing required fields");
       return NextResponse.json(
-        { error: "Invalid company slug" },
+        { error: "Missing required fields" },
         { status: 400 }
       );
     }
@@ -21,24 +30,20 @@ export async function POST(request: Request) {
     if (!company) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
+    const entry = company.timeline_entries[entryIndex];
 
-    company.timeline_entries.push({
-      date: date,
-      dateISO: new Date(dateISO),
-      text: text,
-    });
+    if (!entry) {
+      return NextResponse.json({ error: "Entry not found" }, { status: 404 });
+    }
 
-    await company.save();
+    entry.date = date;
+    entry.dateISO = new Date(dateISO);
+    entry.text = text;
 
-    // sort the timeline entries by date in descending order
-    company.timeline_entries.sort(
-      (a: { dateISO: string | Date }, b: { dateISO: string | Date }) =>
-        new Date(b.dateISO).getTime() - new Date(a.dateISO).getTime()
-    );
     await company.save();
 
     return NextResponse.json(
-      { message: "Timeline entry added successfully" },
+      { message: "Entry updated successfully" },
       { status: 200 }
     );
   } catch (error) {

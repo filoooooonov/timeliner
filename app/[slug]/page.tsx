@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import CompanyPage from "@/components/CompanyPage";
 
 export interface TimelineEntry {
+  index?: number;
   date: string;
   dateISO: string;
   text: string;

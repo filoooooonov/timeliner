@@ -63,7 +63,7 @@ export default function EditEntryForm({
 }: {
   companyData: CompanyData;
   setOpen: (value: boolean) => void;
-  selectedEntry?: TimelineEntry;
+  selectedEntry: TimelineEntry;
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -105,13 +105,14 @@ export default function EditEntryForm({
       setLoading(true);
       const fullDate = `${values.day ? values.day + " " : ""}${values.month} ${values.year}`;
 
-      const res = await fetch("/api/add-entry", {
-        method: "POST",
+      const res = await fetch("/api/edit-entry", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           slug: companyData.slug,
+          entryIndex: selectedEntry.index,
           date: fullDate,
           dateISO: dateObj.toISOString(),
           text: values.text,
@@ -119,18 +120,18 @@ export default function EditEntryForm({
       });
 
       if (res.ok) {
-        toast.success("Entry added successfully");
+        toast.success("Entry edited successfully");
         setLoading(false);
         router.refresh();
         setOpen(false);
       } else {
-        setError("Failed to add entry. Please try again.");
+        setError("Failed to edit entry. Please try again.");
         setLoading(false);
       }
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
-      setError("Failed to add entry. Please try again.");
+      setError("Failed to edit entry. Please try again.");
       setLoading(false);
     }
   }
@@ -299,7 +300,7 @@ export default function EditEntryForm({
           {loading ? (
             <span className="flex items-center gap-2">
               <Loader2 className="animate-spin" />
-              Adding entry...
+              Editing entry...
             </span>
           ) : (
             "Edit entry"

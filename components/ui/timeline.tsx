@@ -157,7 +157,7 @@ export const Timeline = ({
                       }}
                     >
                       <DropdownMenuTrigger
-                        className="rounded-full text-neutral-400 hover:text-neutral-100 cursor-pointer hover:bg-neutral-700 duration-200 p-2"
+                        className="rounded-full text-neutral-400 hover:text-neutral-100 cursor-pointer hover:bg-neutral-800 duration-200 p-2"
                         asChild
                       >
                         <EllipsisVertical size={35} />
@@ -165,7 +165,7 @@ export const Timeline = ({
                       <DropdownMenuContent className="w-40">
                         <DropdownMenuItem
                           onClick={() => {
-                            handleEditClick(item);
+                            handleEditClick({ index, ...item });
                             setDialogOpen(true);
                             setOpenDropdownIndex(null);
                           }}
