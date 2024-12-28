@@ -25,6 +25,7 @@ import { ResponsiveDialog } from "./ResponsiveDialog";
 
 const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const { data: session, status } = useSession();
+  console.log(companyData);
 
   const [logo, setLogo] = useState<string | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
@@ -90,7 +91,11 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
         description="Edit your timeline entry."
         selectedEntry={{
           index: selectedEntry?.index ?? 0,
-          date: selectedEntry?.date ?? "",
+          date: {
+            day: selectedEntry?.date?.day ?? "",
+            month: selectedEntry?.date?.month ?? "",
+            year: selectedEntry?.date?.year ?? "",
+          },
           dateISO: selectedEntry?.dateISO ?? "",
           text: selectedEntry?.text ?? "",
         }}

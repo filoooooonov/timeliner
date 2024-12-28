@@ -95,7 +95,6 @@ export default function AddEntryForm({
     );
     try {
       setLoading(true);
-      const fullDate = `${values.day ? values.day + " " : ""}${values.month} ${values.year}`;
 
       const res = await fetch("/api/add-entry", {
         method: "POST",
@@ -104,7 +103,11 @@ export default function AddEntryForm({
         },
         body: JSON.stringify({
           slug: companyData.slug,
-          date: fullDate,
+          date: {
+            day: values.day ? values.day : null,
+            month: values.month,
+            year: values.year,
+          },
           dateISO: dateObj.toISOString(),
           text: values.text,
         }),

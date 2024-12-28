@@ -22,8 +22,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
 
+    const dateObj = new Date(dateISO);
+    const day = dateObj.getUTCDate().toString();
+    const month = dateObj.toLocaleString("default", { month: "long" });
+    const year = dateObj.getUTCFullYear().toString();
+
     company.timeline_entries.push({
-      date: date,
+      date: {
+        day: day,
+        month: month,
+        year: year,
+      },
       dateISO: new Date(dateISO),
       text: text,
     });

@@ -61,11 +61,21 @@ const companySchema = new Schema(
     timeline_entries: [
       {
         date: {
-          type: String,
-          required: true,
+          day: {
+            type: String,
+            required: false,
+          },
+          month: {
+            type: String,
+            required: true,
+          },
+          year: {
+            type: String,
+            required: true,
+          },
         },
         dateISO: {
-          type: String,
+          type: Date,
           required: true,
         },
         text: {
