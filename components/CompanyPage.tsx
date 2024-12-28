@@ -253,7 +253,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
               </p>
             </div>
             {/* SOCIALS */}
-            <div className="hidden md:block ml-auto bg-neutral-900 rounded-md p-4 h-max min-w-[200px] mt-8">
+            {/* <div className="hidden md:block ml-auto bg-neutral-900 rounded-md p-4 h-max min-w-[200px] mt-8">
               <h2 className="text-lg font-medium mb-2 text-zinc-300">
                 Follow {companyData.name}
               </h2>
@@ -261,18 +261,18 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
                 <li className="text-zinc-400">Facebook</li>
                 <li className="text-zinc-400">Instagram</li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
 
         {/* SOCIALS on mobile */}
-        <div className="block md:hidden ml-auto bg-neutral-900 rounded-md p-4 h-max min-w-[200px] mt-8">
+        {/* <div className="block md:hidden ml-auto bg-neutral-900 rounded-md p-4 h-max min-w-[200px] mt-8">
           <h2 className="text-2xl font-semibold mb-2 text-zinc-300">Socials</h2>
           <ul>
             <li className="text-zinc-400">Facebook</li>
             <li className="text-zinc-400">Instagram</li>
           </ul>
-        </div>
+        </div> */}
 
         {companyData.timeline_entries.length > 0 &&
           session?.user.id === companyData.creator && (

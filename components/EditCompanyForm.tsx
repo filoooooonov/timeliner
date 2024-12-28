@@ -48,9 +48,11 @@ const formSchema = z.object({
 export default function EditCompanyForm({
   companyData,
   className,
+  setOpen,
 }: {
   companyData: CompanyData;
   className?: string;
+  setOpen: (open: boolean) => void;
 }) {
   const [files, setFiles] = useState<File[] | null>(null);
   const [logo, setLogo] = useState<string | null>(companyData.logo);
@@ -97,6 +99,7 @@ export default function EditCompanyForm({
           toast.success("Company details updated successfully");
           setLoading(false);
           router.push(`/${newSlug}`);
+          setOpen(false);
         } else {
           toast.error("Failed to update company details. Please try again.");
           setLoading(false);

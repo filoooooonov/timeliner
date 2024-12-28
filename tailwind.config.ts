@@ -26,7 +26,7 @@ const config = {
     },
     extend: {
       colors: {
-        background: "#121212",
+        background: "#0f0f0f",
         primary: "#cef36f",
         primary_light: "#E9FABE",
         text_primary: "#f3f4f6",
