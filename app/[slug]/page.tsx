@@ -5,6 +5,7 @@ import CompanyPage from "@/components/CompanyPage";
 export interface TimelineEntry {
   index?: number;
   dateISO: string;
+  includesDay: boolean;
   text: string;
 }
 

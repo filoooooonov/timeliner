@@ -25,7 +25,6 @@ import { ResponsiveDialog } from "./ResponsiveDialog";
 
 const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
   const { data: session, status } = useSession();
-  console.log(companyData);
 
   const [logo, setLogo] = useState<string | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
@@ -92,6 +91,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
         selectedEntry={{
           index: selectedEntry?.index ?? 0,
           dateISO: selectedEntry?.dateISO ?? "",
+          includesDay: selectedEntry?.includesDay ?? false,
           text: selectedEntry?.text ?? "",
         }}
       />

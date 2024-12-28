@@ -65,12 +65,17 @@ export default function EditEntryForm({
   setOpen: (value: boolean) => void;
   selectedEntry: TimelineEntry;
 }) {
+  const dateObj = new Date(selectedEntry.dateISO);
+  const defaultDay = dateObj.getUTCDate().toString();
+  const defaultMonth = dateObj.toLocaleString("en-US", { month: "long" });
+  const defaultYear = dateObj.getUTCFullYear().toString();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      day: "",
-      month: "",
-      year: "",
+      day: selectedEntry.includesDay ? defaultDay : "",
+      month: defaultMonth,
+      year: defaultYear,
       text: selectedEntry?.text ?? "", // prefilled here
     },
   });
@@ -113,8 +118,8 @@ export default function EditEntryForm({
         body: JSON.stringify({
           slug: companyData.slug,
           entryIndex: selectedEntry.index,
-          date: fullDate,
           dateISO: dateObj.toISOString(),
+          includesDay: !!values.day,
           text: values.text,
         }),
       });

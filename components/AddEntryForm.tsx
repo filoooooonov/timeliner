@@ -103,6 +103,7 @@ export default function AddEntryForm({
         },
         body: JSON.stringify({
           slug: companyData.slug,
+          includesDay: !!values.day,
           dateISO: dateObj.toISOString(),
           text: values.text,
         }),

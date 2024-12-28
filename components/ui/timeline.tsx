@@ -139,13 +139,13 @@ export const Timeline = ({
                   </div>
                   {/* Date */}
                   <h3 className="hidden md:block text-xl md:pl-20 md:text-4xl font-bold text-neutral-500 ">
-                    {day} {month} {year}
+                    {item.includesDay && day} {month} {year}
                   </h3>
                 </div>
 
                 <div className="relative text-neutral-300 pl-20 md:pl-4 w-full">
                   <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500">
-                    {day} {month} {year}
+                    {item.includesDay && day} {month} {year}
                   </h3>
                   <p className="pr-8 text-neutral-300">{item.text}</p>
                   <div className="absolute right-0 top-0">

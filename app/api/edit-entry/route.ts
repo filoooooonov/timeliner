@@ -5,14 +5,14 @@ import { connectMongoDB } from "@/lib/mongo";
 
 export async function PUT(request: NextRequest) {
   try {
-    const { slug, entryIndex, date, dateISO, text } = await request.json();
+    const { slug, entryIndex, dateISO, includesDay, text } =
+      await request.json();
 
     console.log(slug);
     if (
       !slug ||
       entryIndex === undefined ||
       entryIndex === null ||
-      !date ||
       !dateISO ||
       !text
     ) {
@@ -36,8 +36,8 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: "Entry not found" }, { status: 404 });
     }
 
-    entry.date = date;
     entry.dateISO = new Date(dateISO);
+    entry.includesDay = includesDay;
     entry.text = text;
 
     await company.save();

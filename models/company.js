@@ -1,4 +1,5 @@
 import mongoose, { models, Schema } from "mongoose";
+import { boolean } from "zod";
 
 const companySchema = new Schema(
   {
@@ -62,6 +63,10 @@ const companySchema = new Schema(
       {
         dateISO: {
           type: Date,
+          required: true,
+        },
+        includesDay: {
+          type: Boolean,
           required: true,
         },
         text: {
