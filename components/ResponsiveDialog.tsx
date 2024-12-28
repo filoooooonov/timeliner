@@ -55,7 +55,7 @@ export function ResponsiveDialog({
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="overflow-y-auto max-w-7xl max-h-[80vh] scrollbar-hide">
+        <DialogContent className="overflow-y-auto max-w-7xl !min-w-4xl max-h-[80vh] scrollbar-hide">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>

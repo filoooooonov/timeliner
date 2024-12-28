@@ -140,7 +140,7 @@ export default function EditEntryForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 !w-6xl mx-auto"
+        className="space-y-8 !w-6xl mx-auto min-w-full mt-6"
       >
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-4">

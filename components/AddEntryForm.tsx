@@ -131,7 +131,7 @@ export default function AddEntryForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 !max-w-4xl mx-auto py-10"
+        className="space-y-8 !max-w-4xl min-w-full mx-auto py-10"
       >
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-4">

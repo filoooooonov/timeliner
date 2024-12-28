@@ -102,7 +102,7 @@ export const Timeline = ({
   return (
     <div className="w-full relative bg-background font-sans" ref={containerRef}>
       {/* UPCOMING */}
-      {/* <div className="flex justify-start pt-10 md:pt-32 md:gap-10">
+      {/* <div className="flex justify-start py-8 border border-neutral-700 border-dashed md:gap-10 bg-neutral-900 rounded-lg">
         <div className="flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
           <div className="h-6 absolute left-4 md:left-[21px] w-6 rounded-full bg-black flex items-center justify-center">
             <div className="h-3 w-3 rounded-full bg-neutral-800 border border-neutral-700 p-1" />
