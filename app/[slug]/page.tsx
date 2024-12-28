@@ -4,11 +4,6 @@ import CompanyPage from "@/components/CompanyPage";
 
 export interface TimelineEntry {
   index?: number;
-  date: {
-    day?: string;
-    month: string;
-    year: string;
-  };
   dateISO: string;
   text: string;
 }

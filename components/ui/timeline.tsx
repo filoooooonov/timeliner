@@ -122,69 +122,75 @@ export const Timeline = ({
       <div ref={ref} className="relative max-w-7xl mx-auto overflow-hidden">
         {/* MAIN TIMELINE */}
         <div className="relative">
-          {entries.map((item, index) => (
-            <div
-              key={index}
-              className=" flex justify-start md:pt-40 pb-0 md:gap-10"
-            >
-              <div className="md:sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
-                {/* Circles on timeline */}
-                <div className="size-6 absolute left-[20px] md:left-[21px]  rounded-full bg-black flex items-center justify-center">
-                  <div className="h-3 w-3 rounded-full bg-neutral-800 border border-neutral-700 p-1" />
+          {entries.map((item, index) => {
+            const dateObj = new Date(item.dateISO);
+            const day = dateObj.getUTCDate().toString();
+            const month = dateObj.toLocaleString("en-US", { month: "long" });
+            const year = dateObj.getUTCFullYear().toString();
+            return (
+              <div
+                key={index}
+                className=" flex justify-start md:pt-40 pb-0 md:gap-10"
+              >
+                <div className="md:sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
+                  {/* Circles on timeline */}
+                  <div className="size-6 absolute left-[20px] md:left-[21px]  rounded-full bg-black flex items-center justify-center">
+                    <div className="h-3 w-3 rounded-full bg-neutral-800 border border-neutral-700 p-1" />
+                  </div>
+                  {/* Date */}
+                  <h3 className="hidden md:block text-xl md:pl-20 md:text-4xl font-bold text-neutral-500 ">
+                    {day} {month} {year}
+                  </h3>
                 </div>
-                {/* Date */}
-                <h3 className="hidden md:block text-xl md:pl-20 md:text-4xl font-bold text-neutral-500 ">
-                  {item.date?.day} {item.date.month} {item.date.year}
-                </h3>
-              </div>
 
-              <div className="relative text-neutral-300 pl-20 md:pl-4 w-full">
-                <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500">
-                  {item.date.day} {item.date.month} {item.date.year}
-                </h3>
-                <p className="pr-8 text-neutral-300">{item.text}</p>
-                <div className="absolute right-0 top-0">
-                  {userIsCreator && (
-                    <DropdownMenu
-                      key={index}
-                      open={openDropdownIndex === index}
-                      onOpenChange={(open) => {
-                        if (open) setOpenDropdownIndex(index);
-                        else setOpenDropdownIndex(null);
-                      }}
-                    >
-                      <DropdownMenuTrigger
-                        className="rounded-full text-neutral-400 hover:text-neutral-100 cursor-pointer hover:bg-neutral-800 duration-200 p-2"
-                        asChild
+                <div className="relative text-neutral-300 pl-20 md:pl-4 w-full">
+                  <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500">
+                    {day} {month} {year}
+                  </h3>
+                  <p className="pr-8 text-neutral-300">{item.text}</p>
+                  <div className="absolute right-0 top-0">
+                    {userIsCreator && (
+                      <DropdownMenu
+                        key={index}
+                        open={openDropdownIndex === index}
+                        onOpenChange={(open) => {
+                          if (open) setOpenDropdownIndex(index);
+                          else setOpenDropdownIndex(null);
+                        }}
                       >
-                        <EllipsisVertical size={35} />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-40">
-                        <DropdownMenuItem
-                          onClick={() => {
-                            handleEditClick({ index, ...item });
-                            setDialogOpen(true);
-                            setOpenDropdownIndex(null);
-                          }}
+                        <DropdownMenuTrigger
+                          className="rounded-full text-neutral-400 hover:text-neutral-100 cursor-pointer hover:bg-neutral-800 duration-200 p-2"
+                          asChild
                         >
-                          <span className="flex items-center gap-2">
-                            <MdEdit />
-                            Edit entry
-                          </span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => deleteEntry(index)}>
-                          <span className="text-red-500 flex items-center gap-2">
-                            <MdDelete />
-                            Delete entry
-                          </span>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  )}
+                          <EllipsisVertical size={35} />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-40">
+                          <DropdownMenuItem
+                            onClick={() => {
+                              handleEditClick({ index, ...item });
+                              setDialogOpen(true);
+                              setOpenDropdownIndex(null);
+                            }}
+                          >
+                            <span className="flex items-center gap-2">
+                              <MdEdit />
+                              Edit entry
+                            </span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => deleteEntry(index)}>
+                            <span className="text-red-500 flex items-center gap-2">
+                              <MdDelete />
+                              Delete entry
+                            </span>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         <div
           style={{

@@ -60,20 +60,6 @@ const companySchema = new Schema(
     ],
     timeline_entries: [
       {
-        date: {
-          day: {
-            type: String,
-            required: false,
-          },
-          month: {
-            type: String,
-            required: true,
-          },
-          year: {
-            type: String,
-            required: true,
-          },
-        },
         dateISO: {
           type: Date,
           required: true,
