@@ -2,6 +2,7 @@ import { connectMongoDB } from "@/lib/mongo";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import User from "@/models/user";
+import { sendEmail } from "@/utils/mailer";
 
 interface RegisterData {
   name: string;
@@ -16,7 +17,12 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await connectMongoDB();
-    await User.create({ name, email, password: hashedPassword });
+
+    const newUser = new User({ name, email, password: hashedPassword });
+    const savedUser = await newUser.save();
+    console.log(savedUser, savedUser._id);
+    // send verification email
+    await sendEmail({ email, emailType: "VERIFY", userId: savedUser._id });
 
     return NextResponse.json(
       { message: "User was registered successfully. " },

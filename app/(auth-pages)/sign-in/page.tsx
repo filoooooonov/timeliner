@@ -96,14 +96,14 @@ export default function Login() {
             )}
           </SubmitButton>
 
-          <div className="flex items-center my-4">
+          {/* <div className="flex items-center my-4">
             <hr className="flex-grow border-t border-neutral-500" />
             <span className="mx-4 text-neutral-500 text-sm">OR</span>
             <hr className="flex-grow border-t border-neutral-500" />
-          </div>
+          </div> */}
         </div>
       </form>
-      <button
+      {/* <button
         className="button-google"
         onClick={() => {
           signIn("google", { callbackUrl: "/dashboard" });
@@ -111,8 +111,10 @@ export default function Login() {
       >
         <Image src={GoogleIcon} className="size-8" alt="google logo" />
         Sign in with Google
-      </button>
-      <p className="text-red-500 text-sm flex items-center gap-2">{error}</p>
+      </button> */}
+      <p className="text-red-500 text-sm flex items-center gap-2 mt-2">
+        {error}
+      </p>
     </main>
   );
 }

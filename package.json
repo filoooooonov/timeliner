@@ -42,6 +42,7 @@
     "next": "latest",
     "next-auth": "^4.24.11",
     "next-themes": "^0.3.0",
+    "nodemailer": "^6.9.16",
     "prettier": "^3.3.3",
     "react": "18.2.0",
     "react-confetti-boom": "^1.1.0",
@@ -60,6 +61,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.10.6",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "18.2.46",
     "@types/react-dom": "18.2.18",
     "postcss": "8.4.33",

@@ -21,6 +21,14 @@ const userSchema = new Schema(
         ref: "Company",
       },
     ],
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    forgotPasswordToken: String,
+    forgotPasswordTokenExpiry: Date,
+    verifyToken: String,
+    verifyTokenExpiry: Date,
   },
   { timestamps: true }
 );
