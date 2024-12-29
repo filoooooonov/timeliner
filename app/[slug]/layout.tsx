@@ -1,4 +1,3 @@
-import FeedBack from "@/components/FeedBack";
 import HeaderMinimal from "@/components/HeaderMinimal";
 import { Metadata } from "next";
 import { Toaster } from "sonner";

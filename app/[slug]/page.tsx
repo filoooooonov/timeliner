@@ -2,6 +2,8 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 import CompanyPage from "@/components/CompanyPage";
 
+export const revalidate = false;
+
 export interface TimelineEntry {
   index?: number;
   dateISO: string;

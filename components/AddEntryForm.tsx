@@ -110,10 +110,10 @@ export default function AddEntryForm({
       });
 
       if (res.ok) {
-        toast.success("Entry added successfully");
         setLoading(false);
-        router.refresh();
         setOpen(false);
+        router.refresh();
+        toast.success("Entry added successfully");
       } else {
         setError("Failed to add entry. Please try again.");
         setLoading(false);

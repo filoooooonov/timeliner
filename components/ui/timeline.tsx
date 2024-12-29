@@ -28,7 +28,6 @@ export const Timeline = ({
   setDialogOpen: (value: boolean) => void;
   handleEditClick: (entry: TimelineEntry) => void;
 }) => {
-  const [entries, setEntries] = useState(data);
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -90,8 +89,6 @@ export const Timeline = ({
         return;
       }
       toast.success("Entry deleted successfully!");
-      const updatedEntries = entries.filter((_, index) => index !== entryIndex);
-      setEntries(updatedEntries);
       router.refresh();
     } catch (error) {
       console.error("Error deleting entry:", error);
@@ -122,7 +119,7 @@ export const Timeline = ({
       <div ref={ref} className="relative max-w-7xl mx-auto overflow-hidden">
         {/* MAIN TIMELINE */}
         <div className="relative">
-          {entries.map((item, index) => {
+          {data.map((item, index) => {
             const dateObj = new Date(item.dateISO);
             const day = dateObj.getUTCDate().toString();
             const month = dateObj.toLocaleString("en-US", { month: "long" });
