@@ -28,7 +28,6 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
       auth: {
         user: process.env.MAILTRAP_USER,
         pass: process.env.MAILTRAP_PASS,
-        // TODO: add credentials to .env
       },
     });
 

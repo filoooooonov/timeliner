@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
+import { FaPaperPlane } from "react-icons/fa";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
 
 export default function VerifyEmailPage() {
@@ -62,6 +63,10 @@ export default function VerifyEmailPage() {
               </span>
               .
             </p>
+            <button className="button-primary px-4 py-2 w-max flex items-center gap-2 mt-12">
+              <FaPaperPlane />
+              Resend verification email
+            </button>
           </div>
         </div>
       )}

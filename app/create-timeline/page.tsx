@@ -154,7 +154,17 @@ const addCompanyDataToDB = async (formData: CompanyData) => {
 };
 
 export default function CreateCompanyForm() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  // redirect to /register if the user is not authenticated or is not verified yet
+  useEffect(() => {
+    if (status === "authenticated") {
+      if (!session?.user?.isVerified) router.replace("/register");
+    } else if (status === "unauthenticated") {
+      router.replace("/sign-in");
+    }
+  }, [session, status, router]);
 
   const [files, setFiles] = useState<File[] | null>(null);
   const [slug, setSlug] = useState<string | null>(null);

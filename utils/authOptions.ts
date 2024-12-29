@@ -39,18 +39,26 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
-      console.log("TOKEN:", token);
-      session.user.id = token.id as string; // Cast token.id to string
-      return session;
-    },
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: any; user: any }) {
       // Attach user ID to token object
       if (user) {
+        console.log("TOKEN", token);
+        console.log("USER", user);
         token.id = user.id; // Use MongoDB user ID
+        token.isVerified = user.isVerified;
       }
       return token;
     },
+    async session({ session, token }) {
+      // console.log("TOKEN:", token);
+
+      session.user.id = token.id as string; // Cast token.id to string
+      session.user.isVerified = token.isVerified as boolean;
+      console.log("TOKEN", token);
+      console.log(session);
+      return session;
+    },
+
     async signIn({ user, account, profile }) {
       if (account?.provider === "google") {
         await connectMongoDB();

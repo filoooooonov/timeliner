@@ -5,16 +5,12 @@ import { TiPlus } from "react-icons/ti";
 import { CompanyData } from "@/app/[slug]/page";
 import Image from "next/image";
 import { EllipsisVertical, Loader2 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { MdDelete } from "react-icons/md";
 import { toast, Toaster } from "sonner";
 import CompanyDemoBlock from "@/components/ui/CompanyDemoBlock";
+import { useSession } from "next-auth/react";
+import { FaPaperPlane } from "react-icons/fa6";
 
 const Dashboard = ({
   userId,
@@ -26,6 +22,7 @@ const Dashboard = ({
   const [companies, setCompanies] = React.useState<CompanyData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { data: session, status } = useSession();
 
   async function getCompanyData(userId: string) {
     try {
@@ -92,21 +89,37 @@ const Dashboard = ({
 
       <div className="flex justify-between items-center">
         <h2>Your companies</h2>
-        <Link href="create-timeline" className="button-secondary">
-          <TiPlus size={15} />
-          Add company
-        </Link>
+        {session?.user.isVerified && (
+          <Link href="create-timeline" className="button-secondary">
+            <TiPlus size={15} />
+            Add company
+          </Link>
+        )}
       </div>
 
       {loading ? (
-        <p className="flex items-center gap-4 mx-auto w-max mt-20">
+        <p className="flex items-center gap-4 mx-auto w-max mt-40">
           <Loader2 className="animate-spin" />
           Loading...
         </p>
+      ) : session?.user.isVerified === false ? (
+        <div className="mt-40 text-center flex flex-col gap-6 ">
+          <span className="text-lg font-medium text-neutral-100">
+            Verify your email address to view or add companies.
+          </span>{" "}
+          <span>
+            If you cannot find the verification link, make sure you check the
+            spam folder.
+          </span>
+          <button className="button-primary px-4 py-2 w-max mx-auto flex items-center gap-2">
+            <FaPaperPlane />
+            Resend verification email
+          </button>
+        </div>
       ) : companies.length === 0 && !error ? (
-        <p className="mt-8 text-center">You don't have any companies yet!</p>
+        <p className="mt-40 text-center">You don't have any companies yet!</p>
       ) : error ? (
-        <p className="mt-8 text-center text-red-500">{error}</p>
+        <p className="mt-40 text-center text-red-500">{error}</p>
       ) : (
         <div className="mt-12 md:grid md:grid-cols-2 flex flex-col gap-8">
           {companies.map((company: CompanyData) => (

@@ -6,6 +6,7 @@ declare module "next-auth" {
    */
   interface Session {
     user: {
+      isVerified: boolean;
       /** The user's id */
       id: string;
     } & DefaultSession["user"];
