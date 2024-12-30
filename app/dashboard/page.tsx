@@ -13,7 +13,7 @@ const Page = () => {
   }
 
   if (!session?.user.id) {
-    return <div>Loading...</div>;
+    return <div className="text-center mt-80">Loading...</div>;
   }
 
   return <Dashboard userId={session?.user.id} userName={session?.user.name} />;
