@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { CompanyData, TimelineEntry } from "@/app/[slug]/page";
 import { useRouter } from "next/navigation";
+import { ScrollArea } from "./ui/scroll-area";
 
 const days = Array.from({ length: 31 }, (_, i) => String(i + 1));
 const months = [
@@ -167,19 +168,21 @@ export default function EditEntryForm({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="overflow-y-auto max-h-[20rem]">
-                      {days.map((day) => (
-                        <SelectItem
-                          key={day}
-                          value={day}
-                          className={
-                            field.value === day
-                              ? "bg-neutral-800 text-white"
-                              : "bg-neutral-900"
-                          }
-                        >
-                          {day}
-                        </SelectItem>
-                      ))}
+                      <ScrollArea>
+                        {days.map((day) => (
+                          <SelectItem
+                            key={day}
+                            value={day}
+                            className={
+                              field.value === day
+                                ? "bg-neutral-800 text-white"
+                                : "bg-neutral-900"
+                            }
+                          >
+                            {day}
+                          </SelectItem>
+                        ))}
+                      </ScrollArea>
                     </SelectContent>
                   </Select>
 
