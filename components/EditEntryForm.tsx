@@ -158,34 +158,34 @@ export default function EditEntryForm({
                     <CalendarDaysIcon className="w-4 h-4 text-muted-foreground" />
                     Day
                   </FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Optional" />
                       </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="overflow-y-auto max-h-[20rem]">
-                      <ScrollArea>
-                        {days.map((day) => (
-                          <SelectItem
-                            key={day}
-                            value={day}
-                            className={
-                              field.value === day
-                                ? "bg-neutral-800 text-white"
-                                : "bg-neutral-900"
-                            }
-                          >
-                            {day}
-                          </SelectItem>
-                        ))}
-                      </ScrollArea>
-                    </SelectContent>
-                  </Select>
 
+                      <SelectContent className="overflow-y-auto max-h-[20rem]">
+                        <ScrollArea>
+                          {days.map((day) => (
+                            <SelectItem
+                              key={day}
+                              value={day}
+                              className={
+                                field.value === day
+                                  ? "bg-neutral-800 text-white"
+                                  : "bg-neutral-900"
+                              }
+                            >
+                              {day}
+                            </SelectItem>
+                          ))}
+                        </ScrollArea>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
