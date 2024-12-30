@@ -16,7 +16,7 @@ interface EmailProps {
   url: string;
 }
 
-export const Email: React.FC<Readonly<EmailProps>> = ({ url }) => {
+export const ResetPassword: React.FC<Readonly<EmailProps>> = ({ url }) => {
   return (
     <Tailwind
       config={{
@@ -57,20 +57,23 @@ export const Email: React.FC<Readonly<EmailProps>> = ({ url }) => {
             Timeliner.
           </Button>
           <Heading className=" text-4xl font-semibold text-white">
-            Verify your email address
+            Reset password
           </Heading>
-          <Text className="mb-6 mt-16 text-neutral-200">
-            Welcome to Timeliner!
-          </Text>
+          <Text className="mb-6 mt-16 text-neutral-200">Hey there!</Text>
           <Text className="leading-[24px] text-neutral-200">
-            Click the link below to verify your email address and get started.
-            If you did not create an account, you can safely ignore this email.
+            Click the link below to restore your password. Your password will
+            not change until you access the link above and create a new password
+            through the link.
+          </Text>
+          <Text className="leading-[24px] text-neutral-200 font-semibold">
+            If you did not request a change of password, please ignore this
+            email.
           </Text>
           <Button
             href={url}
-            className="bg-primary text-black font-medium px-4 py-2 w-max mx-auto mt-8 rounded-md"
+            className="bg-primary text-black font-semibold  text-sm px-4 py-2 w-max mx-auto mt-8 rounded-md"
           >
-            Verify email address
+            Reset password
           </Button>
         </Container>
       </Html>

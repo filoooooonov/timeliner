@@ -3,7 +3,8 @@ import User from "@/models/user";
 import bcrypt from "bcryptjs";
 import { connectMongoDB } from "@/lib/mongo";
 import { render } from "@react-email/components";
-import { Email } from "./email";
+import { VerifyEmail } from "./verifyEmail";
+import { ResetPassword } from "./resetPassword";
 
 export const sendEmail = async ({ email, emailType, userId }: any) => {
   try {
@@ -19,7 +20,7 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
     } else if (emailType === "RESET") {
       await User.findByIdAndUpdate(userId, {
         forgotPasswordToken: hashedToken,
-        resetForgotPasswordToken: Date.now() + 3600000,
+        forgotPasswordTokenExpiry: Date.now() + 3600000,
       });
     }
 
@@ -33,8 +34,15 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
       },
     });
 
-    const emailHtml = await render(
-      <Email url={`http://localhost:3000/verifyemail?token=${hashedToken}`} />
+    const verifyEmailHtml = await render(
+      <VerifyEmail
+        url={`http://localhost:3000/verifyemail?token=${hashedToken}`}
+      />
+    );
+    const resetPasswordHtml = await render(
+      <ResetPassword
+        url={`http://localhost:3000/reset-password?token=${hashedToken}`}
+      />
     );
 
     const mailOptions = {
@@ -42,7 +50,7 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
       to: email,
       subject:
         emailType === "VERIFY" ? "Verify your email" : "Reset your password",
-      html: emailHtml,
+      html: emailType === "VERIFY" ? verifyEmailHtml : resetPasswordHtml,
     };
 
     const mailResponse = await transport.sendMail(mailOptions);
