@@ -4,6 +4,7 @@
 
 ::selection {
   background: #cef36f40;
+  color: #cef36fad;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -66,4 +67,20 @@ textarea {
 
 .error-msg {
   @apply text-red-500 text-sm flex items-center gap-2;
+}
+
+/* Add this to your CSS file */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.fade-out {
+  animation: fadeOut 0.5s forwards;
 }

@@ -51,29 +51,10 @@ export const Timeline = ({
   const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 
-  async function editEntry(entryIndex: number) {
-    try {
-      const res = await fetch("/api/edit-entry", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ slug, entryIndex }),
-      });
-      if (!res.ok) {
-        console.error("Failed to edit entry");
-        toast.error("Failed to edit entry. Please try again.");
-        return;
-      }
-      toast.success("Entry edited successfully!");
-      router.refresh();
-    } catch (error) {
-      console.error("Error editing entry:", error);
-      toast.error("Failed to edit entry. Please try again.");
-    }
-  }
-
+  const [deletingIndex, setDeletingIndex] = useState<number | null>(null);
   async function deleteEntry(entryIndex: number) {
+    setDeletingIndex(entryIndex);
+
     try {
       const response = await fetch("/api/delete-entry", {
         method: "POST",
@@ -89,11 +70,13 @@ export const Timeline = ({
         return;
       }
       toast.success("Entry deleted successfully!");
+
       router.refresh();
     } catch (error) {
       console.error("Error deleting entry:", error);
       toast.error("Failed to delete entry. Please try again.");
     }
+    setDeletingIndex(null);
   }
 
   return (
@@ -129,7 +112,9 @@ export const Timeline = ({
                 key={index}
                 className=" flex justify-start md:pt-20 pb-0 md:gap-10"
               >
-                <div className="md:sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
+                <div
+                  className={`md:sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full ${deletingIndex === index && "brightness-50 animate-pulse"}`}
+                >
                   {/* Circles on timeline */}
                   <div className="size-6 absolute left-[20px] md:left-[21px]  rounded-full bg-black flex items-center justify-center">
                     <div className="h-3 w-3 rounded-full bg-neutral-800 border border-neutral-700 p-1" />
@@ -144,7 +129,9 @@ export const Timeline = ({
                   <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500">
                     {item.includesDay && day} {month} {year}
                   </h3>
-                  <p className="pr-8 text-neutral-300 md:max-w-[85%]">
+                  <p
+                    className={`pr-8 text-neutral-300 md:max-w-[85%] ${deletingIndex === index && "brightness-50 animate-pulse"}`}
+                  >
                     {item.text}
                   </p>
                   <div className="absolute right-0 top-0">

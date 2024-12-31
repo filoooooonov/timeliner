@@ -170,8 +170,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
             </div>
             {/* ESTABLISHED_DATE */}
             <div className="flex lg:hidden w-max items-center bg-neutral-900 px-4 py-2 mt-6 border-2 border-amber-300 rounded-md">
-              <p className="font-semibold flex items-center gap-2">
-                <FaAward />
+              <p className="font-semibold flex items-center gap-2 text-neutral-100">
                 Est. {companyData.month_founded} {companyData.year_founded}
               </p>
             </div>
@@ -247,7 +246,6 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
             {/* ESTABLISHED_DATE */}
             <div className="hidden md:flex ml-auto items-center bg-neutral-900 px-4 py-2 rounded-md">
               <p className="font-semibold flex items-center gap-2">
-                <FaAward />
                 {/* <Image src={MedalImg} alt="medal" className="size-8" /> */}
                 Est. {companyData.month_founded} {companyData.year_founded}
               </p>
