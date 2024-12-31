@@ -19,7 +19,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -146,7 +145,7 @@ export default function EditEntryForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 !w-6xl mx-auto min-w-full mt-6"
+        className="space-y-8 !w-6xl mx-auto min-w-full pt-6 pb-12 md:pb-0"
       >
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-4">
@@ -167,15 +166,20 @@ export default function EditEntryForm({
                       <SelectTrigger>
                         <SelectValue placeholder="Optional" />
                       </SelectTrigger>
-                      <SelectContent className="overflow-y-auto max-h-[10rem]">
-                        <SelectGroup>
-                          <SelectLabel>Fruits</SelectLabel>
-                          <SelectItem value="apple">Apple</SelectItem>
-                          <SelectItem value="banana">Banana</SelectItem>
-                          <SelectItem value="blueberry">Blueberry</SelectItem>
-                          <SelectItem value="grapes">Grapes</SelectItem>
-                          <SelectItem value="pineapple">Pineapple</SelectItem>
-                        </SelectGroup>
+                      <SelectContent className="overflow-y-auto max-h-[20rem]">
+                        {days.map((day) => (
+                          <SelectItem
+                            key={day}
+                            value={day}
+                            className={
+                              field.value === day
+                                ? "bg-neutral-800 text-white"
+                                : "bg-neutral-900"
+                            }
+                          >
+                            {day}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </FormControl>

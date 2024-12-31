@@ -48,7 +48,7 @@ export const Timeline = ({
     offset: ["start 10%", "end 50%"],
   });
 
-  const heightTransform = useTransform(scrollYProgress, [0, 0.7], [0, height]);
+  const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 
   async function editEntry(entryIndex: number) {
@@ -127,7 +127,7 @@ export const Timeline = ({
             return (
               <div
                 key={index}
-                className=" flex justify-start md:pt-40 pb-0 md:gap-10"
+                className=" flex justify-start md:pt-20 pb-0 md:gap-10"
               >
                 <div className="md:sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
                   {/* Circles on timeline */}
@@ -144,7 +144,9 @@ export const Timeline = ({
                   <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500">
                     {item.includesDay && day} {month} {year}
                   </h3>
-                  <p className="pr-8 text-neutral-300">{item.text}</p>
+                  <p className="pr-8 text-neutral-300 md:max-w-[85%]">
+                    {item.text}
+                  </p>
                   <div className="absolute right-0 top-0">
                     {userIsCreator && (
                       <DropdownMenu

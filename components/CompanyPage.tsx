@@ -277,7 +277,7 @@ const CompanyPage = ({ companyData }: { companyData: CompanyData }) => {
         {companyData.timeline_entries.length > 0 &&
           session?.user.id === companyData.creator && (
             <button
-              className="ml-auto button-secondary px-2 py-1 mt-12 mb-4 md:mt-4"
+              className="ml-auto button-secondary px-2 py-1 mt-12 mb-12 md:mb-4 md:mt-4"
               onClick={() => setEntryDialogOpen(true)}
             >
               <Plus size={16} /> Add entry
