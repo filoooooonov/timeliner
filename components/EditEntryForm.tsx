@@ -166,8 +166,8 @@ export default function EditEntryForm({
                       <SelectTrigger>
                         <SelectValue placeholder="Optional" />
                       </SelectTrigger>
-                      <SelectContent className="overflow-y-auto max-h-[20rem]">
-                        <SelectGroup>
+                      <SelectContent>
+                        <SelectGroup className="overflow-y-auto max-h-[20rem]">
                           {days.map((day) => (
                             <SelectItem
                               key={day}
