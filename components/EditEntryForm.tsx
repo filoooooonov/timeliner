@@ -167,19 +167,21 @@ export default function EditEntryForm({
                         <SelectValue placeholder="Optional" />
                       </SelectTrigger>
                       <SelectContent className="overflow-y-auto max-h-[20rem]">
-                        {days.map((day) => (
-                          <SelectItem
-                            key={day}
-                            value={day}
-                            className={
-                              field.value === day
-                                ? "bg-neutral-800 text-white"
-                                : "bg-neutral-900"
-                            }
-                          >
-                            {day}
-                          </SelectItem>
-                        ))}
+                        <SelectGroup>
+                          {days.map((day) => (
+                            <SelectItem
+                              key={day}
+                              value={day}
+                              className={
+                                field.value === day
+                                  ? "bg-neutral-800 text-white"
+                                  : "bg-neutral-900"
+                              }
+                            >
+                              {day}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
                       </SelectContent>
                     </Select>
                   </FormControl>
