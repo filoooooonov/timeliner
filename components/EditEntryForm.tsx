@@ -19,6 +19,7 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -166,23 +167,14 @@ export default function EditEntryForm({
                       <SelectTrigger>
                         <SelectValue placeholder="Optional" />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup className="overflow-y-auto max-h-[20rem] scrollbar-hide">
-                          <ScrollArea>
-                            {days.map((day) => (
-                              <SelectItem
-                                key={day}
-                                value={day}
-                                className={
-                                  field.value === day
-                                    ? "bg-neutral-800 text-white"
-                                    : "bg-neutral-900"
-                                }
-                              >
-                                {day}
-                              </SelectItem>
-                            ))}
-                          </ScrollArea>
+                      <SelectContent className="overflow-y-auto max-h-[10rem]">
+                        <SelectGroup>
+                          <SelectLabel>Fruits</SelectLabel>
+                          <SelectItem value="apple">Apple</SelectItem>
+                          <SelectItem value="banana">Banana</SelectItem>
+                          <SelectItem value="blueberry">Blueberry</SelectItem>
+                          <SelectItem value="grapes">Grapes</SelectItem>
+                          <SelectItem value="pineapple">Pineapple</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
