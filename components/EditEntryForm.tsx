@@ -158,17 +158,15 @@ export default function EditEntryForm({
                     <CalendarDaysIcon className="w-4 h-4 text-muted-foreground" />
                     Day
                   </FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Optional" />
                       </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="overflow-y-auto max-h-[20rem]">
-                      <ScrollArea>
+                      <SelectContent className="overflow-y-auto max-h-[20rem]">
                         {days.map((day) => (
                           <SelectItem
                             key={day}
@@ -182,9 +180,9 @@ export default function EditEntryForm({
                             {day}
                           </SelectItem>
                         ))}
-                      </ScrollArea>
-                    </SelectContent>
-                  </Select>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
 
                   <FormMessage />
                 </FormItem>
