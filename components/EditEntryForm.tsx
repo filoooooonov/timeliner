@@ -167,20 +167,22 @@ export default function EditEntryForm({
                         <SelectValue placeholder="Optional" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectGroup className="overflow-y-auto max-h-[20rem]">
-                          {days.map((day) => (
-                            <SelectItem
-                              key={day}
-                              value={day}
-                              className={
-                                field.value === day
-                                  ? "bg-neutral-800 text-white"
-                                  : "bg-neutral-900"
-                              }
-                            >
-                              {day}
-                            </SelectItem>
-                          ))}
+                        <SelectGroup className="overflow-y-auto max-h-[20rem] scrollbar-hide">
+                          <ScrollArea>
+                            {days.map((day) => (
+                              <SelectItem
+                                key={day}
+                                value={day}
+                                className={
+                                  field.value === day
+                                    ? "bg-neutral-800 text-white"
+                                    : "bg-neutral-900"
+                                }
+                              >
+                                {day}
+                              </SelectItem>
+                            ))}
+                          </ScrollArea>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
