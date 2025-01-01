@@ -8,6 +8,7 @@ import LoadingPage from "./[slug]/loading";
 
 import { getServerSession } from "next-auth";
 import SessionProvider from "@/utils/SessionProvider";
+import Head from "next/head";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -29,6 +30,10 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
+      <Head>
+        <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfrUqsqAAAAACeaP4W912fKNQlzSsaMMG3Tq4Pm"></script>
+      </Head>
+
       <SessionProvider session={session}>
         <body className="relative bg-background text-foreground">
           <Suspense fallback={<LoadingPage />}>

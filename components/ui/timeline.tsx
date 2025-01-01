@@ -38,8 +38,8 @@ export const Timeline = ({
 
   useEffect(() => {
     if (ref.current) {
-      const rect = ref.current.getBoundingClientRect();
-      setHeight(rect.height);
+      const minHeight = window.innerHeight; // Minimum height to ensure the timeline reaches the end
+      setHeight(Math.max(document.documentElement.scrollHeight, minHeight));
     }
   }, [ref]);
 
