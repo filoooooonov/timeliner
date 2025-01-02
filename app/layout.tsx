@@ -27,14 +27,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession();
-  const MEASUREMENT_ID = "G-P8J0Q1WGFK";
+  const MEASUREMENT_ID = "G-MSCTY2EB45";
   const GTM_ID = "GTM-58NBRQJ7";
 
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <GoogleAnalytics GA_MEASUREMENT_ID={MEASUREMENT_ID} />
+      {/* <GoogleAnalytics GA_MEASUREMENT_ID={MEASUREMENT_ID} /> */}
 
-      {/* <Head>
+      <Head>
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`}
@@ -49,7 +49,7 @@ export default async function RootLayout({
             `,
           }}
         />
-      </Head> */}
+      </Head>
 
       <SessionProvider session={session}>
         <body className="relative bg-background text-foreground">
