@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 ::selection {
-  background: #cef36f40;
+  background: #3f482779;
   color: #cef36fad;
 }
 
@@ -16,9 +16,13 @@
 }
 
 .button-primary {
-  @apply bg-gradient-to-t bg-primary hover:bg-[#a4be62] font-semibold rounded-md
+  @apply select-none bg-gradient-to-t bg-primary hover:bg-[#a4be62] font-semibold rounded-md
    text-gray-900 cursor-pointer border-t-2 border-t-[#ddff88] hover:border-t-[#b3d06a] 
    border-b-2 border-b-[#a0bb5b] ring-[1px] ring-[#181a14] duration-200 active:translate-y-1 shadow-md shadow-black;
+}
+
+.button-primary:disabled {
+  @apply bg-[#a4be62] border-t-[#b3d06a] cursor-not-allowed;
 }
 
 .button-secondary {

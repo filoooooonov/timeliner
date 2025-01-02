@@ -395,6 +395,7 @@ export default function EditCompanyForm({
         <Button
           type="submit"
           className="button-primary flex items-center gap-2 w-max mx-auto"
+          disabled={loading}
         >
           {loading && <Loader2 className="animate-spin" />}
           Save changes

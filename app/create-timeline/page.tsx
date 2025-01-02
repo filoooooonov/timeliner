@@ -641,7 +641,11 @@ export default function CreateCompanyForm() {
             )}
           />
 
-          <button type="submit" className="button-primary px-4 py-2">
+          <button
+            type="submit"
+            className="button-primary px-4 py-2"
+            disabled={loading}
+          >
             {loading ? (
               <div className="flex items-center gap-2">
                 <Loader2 className="h-4 w-4 animate-spin" />

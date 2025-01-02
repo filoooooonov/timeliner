@@ -86,7 +86,10 @@ export default function Login() {
             placeholder="Your password"
             required
           />
-          <SubmitButton className="button-primary text-black font-semibold">
+          <SubmitButton
+            className="button-primary text-black font-semibold"
+            disabled={loading}
+          >
             {loading ? (
               <span className="flex items-center gap-2">
                 <Loader2 className="animate-spin" /> Signing in...

@@ -286,7 +286,7 @@ export default function AddEntryForm({
           {error}
         </p>
 
-        <Button type="submit" className="text-black">
+        <Button type="submit" className="text-black" disabled={loading}>
           {loading ? (
             <span className="flex items-center gap-2">
               <Loader2 className="animate-spin" />
