@@ -8,6 +8,7 @@ import { getServerSession } from "next-auth";
 import SessionProvider from "@/utils/SessionProvider";
 import Head from "next/head";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -33,7 +34,7 @@ export default async function RootLayout({
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <GoogleAnalytics GA_MEASUREMENT_ID={MEASUREMENT_ID} />
 
-      <Head>
+      {/* <Head>
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`}
@@ -48,7 +49,7 @@ export default async function RootLayout({
             `,
           }}
         />
-      </Head>
+      </Head> */}
 
       <SessionProvider session={session}>
         <body className="relative bg-background text-foreground">
@@ -63,6 +64,7 @@ export default async function RootLayout({
               <Footer />
             </ThemeProvider>
           </Suspense>
+          <GoogleTagManager gtmId={GTM_ID} />
         </body>
       </SessionProvider>
     </html>
