@@ -32,7 +32,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      {/* <GoogleAnalytics GA_MEASUREMENT_ID={MEASUREMENT_ID} /> */}
+      <GoogleAnalytics GA_MEASUREMENT_ID={MEASUREMENT_ID} />
 
       <Head>
         <script
