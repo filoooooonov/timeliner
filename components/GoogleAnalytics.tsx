@@ -39,7 +39,6 @@ function GoogleAnalyticsComponent({
                   'ad_storage': 'denied',
                   'ad_user_data': 'denied',
                   'ad_personalization': 'denied',
-                  'personalization_storage': 'denied',
                 });
                 
                 gtag('config', '${GA_MEASUREMENT_ID}');
